@@ -19,7 +19,7 @@ nodeos -e -p eosio -d /mnt/dev/data \
   --plugin eosio::producer_plugin \
   --plugin eosio::chain_api_plugin \
   --plugin eosio::http_plugin \
-  --http-server-address=0.0.0.0:8888 \
+  --http-server-address=0.0.0.0:8899 \
   --access-control-allow-origin=* \
   --contracts-console \
   --verbose-http-errors

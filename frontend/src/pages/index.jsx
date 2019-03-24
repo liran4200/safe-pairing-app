@@ -15,7 +15,7 @@ import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 
 // eosio endpoint
-const endpoint = "http://localhost:8888";
+const endpoint = "http://localhost:8899";
 
 // NEVER store private keys in any source code in your real life development
 // This is for demo purposes only!

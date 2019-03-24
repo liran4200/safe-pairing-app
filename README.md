@@ -1,7 +1,7 @@
-⚠️ ***Important! Since Jan 1st 2019, eosio/eos-dev docker image in docker hub is deprecated. Starting from that time, eosio-project-boilerplate-simple is building its own docker image based on eos and eosio.cdt instead of pulling eosio/eos-dev.*** ⚠️
+⚠️ ***Important! Since Jan 1st 2019, eosio/eos-dev docker image in docker hub is deprecated. Starting from that time, safe-pairing-app is building its own docker image based on eos and eosio.cdt instead of pulling eosio/eos-dev.*** ⚠️
 
 # Overview
-NoteChain demonstrates the eosio platform running a blockchain as a local single node test net with a simple DApp, NoteChain. NoteChain allows users to create and update notes. This guide uses scripts, containing relevant commands, which will show you how to install, build and run NoteChain, and by doing so will demonstrate:
+SafePairing  demonstrates the eosio platform running a blockchain as a local single node test net with a  DApp, SafePairing. SafePairing allows users to update their DNA sequence and compare with another user. This guide uses scripts, containing relevant commands, which will show how to install, build and run SafePairing, and by doing so will demonstrate:
 
 - Downloading and running eosio in docker;
 - Managing your docker container;
@@ -10,24 +10,14 @@ NoteChain demonstrates the eosio platform running a blockchain as a local single
 - Writing and deploying a smart contract;
 - Implementing a web based UI using React;
 - Connecting the UI to the blockchain using eosjs;
-- Styling the UI using Material-UI.
-
-Github eosio-project-boilerplate-simple (https://github.com/EOSIO/eosio-project-boilerplate-simple) contains the UI and Smart Contract code, as well as setup scripts which will initialise and start all the necessary components.
-
-The sample DApp demonstrates storing data in multi index table and retrieving this data into the web based UI. NoteChain is a simple note taking application, where notes are tied to user accounts. For this example, all accounts are pre-created by scripts and the account details are displayed at the bottom of the NoteChain UI.
-
-Each account can then be used to add a note to the blockchain. The individual notes are saved in a multi-index table and for simplicity are of fixed width. Each account may have one note attached to it, adding a note to an account with an existing note will replace the existing note with a new note.
-
-**Any private keys you see in this repository are for demo purposes only. For a real DApp NEVER expose the private keys.**
 
 # Prerequisites
-
 Make sure Docker and Node.js are installed
 
 * Install Docker: https://docs.docker.com/docker-for-mac/install/
 * Install Node.js: https://nodejs.org/en/
 
-The DApp and eosio will occupy the ports 3000, 8888 and 9876. Make sure nothing else is already running on these ports.
+The DApp and eosio will occupy the ports 3000, 8899 and 9876. Make sure nothing else is already running on these ports.
 
 Clone the repository:
 ```sh
@@ -35,7 +25,6 @@ git clone https://github.com/EOSIO/eosio-project-boilerplate-simple.git
 ```
 
 The following guide assumes you are using macOS.
-
 # Quick start - Run the DApp
 
 In this section we provide a single command script to run all the commands needed to start both the blockchain and UI. For more detail on each component see the `Detailed guide` below.
@@ -237,7 +226,7 @@ Run container from `eosio-notechain` image by mounting contracts / scripts to th
 The init_blockchain.sh script run the local node of the blockchain and initializes wallets / contract / data.
 ```sh
 docker run --rm --name eosio_notechain_container \
--p 8888:8888 -p 9876:9876 \
+-p 8899:8899 -p 9876:9876 \
 --mount type=bind,src="$(pwd)"/contracts,dst=/opt/eosio/bin/contracts \
 --mount type=bind,src="$(pwd)"/scripts,dst=/opt/eosio/bin/scripts \
 --mount type=bind,src="$(pwd)"/data,dst=/mnt/dev/data \
