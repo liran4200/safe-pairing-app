@@ -16,7 +16,6 @@ router.get('/', async (req, res ) => {
         .skip((pageNumber-1) * pageSize)
         .limit(pageSize)
         .select({ _id: 1, name: 1, email: 1});
-ד
 
     res.send(users);    
 });
