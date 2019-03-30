@@ -1,9 +1,16 @@
+const auth = require('../middleware/auth');
 const bcrypt = require('bcrypt');
 const _ = require('lodash');
 const { User, validate } = require('../models/user');
 const mongoose = require('mongoose');
 const express = require('express');
 const router = express.Router();
+
+router.get('/me', auth ,async (req, res ) => {
+    console.log(req.user);
+    const user = await User.findById(req.user._id);
+    res.send(_.pick(user, ['_id', 'name', 'email']) );
+});
 
 router.get('/', async (req, res ) => {
     const pageNumber =  parseInt(req.query.pageNumber);
@@ -22,8 +29,9 @@ router.get('/', async (req, res ) => {
     res.send(users);    
 });
 
-
-router.get('/:id', async (req, res ) => {
+/** 
+ * Currently, not necessary
+router.get('/:id', auth ,async (req, res ) => {
     if( !mongoose.Types.ObjectId.isValid(req.params.id)) {
         res.status(400).send('Invalid id');
     }
@@ -37,12 +45,8 @@ router.get('/:id', async (req, res ) => {
     }
 
     res.send(user);
-});  
-
-//TODO: implement return the current user online.
-router.get('/me', (req, res ) => {
-    res.send({'namecheck': 'liran'});
-});
+}); 
+*/ 
 
 router.post('/', async (req, res) => {
     const {error} = validate(req.body);
@@ -57,9 +61,11 @@ router.post('/', async (req, res) => {
 
     user = new User(_.pick(req.body, ['name','email','password']));
     const salt = await bcrypt.genSalt(10);
-    user.password = await bcrypt.hash(user.password, 10);
+    user.password = await bcrypt.hash(user.password, salt);
     await user.save();
-    res.send( _.pick(user, ['_id', 'name', 'email']));
+    
+    const token = user.generateAuthToken();    
+    res.header('x-auth-token', token).send( _.pick(user, ['_id', 'name', 'email']));
 });
 
 module.exports = router;
