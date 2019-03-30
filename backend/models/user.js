@@ -10,6 +10,7 @@ const User = mongoose.model('User', new mongoose.Schema({
     },
     email: {
         type: String,
+        unique: true,
         required: true
     },
     password: {
@@ -17,7 +18,6 @@ const User = mongoose.model('User', new mongoose.Schema({
         minlength: 5,
         require: true
     }
-
 }));
 
 function validateUser(user) {
