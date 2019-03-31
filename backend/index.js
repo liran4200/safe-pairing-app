@@ -1,3 +1,5 @@
+require('express-async-errors');
+const error = require('./middleware/error');
 const config = require('config');
 const express = require('express');
 const mongoose = require('mongoose');
@@ -18,5 +20,7 @@ mongoose.connect('mongodb://localhost/safepairing')
 app.use(express.json());
 app.use('/api/users', users);
 app.use('/api/login', login);
+app.use(error);
+
 const port = process.env.PORT || 4444; //  by default run on port 4444
 app.listen(port, () => console.log(`Listening on port ${port}... `));

@@ -1,3 +1,4 @@
+const asyncMiddleware = require('../middleware/async');
 const auth = require('../middleware/auth');
 const bcrypt = require('bcrypt');
 const _ = require('lodash');
@@ -53,6 +54,8 @@ router.post('/', async (req, res) => {
     if(error) {
         return res.status(400).send(error.details[0].message);
     }
+
+    mongoose.connection.close();
 
     // checking user already registerd
     let user = await User.findOne({ email: req.body.email });
