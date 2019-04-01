@@ -3,10 +3,10 @@ const winston = require('winston');
 
 const logger = winston.createLogger({
         transports: [
-          new winston.transports.Console({colorize: true, prettyPrint: true})
+          new winston.transports.Console()
         ],
         exceptionHandlers: [
-            new winston.transports.Console({colorize: true, prettyPrint: true})
+            new winston.transports.Console()
         ]
  });
 

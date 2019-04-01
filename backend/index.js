@@ -12,11 +12,6 @@ process.on('unhandledRejection', (ex) => {
   logger.error('In unhandleRejecton, redirect to unhandleException');
   throw ex;
 });
-
-new Promise((resolve, reject) => {
-  throw "err";
-})
-.then(() => console.log("RESOLVED"))
     
 //checking provid jwtPR
 isProvideJWT();
