@@ -1,20 +1,29 @@
 require('express-async-errors');
+const {isProvideJWT, logger} = require('./startup/config');
 const error = require('./middleware/error');
-const config = require('config');
 const express = require('express');
 const mongoose = require('mongoose');
 const app = express();
 const login = require('./routes/login');
 const users = require('./routes/users');
 
-if(!config.get('jwtPrivateKey')) {
-  console.error('FATAL ERROR: jwtPrivateKey is not provided');
-  process.exit(1);
-}
+//catch unhandle of promise rejection
+process.on('unhandledRejection', (ex) => {
+  logger.error('In unhandleRejecton, redirect to unhandleException');
+  throw ex;
+});
+
+new Promise((resolve, reject) => {
+  throw "err";
+})
+.then(() => console.log("RESOLVED"))
+    
+//checking provid jwtPR
+isProvideJWT();
 
 mongoose.connect('mongodb://localhost/safepairing')
-  .then(() => console.log('Connected to MongoDB...'))
-  .catch(err => console.error('Could not connect to MongoDB...', err));
+  .then(() =>  logger.info('Connected to MongoDB...'))
+  .catch(err => logger.error('Could not connect to MongoDB...', err));
 
 //get requests as json object
 app.use(express.json());
@@ -22,5 +31,6 @@ app.use('/api/users', users);
 app.use('/api/login', login);
 app.use(error);
 
-const port = process.env.PORT || 4444; //  by default run on port 4444
-app.listen(port, () => console.log(`Listening on port ${port}... `));
+//  by default run on port 4444
+const port = process.env.PORT || 4444; 
+app.listen(port, () => logger.info(`Listening on port ${port}... `));

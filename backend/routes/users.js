@@ -55,8 +55,6 @@ router.post('/', async (req, res) => {
         return res.status(400).send(error.details[0].message);
     }
 
-    mongoose.connection.close();
-
     // checking user already registerd
     let user = await User.findOne({ email: req.body.email });
     if(user) 
