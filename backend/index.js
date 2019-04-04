@@ -13,7 +13,7 @@ process.on('unhandledRejection', (ex) => {
   throw ex;
 });
     
-//checking provid jwtPR
+//checking provide jwtPR
 isProvideJWT();
 
 mongoose.connect('mongodb://localhost/safepairing')
