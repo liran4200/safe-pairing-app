@@ -28,6 +28,7 @@ const accounts = [
   {"name":"useraaaaaaaf", "privateKey":"5KaqYiQzKsXXXxVvrG8Q3ECZdQAj2hNcvCgGEubRvvq7CU3LySK", "publicKey":"EOS5btzHW33f9zbhkwjJTYsoyRzXUNstx1Da9X2nTzk8BQztxoP3H"},
   {"name":"useraaaaaaag", "privateKey":"5KFyaxQW8L6uXFB6wSgC44EsAbzC7ideyhhQ68tiYfdKQp69xKo", "publicKey":"EOS8Du668rSVDE3KkmhwKkmAyxdBd73B51FKE7SjkKe5YERBULMrw"}
 ];
+// const blah = "rem(10px)"
 // set up styling classes using material-ui "withStyles"
 const styles = theme => ({
   card: {
@@ -39,8 +40,11 @@ const styles = theme => ({
     paddingBottom: theme.spacing.unit * 2,
   },
   formButton: {
+    // marginTop: theme.spacing.unit,
+    // width: "100%",
     marginTop: theme.spacing.unit,
-    width: "100%",
+    width: "140px",
+    height: "43px"
   },
   pre: {
     background: "#ccc",
@@ -182,6 +186,7 @@ class Index extends Component {
               autoComplete="off"
               label="Private key"
               margin="normal"
+              variant="outlined"
               fullWidth
             />
             <TextField

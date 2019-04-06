@@ -1,5 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Index from './pages/index';
+import SignUp from './pages/signUpPage';
 
-ReactDOM.render(<Index />, document.getElementById('root'));
+ReactDOM.render(<SignUp />, document.getElementById('root'));
