@@ -19,7 +19,6 @@ const ioEvents = (io) => {
 }
 
 const initSocket = (app) => {
-    console.debug("debug instide initSocket");
     const server 	= require('http').Server(app);
     const io 		= require('socket.io')(server);
     

@@ -3,10 +3,14 @@ const mongoose = require('mongoose');
 Joi.objectId = require('joi-objectid')(Joi);
 
 const notificationSchema =  new mongoose.Schema({
-    userId: {
+    senderId: {
         type: mongoose.Types.ObjectId,
         required: true,
-      },
+    },
+    receiverId: {
+        type: mongoose.Types.ObjectId,
+        required: true,
+    },
     type: { // can be matching-request, result
         type: String,
         maxlength: 20,
@@ -26,7 +30,8 @@ const Notification = mongoose.model('Notification', notificationSchema);
 
 function validateNotification(notification) {
     const schema = {
-      userId: Joi.objectId(),
+      receiverId: Joi.objectId(),
+      senderId: Joi.objectId(),
       type: Joi.string().max(20).required(),
       status: Joi.string()
     };

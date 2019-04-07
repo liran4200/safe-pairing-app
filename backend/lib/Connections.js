@@ -4,18 +4,18 @@ class Connections{
         this.connections = [];
     }
 
-    addConnection(username, socket) {
-        this.connections[username] = socket;
+    addConnection(userId, socket) {
+        this.connections[userId] = socket;
     }
 
-    getConenction(username) {
-        return this.connections[username];
+    getConenction(userId) {
+        return this.connections[userId];
     }
 
     removeConenction(socket) {
-        for(let username in this.connections) {
-            if(this.connections[username] == socket) 
-                delete this.connections[username];
+        for(let userId in this.connections) {
+            if(this.connections[userId] == socket) 
+                delete this.connections[userId];
         }
     }
 }
