@@ -65,6 +65,7 @@ router.post('/', async (req, res) => {
     user.password = await bcrypt.hash(user.password, salt);
     await user.save();
     
+    //new user after registeration will be logged in.
     const token = user.generateAuthToken();    
     res.header('x-auth-token', token).send( _.pick(user, ['_id', 'name', 'email']));
 });
