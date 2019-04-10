@@ -1,3 +1,4 @@
+const constants =require('../lib/constants');
 const Joi = require('joi');
 const mongoose = require('mongoose');
 Joi.objectId = require('joi-objectid')(Joi);
@@ -32,11 +33,21 @@ function validateNotification(notification) {
     const schema = {
       receiverId: Joi.objectId(),
       senderId: Joi.objectId(),
-      type: Joi.string().max(20).required(),
-      status: Joi.string()
+      type: Joi.string().max(20).required().valid(Object.values(constants.types)),
+      status: Joi.string().valid(Object.values(constants.status))
     };
     return Joi.validate(notification, schema);
 }
 
+function validateStatus(status) {
+    return Object.values(constants.status).includes(status);
+}
+
+function validateType(type) {
+    return Object.values(constants.types).includes(type);
+}
+
 exports.Notification = Notification;
 exports.validate = validateNotification;
+exports.validateType = validateType;
+exports.validateStatus = validateStatus;

@@ -1,9 +1,10 @@
+const nodeMailer = require('nodemailer');
+const connections = require('../lib/Connections');
 const auth = require('../middleware/auth');
 const _ = require('lodash');
-const { Notification, validate } = require('../models/notification');
+const { Notification, validate, validateStatus, validateType } = require('../models/notification');
 const express = require('express');
 const router = express.Router();
-const constants = require('../lib/constants');
 
 router.get('/', async (req, res ) => {
     const pageNumber =  parseInt(req.query.pageNumber);
@@ -32,24 +33,33 @@ router.post('/', async (req, res) => {
     await notification.save();
     
     // send email and socket notification to given receiverId.
+    target = connections.getConenction(notification.receiverId);
+    if(target) {
+        target.emit("notify", notification);
+    } 
 
     res.send( _.pick(notification, ['_id','receiverId','senderId','type','status']));
 });
 
 router.put('/status/:id', async (req, res) => {
-    console.log(req.params.id);
-    if(!Object.values(constants.status).includes(req.body.status)){
-        res.status(400).send("Status is not exists");
+    if(!validateStatus(req.body.status)){
+        return res.status(400).send("Status is not exists");
     }
-    const notification = await Notification.findByIdAndUpdate(req.params.id, {status: req.body.status }, {
+    let notification = await Notification.findByIdAndUpdate(req.params.id, {status: req.body.status }, {
         new: true
     });
     if(!notification) res.status(404).send("Notification not found");
 
     //in case status: approve we will send a notification to the user in the userId
     //check by recieverId/ senderId
+    console.log(req.body);
+    notification = _.pick(notification, ['_id','receiverId','senderId','type','status']);
+    target = connections.getConenction(req.body.userId);
+    if(target) {
+        target.emit("updateStatus", notification);
+    } 
 
-    res.status(200).send(_.pick(notification, ['_id','receiverId','senderId','type','status']));
+    res.status(200).send(notification);
 });
 
 router.get('/:id', async (req, res) => {

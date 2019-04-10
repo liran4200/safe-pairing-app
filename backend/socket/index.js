@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const config = require('config');
-const ioEvents = (io) => {
 
+const ioEvents = (io) => {
     const connections = require("../lib/Connections");
     io.sockets.on('connection', function(socket) {
 
