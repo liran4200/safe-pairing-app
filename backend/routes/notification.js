@@ -1,4 +1,4 @@
-const nodeMailer = require('nodemailer');
+const sendMail = require('../lib/sendMail');
 const connections = require('../lib/Connections');
 const auth = require('../middleware/auth');
 const _ = require('lodash');
@@ -33,6 +33,7 @@ router.post('/', async (req, res) => {
     await notification.save();
     
     // send email and socket notification to given receiverId.
+    sendMail('yuri.vn@gmail.com', "Liran");
     target = connections.getConenction(notification.receiverId);
     if(target) {
         target.emit("notify", notification);
