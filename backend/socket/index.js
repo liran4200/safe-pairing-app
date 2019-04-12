@@ -6,12 +6,12 @@ const ioEvents = (io) => {
     io.sockets.on('connection', function(socket) {
 
         socket.on('subscribe', function(userId) {
-            console.log(`username subscribed: ${userId}`);
+            console.debug(`username subscribed: ${userId}`);
             connections.addConnection(userId, socket);
         });
 
         socket.on('disconnect', () => {
-            console.log('disconnected some user');
+            console.debug('disconnected some user');
             connections.removeConenction(socket);
         });
 

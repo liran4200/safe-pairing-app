@@ -36,12 +36,12 @@ router.post('/', async (req, res) => {
     //populate sender user.
     notification = await Notification
                     .findById(notification._id)
-                    .populate('senderId', 'name','email');
+                    .populate('senderId', 'firstName','lastName','email');
     console.debug(notification);
-
+    const fullName = notification.senderId.firstName + notification.senderId.lastName;
     // send email
     const body = mailOptions.matchingRequest.MATCHING_REQUEST_PENDING_BODY
-            .replace("<username>", notification.senderId.name)
+            .replace("<username>", fullName)
             .replace("<status>", notification.status);
     const subject = mailOptions.matchingRequest.MATCHING_REQUEST_SUBJECT.replace("<status>", notification.status);
     sendMail(notification.senderId.email, subject, body);
@@ -74,7 +74,7 @@ router.put('/status/:id', async (req, res) => {
     console.debug(body);
     const subject = mailOptions.matchingRequest.MATCHING_REQUEST_SUBJECT.replace("<status>", notification.status);
     console.debug(subject);
-    //sendMail(user.email, subject, body);
+    sendMail(user.email, subject, body);
 
     //push notification
     target = connections.getConenction(req.body.userId);
@@ -86,7 +86,8 @@ router.put('/status/:id', async (req, res) => {
 });
 
 router.get('/:id', async (req, res) => {
-    const notification = await Notification.findById(req.params.id);
+    const notification = await Notification
+            .findById(req.params.id);
     if(!notification) res.status(404).send("Notification not found");
     res.status(200).send(_.pick(notification, ['_id','receiverId','senderId','type','status']));
 });

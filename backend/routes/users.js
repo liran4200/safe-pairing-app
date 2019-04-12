@@ -1,16 +1,13 @@
-const asyncMiddleware = require('../middleware/async');
 const auth = require('../middleware/auth');
 const bcrypt = require('bcrypt');
 const _ = require('lodash');
 const { User, validate } = require('../models/user');
-const mongoose = require('mongoose');
 const express = require('express');
 const router = express.Router();
 
 router.get('/me', auth ,async (req, res ) => {
-    console.log(req.user);
     const user = await User.findById(req.user._id);
-    res.send(_.pick(user, ['_id', 'name', 'email']) );
+    res.send(_.pick(user, ['_id', 'firstName', 'lastName', 'email']) );
 });
 
 router.get('/', async (req, res ) => {
@@ -25,7 +22,7 @@ router.get('/', async (req, res ) => {
         .find()
         .skip((pageNumber-1) * pageSize)
         .limit(pageSize)
-        .select({ _id: 1, name: 1, email: 1});
+        .select({ _id: 1, firstName: 1, lastName: 1, email: 1});
 
     res.send(users);    
 });
@@ -39,7 +36,7 @@ router.get('/:id', auth ,async (req, res ) => {
 
     const user = await User
         .findById(req.params.id)
-        .select({ _id: 1, name: 1, email: 1});
+        .select({ _id: 1, firstName: 1, lastName: 1, email: 1});
 
     if( !user ) {
         res.status(404).send("User not found");
@@ -60,14 +57,14 @@ router.post('/', async (req, res) => {
     if(user) 
         return res.status(400).send('User already registered');
 
-    user = new User(_.pick(req.body, ['name','email','password']));
+    user = new User(_.pick(req.body, ['firstName','lastName','email','password']));
     const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(user.password, salt);
     await user.save();
     
     //new user after registeration will be logged in.
     const token = user.generateAuthToken();    
-    res.header('x-auth-token', token).send( _.pick(user, ['_id', 'name', 'email']));
+    res.header('x-auth-token', token).send( _.pick(user, ['firstName','lastName','email']));
 });
 
 module.exports = router;
