@@ -1,3 +1,4 @@
+const {mailOptions} = require('../lib/constants');
 const sendMail = require('../lib/sendMail');
 const connections = require('../lib/Connections');
 const auth = require('../middleware/auth');
@@ -29,11 +30,23 @@ router.post('/', async (req, res) => {
         return res.status(400).send(error.details[0].message);
     }
 
-    const notification = new Notification(_.pick(req.body, ['receiverId','senderId','type','status']));
+    let notification = new Notification(_.pick(req.body, ['receiverId','senderId','type','status']));
     await notification.save();
-    
-    // send email and socket notification to given receiverId.
-    sendMail('yuri.vn@gmail.com', "Liran");
+
+    //populate sender user.
+    notification = await Notification
+                    .findById(notification._id)
+                    .populate('senderId', 'name','email');
+    console.debug(notification);
+
+    // send email
+    const body = mailOptions.matchingRequest.MATCHING_REQUEST_PENDING_BODY
+            .replace("<username>", notification.senderId.name)
+            .replace("<status>", notification.status);
+    const subject = mailOptions.matchingRequest.MATCHING_REQUEST_SUBJECT.replace("<status>", notification.status);
+    sendMail(notification.senderId.email, subject, body);
+
+    //push notification.
     target = connections.getConenction(notification.receiverId);
     if(target) {
         target.emit("notify", notification);
@@ -50,11 +63,20 @@ router.put('/status/:id', async (req, res) => {
         new: true
     });
     if(!notification) res.status(404).send("Notification not found");
-
-    //in case status: approve we will send a notification to the user in the userId
-    //check by recieverId/ senderId
+    const user = await user.findById(req.body.userId);
     console.log(req.body);
     notification = _.pick(notification, ['_id','receiverId','senderId','type','status']);
+    
+    //send mail
+    const body = mailOptions.matchingRequest.MATCHING_REQUEST_PENDING_BODY
+            .replace("<username>", req.body.senderNamec)
+            .replace("<status>", notification.status);
+    console.debug(body);
+    const subject = mailOptions.matchingRequest.MATCHING_REQUEST_SUBJECT.replace("<status>", notification.status);
+    console.debug(subject);
+    //sendMail(user.email, subject, body);
+
+    //push notification
     target = connections.getConenction(req.body.userId);
     if(target) {
         target.emit("updateStatus", notification);

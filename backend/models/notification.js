@@ -6,18 +6,20 @@ Joi.objectId = require('joi-objectid')(Joi);
 const notificationSchema =  new mongoose.Schema({
     senderId: {
         type: mongoose.Types.ObjectId,
-        required: true,
+        ref: 'User',
+        required: true
     },
     receiverId: {
         type: mongoose.Types.ObjectId,
-        required: true,
+        ref: 'User',
+        required: true
     },
-    type: { // can be matching-request, result
+    type: { 
         type: String,
         maxlength: 20,
         require: true
     },
-    status: { // depend of type
+    status: { 
         type: String,
         default: "pending"
     },
