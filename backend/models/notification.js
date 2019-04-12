@@ -1,4 +1,4 @@
-const constants =require('../lib/constants');
+const constants =require('../utils/constants');
 const Joi = require('joi');
 const mongoose = require('mongoose');
 Joi.objectId = require('joi-objectid')(Joi);

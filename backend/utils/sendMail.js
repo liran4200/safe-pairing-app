@@ -1,4 +1,4 @@
-const constants = require('../lib/constants');
+const constants = require('./constants');
 const config = require('config');
 const nodeMailer = require('nodemailer');
 

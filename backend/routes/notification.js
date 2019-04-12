@@ -1,6 +1,6 @@
-const {mailOptions} = require('../lib/constants');
-const sendMail = require('../lib/sendMail');
-const connections = require('../lib/Connections');
+const {mailOptions} = require('../utils/constants');
+const sendMail = require('../utils/sendMail');
+const connections = require('../utils/Connections');
 const auth = require('../middleware/auth');
 const _ = require('lodash');
 const { Notification, validate, validateStatus, validateType } = require('../models/notification');
