@@ -1,6 +1,7 @@
 require('express-async-errors');
 const initSocket = require('./socket/index');
-const {isProvideJWT, logger} = require('./startup/config');
+const logger = require('./utils/Logger');
+const isProvideJWT = require('./startup/config');
 const error = require('./middleware/error');
 const express = require('express');
 const mongoose = require('mongoose');

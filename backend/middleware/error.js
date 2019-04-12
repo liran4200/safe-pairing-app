@@ -1,4 +1,4 @@
-const {logger} = require('../startup/config');
+const logger = require('../utils/Logger');
 
 module.exports = function(err, req, res, next) {
     logger.error(err.message, err);
