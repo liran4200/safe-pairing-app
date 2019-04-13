@@ -17,7 +17,7 @@ const Main = styled.main`
 
 export default class extends React.PureComponent {
     state = {
-        selected: 'home',
+        selected: 'send-matching-request',
         expanded: false
     };
 
@@ -29,11 +29,9 @@ export default class extends React.PureComponent {
     };
 
     pageTitle = {
-        'home': 'Home',
-        'devices': ['Devices'],
-        'reports': ['Reports'],
-        'settings/policies': ['Settings', 'Policies'],
-        'settings/network': ['Settings', 'Network']
+        'send-matching-request': 'Send Matching Request',
+        'matching-statuses': ['Matching Statuses'],
+        'notifications': ['Notifications']
     };
 
     renderBreadcrumbs() {
@@ -63,81 +61,32 @@ export default class extends React.PureComponent {
 
         return (
             <div>
-                <div
-                    style={{
-                        marginLeft: expanded ? 240 : 64,
-                        padding: '15px 20px 0 20px'
-                    }}
-                >
-                    <ButtonGroup>
-                        <Button btnStyle="flat" onClick={this.navigate('home')}>
-                            Home
-                        </Button>
-                        <Button btnStyle="flat" onClick={this.navigate('devices')}>
-                            Devices
-                        </Button>
-                        <Button btnStyle="flat" onClick={this.navigate('reports')}>
-                            Reports
-                        </Button>
-                        <Dropdown>
-                            <Dropdown.Toggle>
-                                Settings
-                            </Dropdown.Toggle>
-                            <Dropdown.Menu>
-                                <MenuItem onClick={this.navigate('settings/policies')}>
-                                    Policies
-                                </MenuItem>
-                                <MenuItem onClick={this.navigate('settings/network')}>
-                                    Network
-                                </MenuItem>
-                            </Dropdown.Menu>
-                        </Dropdown>
-                    </ButtonGroup>
-                </div>
                 <SideNav onSelect={this.onSelect} onToggle={this.onToggle}>
                     <SideNav.Toggle />
                     <SideNav.Nav selected={selected}>
-                        <NavItem eventKey="home">
+                        <NavItem eventKey="send-matching-request">
                             <NavIcon>
                                 <i className="fa fa-fw fa-home" style={{ fontSize: '1.75em', verticalAlign: 'middle' }} />
                             </NavIcon>
                             <NavText style={{ paddingRight: 32 }} title="Home">
-                                Home
+                                Send Matching Request
                             </NavText>
                         </NavItem>
-                        <NavItem eventKey="devices">
+                        <NavItem eventKey="matching-statuses">
                             <NavIcon>
                                 <i className="fa fa-fw fa-line-chart" style={{ fontSize: '1.75em', verticalAlign: 'middle' }} />
                             </NavIcon>
-                            <NavText style={{ paddingRight: 32 }} title="Devices">
-                                Devices
+                            <NavText style={{ paddingRight: 32 }} title="Matching Statuses">
+                                Matching Statuses
                             </NavText>
                         </NavItem>
-                        <NavItem eventKey="reports">
+                        <NavItem eventKey="notifications">
                             <NavIcon>
                                 <i className="fa fa-fw fa-list-alt" style={{ fontSize: '1.75em', verticalAlign: 'middle' }} />
                             </NavIcon>
-                            <NavText style={{ paddingRight: 32 }} title="Reports">
-                                Reports
+                            <NavText style={{ paddingRight: 32 }} title="Notifications">
+                                Notifications
                             </NavText>
-                        </NavItem>
-                        <NavItem eventKey="settings">
-                            <NavIcon>
-                                <i className="fa fa-fw fa-cogs" style={{ fontSize: '1.5em', verticalAlign: 'middle' }} />
-                            </NavIcon>
-                            <NavText style={{ paddingRight: 32 }} title="Settings">
-                                Settings
-                            </NavText>
-                            <NavItem eventKey="settings/policies">
-                                <NavText title="Policies">
-                                    Policies
-                                </NavText>
-                            </NavItem>
-                            <NavItem eventKey="settings/network">
-                                <NavText title="Network">
-                                    Network
-                                </NavText>
-                            </NavItem>
                         </NavItem>
                     </SideNav.Nav>
                 </SideNav>
