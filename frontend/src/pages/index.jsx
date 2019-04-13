@@ -13,6 +13,8 @@ import CardContent from '@material-ui/core/CardContent';
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
+import SideNav, { Toggle, Nav, NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav';
+import '@trendmicro/react-sidenav/dist/react-sidenav.css';
 
 // eosio endpoint
 const endpoint = "http://localhost:8899";
@@ -160,54 +162,80 @@ class Index extends Component {
 
     return (
       <div>
-        <AppBar position="static" color="default">
-          <Toolbar>
-            <Typography variant="title" color="inherit">
-              Note Chain
-            </Typography>
-          </Toolbar>
-        </AppBar>
-        {noteCards}
-        <Paper className={classes.paper}>
-          <form onSubmit={this.handleFormEvent}>
-            <TextField
-              name="account"
-              autoComplete="off"
-              label="Account"
-              margin="normal"
-              fullWidth
-            />
-            <TextField
-              name="privateKey"
-              autoComplete="off"
-              label="Private key"
-              margin="normal"
-              fullWidth
-            />
-            <TextField
-              name="note"
-              autoComplete="off"
-              label="Note (Optional)"
-              margin="normal"
-              multiline
-              rows="10"
-              fullWidth
-            />
-            <Button
-              variant="contained"
-              color="primary"
-              className={classes.formButton}
-              type="submit">
-              Add / Update note
-            </Button>
-          </form>
-        </Paper>
-        <pre className={classes.pre}>
-          Below is a list of pre-created accounts information for add/update note:
-          <br/><br/>
-          accounts = { JSON.stringify(accounts, null, 2) }
-        </pre>
-      </div>
+            <SideNav
+                style={{ minWidth: expanded ? navWidthExpanded : navWidthCollapsed }}
+                onSelect={this.onSelect}
+                onToggle={this.onToggle}
+            >
+                <Toggle />
+                <NavHeader expanded={expanded}>
+                    <NavTitle>Side Navigation</NavTitle>
+                    <NavSubTitle>Styled Side Navigation</NavSubTitle>
+                </NavHeader>
+                {expanded &&
+                <NavInfoPane>
+                    <div>Time: {this.lastUpdateTime}</div>
+                    <div>User: admin</div>
+                </NavInfoPane>
+                }
+                <Nav
+                    defaultSelected={selected}
+                >
+                    <NavItem eventKey="home">
+                        <NavIcon>
+                            <i className="fa fa-fw fa-home" style={{ fontSize: '1.75em', verticalAlign: 'middle' }} />
+                        </NavIcon>
+                        <NavText style={{ paddingRight: 32 }} title="HOME">
+                            HOME
+                        </NavText>
+                    </NavItem>
+                    <NavItem eventKey="devices">
+                        <NavIcon>
+                            <i className="fa fa-fw fa-line-chart" style={{ fontSize: '1.75em', verticalAlign: 'middle' }} />
+                        </NavIcon>
+                        <NavText style={{ paddingRight: 32 }} title="DEVICES">
+                            DEVICES
+                        </NavText>
+                    </NavItem>
+                    <NavItem eventKey="reports">
+                        <NavIcon>
+                            <i className="fa fa-fw fa-list-alt" style={{ fontSize: '1.75em', verticalAlign: 'middle' }} />
+                        </NavIcon>
+                        <NavText style={{ paddingRight: 32 }} title="REPORTS">
+                            REPORTS
+                        </NavText>
+                    </NavItem>
+                    <NavItem eventKey="settings">
+                        <NavIcon>
+                            <i className="fa fa-fw fa-cogs" style={{ fontSize: '1.5em' }} />
+                        </NavIcon>
+                        <NavText style={{ paddingRight: 32 }} title="SETTINGS">
+                            SETTINGS
+                        </NavText>
+                        <NavItem eventKey="settings/policy">
+                            <NavText title="POLICIES">
+                                POLICIES
+                            </NavText>
+                        </NavItem>
+                        <NavItem eventKey="settings/network">
+                            <NavText title="NETWORK">
+                                NETWORK
+                            </NavText>
+                        </NavItem>
+                    </NavItem>
+                    <Separator />
+                    <NavItem eventKey="logout">
+                        <NavIcon>
+                            <i className="fa fa-fw fa-power-off" style={{ fontSize: '1.5em' }} />
+                        </NavIcon>
+                        <NavText style={{ paddingRight: 32 }} title="SIGN OUT">
+                            SIGN OUT
+                        </NavText>
+                    </NavItem>
+                </Nav>
+            </SideNav>
+        </div>
+
     );
   }
 
