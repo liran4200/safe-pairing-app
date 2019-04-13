@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const auth = require('../middleware/auth');
 const bcrypt = require('bcrypt');
 const _ = require('lodash');
@@ -6,8 +7,14 @@ const express = require('express');
 const router = express.Router();
 
 router.get('/me',async (req, res ) => {
+    if( !mongoose.Types.ObjectId.isValid(req.user._id)) {
+        res.status(400).send('Invalid id');
+    }
     const user = await User.findById(req.user._id);
-    res.send(_.pick(user, ['_id', 'firstName', 'lastName', 'email']) );
+    if(!user) {
+        return res.status(404).send("User not found");
+    }
+    res.status(200).send(_.pick(user, ['_id', 'firstName', 'lastName', 'email']) );
 });
 
 /* currently not in use.
@@ -61,10 +68,6 @@ router.get('/search/', async ( req, res) => {
     .limit(pageSize)
     .select('firstName lastName email');
 
-    if(!users) {
-        res.status(404).send('No found users');
-    }
-
     res.status(200).send(users);
 });
 
@@ -82,11 +85,11 @@ router.get('/:id', async (req, res ) => {
         res.status(404).send("User not found");
     }
 
-    res.send(user);
+    res.status(200).send(user);
 }); 
 
 
-router.post('/', async (req, res) => {
+router.post('/register', async (req, res) => {
     const {error} = validate(req.body);
     if(error) {
         return res.status(400).send(error.details[0].message);

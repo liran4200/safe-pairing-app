@@ -3,6 +3,7 @@ const sendMail = require('../utils/sendMail');
 const connections = require('../utils/Connections');
 const auth = require('../middleware/auth');
 const _ = require('lodash');
+const {User} = require('../models/user');
 const { Notification, validate, validateStatus, validateType } = require('../models/notification');
 const express = require('express');
 const router = express.Router();
@@ -34,9 +35,10 @@ router.post('/', async (req, res) => {
     await notification.save();
 
     //populate sender user.
+    console.debug(notification);
     notification = await Notification
                     .findById(notification._id)
-                    .populate('senderId', 'firstName','lastName','email');
+                    .populate('senderId','firstName lastName email');
     console.debug(notification);
     const fullName = notification.senderId.firstName + notification.senderId.lastName;
     // send email
@@ -44,7 +46,7 @@ router.post('/', async (req, res) => {
             .replace("<username>", fullName)
             .replace("<status>", notification.status);
     const subject = mailOptions.matchingRequest.MATCHING_REQUEST_SUBJECT.replace("<status>", notification.status);
-    sendMail(notification.senderId.email, subject, body);
+    //sendMail(notification.senderId.email, subject, body);
 
     //push notification.
     target = connections.getConenction(notification.receiverId);
@@ -52,7 +54,7 @@ router.post('/', async (req, res) => {
         target.emit("notify", notification);
     } 
 
-    res.send( _.pick(notification, ['_id','receiverId','senderId','type','status']));
+    res.status(200).send( _.pick(notification, ['_id','receiverId','senderId','type','status']));
 });
 
 router.put('/status/:id', async (req, res) => {
@@ -63,18 +65,22 @@ router.put('/status/:id', async (req, res) => {
         new: true
     });
     if(!notification) res.status(404).send("Notification not found");
-    const user = await user.findById(req.body.userId);
-    console.log(req.body);
+
+    const user = await User.findById(req.body.receiverId);
+    if(!user) {
+        res.status(404).send("User not found");
+    }
+    console.log(user);
     notification = _.pick(notification, ['_id','receiverId','senderId','type','status']);
     
     //send mail
-    const body = mailOptions.matchingRequest.MATCHING_REQUEST_PENDING_BODY
-            .replace("<username>", req.body.senderNamec)
+    const body = mailOptions.matchingRequest.MATCHING_REQUEST_BODY
+            .replace("<username>", req.body.senderName)
             .replace("<status>", notification.status);
     console.debug(body);
     const subject = mailOptions.matchingRequest.MATCHING_REQUEST_SUBJECT.replace("<status>", notification.status);
     console.debug(subject);
-    sendMail(user.email, subject, body);
+    sendMail("yuri.vn@gmail.com", subject, body);
 
     //push notification
     target = connections.getConenction(req.body.userId);
