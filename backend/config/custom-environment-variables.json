@@ -1,3 +1,4 @@
 {
-  "jwtPrivateKey": "safepairing_jwtPrivateKey"
+  "jwtPrivateKey": "safepairing_jwtPrivateKey",
+  "emailPass": "safepairing_email_pass"
 }
