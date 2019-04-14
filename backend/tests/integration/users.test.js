@@ -2,8 +2,12 @@ const request = require('supertest');
 const {User, validate} = require('../../models/user');
 let server;
 describe('/api/users/', () => {
-    
-    describe('GET /', () => {
+    beforeEach( () => {server = require('../../index');});
+    afterEach( async () => {
+        server.close();
+        await User.remove({});            
+    });
+    describe('GET /search/?keyWord={keyWord}&pageNumber={number}&pageSize={number}', () => {
         beforeEach( () => {server = require('../../index');});
         afterEach( async () => {
             server.close();
@@ -72,6 +76,21 @@ describe('/api/users/', () => {
             expect(res.status).toBe(400);
             expect(res.text).toEqual("Invalid pageNumber or pageSize");
         });
+    });
+    describe('GET /:id', () => {
+        it('should return user with the given id', async () => {
+            const user = new User(
+                {
+                    "firstName": "lirann",
+                    "lastName": "yehudar",
+                    "email": "liran4200@gmail.com",
+                    "password": "L2222"
+                });
+            await user.save();
 
+            const res = await request(server).get('/api/users/'+ user._id);
+            expect(res.status).toBe(200);
+            expect(res.body).toHaveProperty('lirann', user.name);
+        });
     });
 });
