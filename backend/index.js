@@ -1,4 +1,5 @@
 require('express-async-errors');
+const config = require('config');
 const initSocket = require('./socket/index');
 const logger = require('./utils/Logger');
 const isProvideJWT = require('./startup/config');
@@ -18,10 +19,10 @@ process.on('unhandledRejection', (ex) => {
     
 //checking provide jwtPR
 //isProvideJWT();
-
-mongoose.connect('mongodb://localhost/safepairing')
-  .then(() =>  logger.info('Connected to MongoDB...'))
-  .catch(err => logger.error('Could not connect to MongoDB...', err));
+const dbConnection = config.get('db');
+mongoose.connect(dbConnection)
+  .then(() =>  logger.info(`Connected to ${dbConnection}...`))
+  .catch(err => logger.error(`Could not connect to ${dbConnection} ...`, err));
 
 //get requests as json object
 app.use(express.json());
@@ -32,4 +33,5 @@ app.use(error);
 
 serverIo = initSocket(app);
 const port = process.env.PORT || 4444; 
-serverIo.listen(port, () => logger.info(`Listening on port ${port}... `));
+const server = serverIo.listen(port, () => logger.info(`Listening on port ${port}... `));
+module.exports = server;

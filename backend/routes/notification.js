@@ -46,7 +46,7 @@ router.post('/', async (req, res) => {
             .replace("<username>", fullName)
             .replace("<status>", notification.status);
     const subject = mailOptions.matchingRequest.MATCHING_REQUEST_SUBJECT.replace("<status>", notification.status);
-    //sendMail(notification.senderId.email, subject, body);
+    sendMail(notification.senderId.email, subject, body);
 
     //push notification.
     target = connections.getConenction(notification.receiverId);
@@ -80,7 +80,7 @@ router.put('/status/:id', async (req, res) => {
     console.debug(body);
     const subject = mailOptions.matchingRequest.MATCHING_REQUEST_SUBJECT.replace("<status>", notification.status);
     console.debug(subject);
-    sendMail("yuri.vn@gmail.com", subject, body);
+    sendMail(user.email, subject, body);
 
     //push notification
     target = connections.getConenction(req.body.userId);
