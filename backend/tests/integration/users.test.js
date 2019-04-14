@@ -1,5 +1,5 @@
 const request = require('supertest');
-const {User, validate} = require('../../models/user');
+const {User} = require('../../models/user');
 let server;
 describe('/api/users/', () => {
 
@@ -38,7 +38,7 @@ describe('/api/users/', () => {
             expect(res.body[0].firstName.toLowerCase()).toMatch(/liran/);
         });
 
-        it('should return 1 user which contains yehudar in their lastName in page 1', async () => {
+        it('should return 1 user which contains yehudar in lastName in page 1', async () => {
             await User.collection.insertMany([
                 {
                     "firstName": "lirann",

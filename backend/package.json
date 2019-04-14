@@ -4,7 +4,7 @@
   "description": "server side - manage user data and user requests",
   "main": "index.js",
   "scripts": {
-    "test": "jest --watchAll --verbose"
+    "test": "jest --runInBand --verbose"
   },
   "author": "Liran Yehudar",
   "license": "ISC",
