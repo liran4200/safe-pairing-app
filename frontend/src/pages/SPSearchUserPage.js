@@ -25,6 +25,7 @@ class SPSearchUserPage extends React.Component {
   handleChange(e) {
     //invoke searchUser API call with e.target.value
     //update users with setState
+    //should implement with throttle
 
       // Variable to hold the original version of the list
       let currentList = [];
@@ -33,24 +34,23 @@ class SPSearchUserPage extends React.Component {
 
       // If the search bar isn't empty
       if (e.target.value !== "") {
-          // Assign the original list to currentList
+      // Assign the original list to currentList
       currentList = this.state.plainUsers;
-
-          // Use .filter() to determine which items should be displayed
-          // based on the search terms
+      // Use .filter() to determine which items should be displayed
+      // based on the search terms
       newList = currentList.filter(item => {
-                // change current item to lowercase
+        // change current item to lowercase
         const lc = item.toLowerCase();
-                // change search term to lowercase
+        // change search term to lowercase
         const filter = e.target.value.toLowerCase();
-                // check to see if the current list item includes the search term
-                // If it does, it will be added to newList. Using lowercase eliminates
-                // issues with capitalization in search terms and search content
-        return lc.includes(filter);
+          // check to see if the current list item includes the search term
+          // If it does, it will be added to newList. Using lowercase eliminates
+          // issues with capitalization in search terms and search content
+          return lc.includes(filter);
       });
     } else {
         // If the search bar is empty, set newList to original task list
-        newList = this.state.users;
+        newList = [];
     }
     // Set the filtered state based on what our rules added to newList
     this.setState({
