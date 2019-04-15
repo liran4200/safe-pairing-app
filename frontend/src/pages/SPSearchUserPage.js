@@ -8,10 +8,26 @@ class SPSearchUserPage extends React.Component {
     this.state = {
       users: [],
       plainUsers: [
-        "Liran Yehudar",
-        "Dudu Krich",
-        "Nir Finz",
-        "Gal Zaidman"
+       {
+          firstName: "Liran",
+          lastName: "Yehudar",
+          email: "liran@gmail.com"
+        },
+        {
+          firstName: "Dudu",
+          lastName: "Krich",
+          email: "dudu@gmail.com"
+        },
+        {
+          firstName: "Nir",
+          lastName: "Finz",
+          email: "nir@gmail.com"
+        },
+        {
+          firstName: "Gal",
+          lastName: "Zaidman",
+          email: "gal@gmail.com"
+        }
       ]
     }
     this.sendRequest = this.sendRequest.bind(this);
@@ -40,7 +56,7 @@ class SPSearchUserPage extends React.Component {
       // based on the search terms
       newList = currentList.filter(item => {
         // change current item to lowercase
-        const lc = item.toLowerCase();
+        const lc = item.firstName.toLowerCase();
         // change search term to lowercase
         const filter = e.target.value.toLowerCase();
           // check to see if the current list item includes the search term

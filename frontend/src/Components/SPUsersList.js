@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import SPUser from './SPUser.js';
 
 class SPUsersList extends React.Component {
 
@@ -28,7 +29,11 @@ class SPUsersList extends React.Component {
           <ul>
             {this.state.users.map(user => (
               <li key={user}>
-                {user} &nbsp;
+                <SPUser
+                  firstName={user.firstName}
+                  lastName={user.lastName}
+                  email={user.email}
+                />
                 <span
                   className="send-request-button"
                   onClick={() => this.props.sendRequest(user)}
