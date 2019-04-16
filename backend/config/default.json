@@ -8,5 +8,6 @@
     "auth": {
       "user": "safepairing@gmail.com"
     }
-  }
+  },
+  "db": "mongodb://localhost/safepairing"
 }

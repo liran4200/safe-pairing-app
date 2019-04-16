@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const validateObjectId = require('../middleware/validateObjectId');
 const auth = require('../middleware/auth');
 const bcrypt = require('bcrypt');
 const _ = require('lodash');
@@ -6,10 +7,7 @@ const { User, validate } = require('../models/user');
 const express = require('express');
 const router = express.Router();
 
-router.get('/me',async (req, res ) => {
-    if( !mongoose.Types.ObjectId.isValid(req.user._id)) {
-        res.status(400).send('Invalid id');
-    }
+router.get('/me' , auth ,async (req, res ) => {
     const user = await User.findById(req.user._id);
     if(!user) {
         return res.status(404).send("User not found");
@@ -72,11 +70,7 @@ router.get('/search/', async ( req, res) => {
 });
 
 
-router.get('/:id', async (req, res ) => {
-    if( !mongoose.Types.ObjectId.isValid(req.params.id)) {
-        res.status(400).send('Invalid id');
-    }
-
+router.get('/:id', validateObjectId, async (req, res ) => {
     const user = await User
         .findById(req.params.id)
         .select({ _id: 1, firstName: 1, lastName: 1, email: 1});
@@ -107,7 +101,7 @@ router.post('/register', async (req, res) => {
     
     //new user after registeration will be logged in.
     const token = user.generateAuthToken();    
-    res.header('x-auth-token', token).send( _.pick(user, ['firstName','lastName','email']));
+    res.status(200).header('x-auth-token', token).send( _.pick(user, ['_id','firstName','lastName','email']));
 });
 
 module.exports = router;

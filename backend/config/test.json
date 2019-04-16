@@ -1,0 +1,13 @@
+{
+    "jwtPrivateKey": "mySecureKey",
+    "emailPass": "liranyuri",
+    "transporterConfig": {
+      "host": "smtp.gmail.com",
+      "port": 465,
+      "secure": true,
+      "auth": {
+        "user": "safepairing@gmail.com"
+      }
+    },
+    "db": "mongodb://localhost/safepairing_test"
+}
