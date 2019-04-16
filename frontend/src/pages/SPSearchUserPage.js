@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import 'bulma';
-import SPUsersList from '../Components/SPUsersList.js';
+import SPUsersList from '../components/SPUsersList.js';
+import '../styles/SPSearchUserPage.css';
+import {DebounceInput} from 'react-debounce-input';
 
 class SPSearchUserPage extends React.Component {
   constructor(props) {
@@ -36,6 +38,7 @@ class SPSearchUserPage extends React.Component {
 
   sendRequest(user) {
     //invoke sendMatchingRequest API call with user.id.
+    console.log(user.email);
   }
 
   handleChange(e) {
@@ -79,7 +82,13 @@ class SPSearchUserPage extends React.Component {
       <div className="content">
         <div className="container">
           <section className="section">
-            <input type="text" className="input" placeholder="Search users..."  onChange={this.handleChange} />
+            <DebounceInput
+              debounceTimeout={700}
+              type="text"
+              className="input"
+              placeholder="Search users..."
+              onChange={this.handleChange}
+            />
             <SPUsersList users={this.state.users} sendRequest={this.sendRequest} />
           </section>
         </div>

@@ -28,16 +28,18 @@ class SPUsersList extends React.Component {
         <div>
           <ul>
             {this.state.users.map(user => (
-              <li key={user}>
+              <li key={user.email} className="user-with-request-button">
                 <SPUser
                   firstName={user.firstName}
                   lastName={user.lastName}
                   email={user.email}
                 />
-                <span
+                <button
                   className="send-request-button"
                   onClick={() => this.props.sendRequest(user)}
-                />
+                >
+                Send matching Request
+                </button>
               </li>
             ))}
           </ul>
