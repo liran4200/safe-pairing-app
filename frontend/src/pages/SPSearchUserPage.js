@@ -4,61 +4,31 @@ import SPUsersList from '../components/SPUsersList.js';
 import '../styles/SPSearchUserPage.css';
 import {DebounceInput} from 'react-debounce-input';
 import { searchUser } from '../serverCalls/UsersAPI.js'
+import { sendNotification } from '../serverCalls/notificationAPI';
 
 class SPSearchUserPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      users: [],
-      plainUsers: [
-       {
-          firstName: "Liran",
-          lastName: "Yehudar",
-          email: "liran@gmail.com"
-        },
-        {
-          firstName: "Dudu",
-          lastName: "Krich",
-          email: "dudu@gmail.com"
-        },
-        {
-          firstName: "Nir",
-          lastName: "Finz",
-          email: "nir@gmail.com"
-        },
-        {
-          firstName: "Gal",
-          lastName: "Zaidman",
-          email: "gal@gmail.com"
-        }
-      ]
+      users: []
     }
     this.sendRequest = this.sendRequest.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
 
-  sendRequest(user) {
-    //invoke sendMatchingRequest API call with user.id.
-    console.log(user.email);
+  async sendRequest(user) {
+    let res = await sendNotification('aaa');
   }
 
   async handleChange(e) {
-    //invoke searchUser API call with e.target.value
-    //update users with setState
-    //should implement with throttle
-
-      // Variable to hold the filtered list before putting into state
-      let newList = [];
-      // If the search bar isn't empty
-      if (e.target.value !== "") {
-      newList = await searchUser(e.target.value, 'aaa');
+    let newUsersList = [];
+    if (e.target.value !== "") {
+      newUsersList = await searchUser(e.target.value, 'aaa');
     } else {
-        // If the search bar is empty, set newList to original task list
-        newList = [];
+      newUsersList = [];
     }
-    // Set the filtered state based on what our rules added to newList
     this.setState({
-      users: newList
+      users: newUsersList
     });
   }
 
