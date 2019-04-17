@@ -4,7 +4,7 @@ import SPUsersList from '../components/SPUsersList.js';
 import '../styles/SPSearchUserPage.css';
 import {DebounceInput} from 'react-debounce-input';
 import { searchUser } from '../serverCalls/UsersAPI.js'
-import { sendNotification } from '../serverCalls/notificationAPI';
+import { sendNotification } from '../serverCalls/NotificationAPI';
 
 class SPSearchUserPage extends React.Component {
   constructor(props) {
@@ -17,12 +17,15 @@ class SPSearchUserPage extends React.Component {
   }
 
   async sendRequest(user) {
+    //TODO change 'aaa' in a real token
     let res = await sendNotification('aaa');
+    //what to do with res.id? should store notifications id's?
   }
 
   async handleChange(e) {
     let newUsersList = [];
     if (e.target.value !== "") {
+      //TODO change 'aaa' in a real token
       newUsersList = await searchUser(e.target.value, 'aaa');
     } else {
       newUsersList = [];
