@@ -11,6 +11,7 @@ class SPSearchUserPage extends React.Component {
     super(props);
     this.state = {
       users: [],
+      //remove this code after fixing server - frontend connection bug
       u: [
         {
           firstName: "yuri",
@@ -40,14 +41,12 @@ class SPSearchUserPage extends React.Component {
     if (e.target.value !== "") {
       //TODO change 'aaa' in a real token
       // newUsersList = await searchUser(e.target.value, 'aaa');
+
+      //remove this code after fixing server - frontend connection bug
       currentList = this.state.u;
       newUsersList = currentList.filter(item => {
         const lc = item.firstName.toLowerCase();
-        // change search term to lowercase
         const filter = e.target.value.toLowerCase();
-        // check to see if the current list item includes the search term
-        // If it does, it will be added to newList. Using lowercase eliminates
-        // issues with capitalization in search terms and search content
         return lc.includes(filter);
       });
     } else {
