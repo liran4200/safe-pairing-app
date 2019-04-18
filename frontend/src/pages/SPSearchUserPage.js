@@ -37,9 +37,9 @@ class SPSearchUserPage extends Component {
 
   render() {
     return (
-      <div className="content">
-        <div className="container">
-          <section className="section">
+      <div className="user-search-page-content">
+        <div className="user-search-container">
+          <section className="user-search-section">
             <DebounceInput
               debounceTimeout={700}
               type="text"
