@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import SPUser from './SPUser.js';
 
-class SPUsersList extends React.Component {
+class SPUsersList extends Component {
 
   constructor(props) {
     super(props);

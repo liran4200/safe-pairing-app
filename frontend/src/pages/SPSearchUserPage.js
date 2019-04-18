@@ -6,7 +6,7 @@ import {DebounceInput} from 'react-debounce-input';
 import { searchUser } from '../serverCalls/UsersAPI.js'
 import { sendNotification } from '../serverCalls/NotificationAPI';
 
-class SPSearchUserPage extends React.Component {
+class SPSearchUserPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -31,7 +31,7 @@ class SPSearchUserPage extends React.Component {
 
   async sendRequest(user) {
     //TODO change 'aaa' in a real token
-    let res = await sendNotification('aaa');
+    let res = await sendNotification('aaa', '5cb6c2f7262b2c2779d0da13', user.userId);
     //what to do with res.id? should store notifications id's?
   }
 
@@ -40,15 +40,15 @@ class SPSearchUserPage extends React.Component {
     let currentList = [];
     if (e.target.value !== "") {
       //TODO change 'aaa' in a real token
-      // newUsersList = await searchUser(e.target.value, 'aaa');
+      newUsersList = await searchUser(e.target.value, 'aaa');
 
       //remove this code after fixing server - frontend connection bug
-      currentList = this.state.u;
-      newUsersList = currentList.filter(item => {
-        const lc = item.firstName.toLowerCase();
-        const filter = e.target.value.toLowerCase();
-        return lc.includes(filter);
-      });
+      // currentList = this.state.u;
+      // newUsersList = currentList.filter(item => {
+      //   const lc = item.firstName.toLowerCase();
+      //   const filter = e.target.value.toLowerCase();
+      //   return lc.includes(filter);
+      // });
     } else {
       newUsersList = [];
     }

@@ -7,7 +7,6 @@ const getRequest = (addUrl, token) => ({
   method: 'get',
   headers: {
       'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*',
       'x-auth-token': token
   },
   url: BASE_URL + addUrl,
@@ -15,7 +14,17 @@ const getRequest = (addUrl, token) => ({
 
 export const searchUser = async (searchText, token) => {
   try {
-    const res = await axios(getRequest(`/search/${searchText}`,token)) ;
+    const res = await axios(getRequest(`/search?keyWord=${searchText}&pageNumber=1&pageSize=5`,token));
+    let arrayToReturn = res.data;
+    arrayToReturn = arrayToReturn.map(user => {
+      return {
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        userId: user._id
+      }
+    })
+    return arrayToReturn;
   } catch (error) {
       console.log("error in searchUser call")
       console.log(error)
