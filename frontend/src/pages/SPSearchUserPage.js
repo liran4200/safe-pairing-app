@@ -11,19 +11,6 @@ class SPSearchUserPage extends Component {
     super(props);
     this.state = {
       users: [],
-      //remove this code after fixing server - frontend connection bug
-      u: [
-        {
-          firstName: "yuri",
-          lastName: "vainstain",
-          email: "yuri@gmail.com"
-        },
-        {
-          firstName: "liran",
-          lastName: "yehudar",
-          email: "liran@gmail.com"
-        }
-      ]
     }
     this.sendRequest = this.sendRequest.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -37,18 +24,9 @@ class SPSearchUserPage extends Component {
 
   async handleChange(e) {
     let newUsersList = [];
-    let currentList = [];
     if (e.target.value !== "") {
       //TODO change 'aaa' in a real token
       newUsersList = await searchUser(e.target.value, 'aaa');
-
-      //remove this code after fixing server - frontend connection bug
-      // currentList = this.state.u;
-      // newUsersList = currentList.filter(item => {
-      //   const lc = item.firstName.toLowerCase();
-      //   const filter = e.target.value.toLowerCase();
-      //   return lc.includes(filter);
-      // });
     } else {
       newUsersList = [];
     }
