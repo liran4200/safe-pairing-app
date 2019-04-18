@@ -6,7 +6,21 @@ const { User, validate } = require('../models/user');
 const express = require('express');
 const router = express.Router();
 
-router.get('/me',async (req, res ) => {
+router.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, x-auth-token");
+  res.header("Access-control-allow-methods", "GET, POST, PUT, OPTIONS");
+  res.header("Access-Control-Allow-Credentials", "true");
+
+  if ('OPTIONS' == req.method) {
+  res.send(200);
+  } else {
+    next();
+  }
+
+});
+
+router.get('/me', async (req, res ) => {
     if( !mongoose.Types.ObjectId.isValid(req.user._id)) {
         res.status(400).send('Invalid id');
     }
@@ -21,7 +35,7 @@ router.get('/me',async (req, res ) => {
 router.get('/', async (req, res ) => {
     const pageNumber =  parseInt(req.query.pageNumber);
     const pageSize =   parseInt(req.query.pageSize);
-    
+
     if( !pageNumber || !pageSize || pageNumber < 1 ) {
         return res.status(400).send("Invalid pageNumber or pageSize");
     }
@@ -32,7 +46,7 @@ router.get('/', async (req, res ) => {
         .limit(pageSize)
         .select({ _id: 1, firstName: 1, lastName: 1, email: 1});
 
-    res.send(users);    
+    res.send(users);
 });
 */
 
@@ -43,7 +57,7 @@ router.get('/search/', async ( req, res) => {
     if( !pageNumber || !pageSize || pageNumber < 1 ) {
         return res.status(400).send("Invalid pageNumber or pageSize");
     }
-    
+
     let parts = (req.query.keyWord).split(' ')
     let firstName = ''
     let lastName = ''
@@ -86,7 +100,7 @@ router.get('/:id', async (req, res ) => {
     }
 
     res.status(200).send(user);
-}); 
+});
 
 
 router.post('/register', async (req, res) => {
@@ -97,16 +111,16 @@ router.post('/register', async (req, res) => {
 
     // checking user already registerd
     let user = await User.findOne({ email: req.body.email });
-    if(user) 
+    if(user)
         return res.status(400).send('User already registered');
 
     user = new User(_.pick(req.body, ['firstName','lastName','email','password']));
     const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(user.password, salt);
     await user.save();
-    
+
     //new user after registeration will be logged in.
-    const token = user.generateAuthToken();    
+    const token = user.generateAuthToken();
     res.header('x-auth-token', token).send( _.pick(user, ['firstName','lastName','email']));
 });
 

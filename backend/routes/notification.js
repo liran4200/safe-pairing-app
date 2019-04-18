@@ -11,7 +11,7 @@ const router = express.Router();
 router.get('/', async (req, res ) => {
     const pageNumber =  parseInt(req.query.pageNumber);
     const pageSize =   parseInt(req.query.pageSize);
-    
+
     if( !pageNumber || !pageSize || pageNumber < 1 ) {
         res.status(400).send("Invalid pageNumber or pageSize");
     }
@@ -22,7 +22,7 @@ router.get('/', async (req, res ) => {
         .limit(pageSize)
         .select( {status: 1, receiverId: 1, senderId: 2, type: 1} );
 
-    res.send(notifications);    
+    res.send(notifications);
 });
 
 router.post('/', async (req, res) => {
@@ -52,7 +52,7 @@ router.post('/', async (req, res) => {
     target = connections.getConenction(notification.receiverId);
     if(target) {
         target.emit("notify", notification);
-    } 
+    }
 
     res.status(200).send( _.pick(notification, ['_id','receiverId','senderId','type','status']));
 });
@@ -72,7 +72,7 @@ router.put('/status/:id', async (req, res) => {
     }
     console.log(user);
     notification = _.pick(notification, ['_id','receiverId','senderId','type','status']);
-    
+
     //send mail
     const body = mailOptions.matchingRequest.MATCHING_REQUEST_BODY
             .replace("<username>", req.body.senderName)
@@ -86,7 +86,7 @@ router.put('/status/:id', async (req, res) => {
     target = connections.getConenction(req.body.userId);
     if(target) {
         target.emit("updateStatus", notification);
-    } 
+    }
 
     res.status(200).send(notification);
 });
