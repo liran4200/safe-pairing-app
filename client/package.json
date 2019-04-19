@@ -2,7 +2,10 @@
   "name": "frontend",
   "version": "0.1.0",
   "private": true,
+  "homepage": "http//localhost:3000/sign-in",
   "dependencies": {
+    "axios": "^0.18.0",
+    "mdbreact": "^4.13.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-router-dom": "^5.0.0",

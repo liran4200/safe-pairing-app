@@ -8,9 +8,8 @@ import DashBoard from './components/pages/Dashboard';
 class App extends Component {
   render() {
     return (
-      <Router>
+      <Router >
         <div className="App">
-            Welcome SafePairing
         </div>
         <div>
           <Route path="/sign-in" component={SignIn} />
