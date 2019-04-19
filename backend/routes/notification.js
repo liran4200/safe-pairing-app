@@ -22,17 +22,25 @@ router.use(function(req, res, next) {
 });
 
 router.get('/', async (req, res ) => {
-    const pageNumber =  parseInt(req.query.pageNumber);
-    const pageSize =   parseInt(req.query.pageSize);
+    const pageNumberDefault = 1;
+    const pageSizeDefault = 10;
+    let pageNumber =  parseInt(req.query.pageNumber);
+    let pageSize =   parseInt(req.query.pageSize);
 
-    if( !pageNumber || !pageSize || pageNumber < 1 ) {
-        res.status(400).send("Invalid pageNumber or pageSize");
+    if( !pageNumber) {
+       pageNumber = pageNumberDefault;
+    }
+
+    if( !pageSize){
+        pageSize = pageSizeDefault;
     }
 
     const notifications = await Notification
         .find()
         .skip((pageNumber-1) * pageSize)
         .limit(pageSize)
+        .populate('senderId','firstName lastName email')
+        .populate('receiverId','firstName lastName email')
         .select( {status: 1, receiverId: 1, senderId: 2, type: 1} );
 
     res.send(notifications);
@@ -106,7 +114,9 @@ router.put('/status/:id', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
     const notification = await Notification
-            .findById(req.params.id);
+            .findById(req.params.id)
+            .populate('senderId','firstName lastName email')
+            .populate('receiverId','firstName lastName email');
     if(!notification) res.status(404).send("Notification not found");
     res.status(200).send(_.pick(notification, ['_id','receiverId','senderId','type','status']));
 });
