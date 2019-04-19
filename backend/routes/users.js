@@ -52,11 +52,17 @@ router.get('/', async (req, res ) => {
 */
 
 router.get('/search/', async ( req, res) => {
-    const pageNumber =  parseInt(req.query.pageNumber);
-    const pageSize =   parseInt(req.query.pageSize);
+    const pageNumberDefault = 1;
+    const pageSizeDefault = 10;
+    let pageNumber =  parseInt(req.query.pageNumber);
+    let pageSize =   parseInt(req.query.pageSize);
 
-    if( !pageNumber || !pageSize || pageNumber < 1 ) {
-        return res.status(400).send("Invalid pageNumber or pageSize");
+    if( !pageNumber) {
+       pageNumber = pageNumberDefault;
+    }
+
+    if( !pageSize){
+        pageSize = pageSizeDefault;
     }
 
     let parts = (req.query.keyWord).split(' ')

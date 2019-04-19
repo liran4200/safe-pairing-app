@@ -80,10 +80,6 @@ describe('/api/users/', () => {
             expect(res.body[0].email).toMatch(/liran@gmail.com/);
         });
 
-        it('should return 400 if pageNumber or pageSize invalid', async () => {
-            const res = await request(server).get('/api/users/search/?keyWord=yehudar&pageNumber=0&pageSize=2');
-            expect(res.status).toBe(400);
-        });
     });
 
     describe('GET /:id', () => {
