@@ -25,7 +25,7 @@ class  SPRequest extends Component {
     return (
       <div className="request-view">
         {this.props.matchingUser} &nbsp;
-        <div className="request-status">
+        <div className={`request-status-${this.state.status}`}>
           {this.state.status}
         </div>
       </div>
