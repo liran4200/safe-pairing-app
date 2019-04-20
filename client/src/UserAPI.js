@@ -28,7 +28,7 @@ export const searchUser = async (searchText, token) => {
       console.log("error in searchUser call")
       console.log(error)
       console.log(JSON.stringify(error))
-      throw "an error as occured while searching for a user"
+      throw "an error occured while searching for a user"
   }
 }
 
