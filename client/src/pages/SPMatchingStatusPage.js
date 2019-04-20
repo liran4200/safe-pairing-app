@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import 'bulma';
 import SPRequestsList from '../components/SPRequestsList.js';
 import { getNotifications } from '../serverCalls/NotificationAPI';
+import { MDBBadge } from "mdbreact";
 import '../styles/SPMatchingStatusPage.css';
 
 class SPMatchingStatusPage extends Component {
@@ -9,20 +10,7 @@ class SPMatchingStatusPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      matchingRequestsList: [
-        // {
-        //   matchingUser: "Liran Yehudar",
-        //   status: "pending"
-        // },
-        // {
-        //   matchingUser: "Gal Zaydman",
-        //   status: "read"
-        // },
-        // {
-        //   matchingUser: "Dudu Krich",
-        //   status: "pending"
-        // }
-      ],
+      matchingRequestsList: []
     }
   }
 
@@ -33,7 +21,6 @@ class SPMatchingStatusPage extends Component {
       matchingRequestsList: requestsList
     });
   }
-
 
   render() {
     return (

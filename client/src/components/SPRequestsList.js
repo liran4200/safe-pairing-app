@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import 'bulma';
+import { MDBContainer, MDBRow, MDBCol } from "mdbreact";
 import SPRequest from './SPRequest.js';
+
 
 class SPRequestList extends Component {
   constructor(props) {
@@ -24,20 +25,17 @@ class SPRequestList extends Component {
 
   render() {
     if (this.state.requestsList) {
+
       return(
-            <div>
-              <ul>
-                {this.state.requestsList.map(request => (
-                  <li key={request}>
-                    <SPRequest
-                      matchingUser={request.matchingUser}
-                      status={request.status}
-                    />
-                  </li>
-                ))}
-              </ul>
-            </div>
-          );
+        <div className="d-flex flex-row flex-wrap example-parent mx-auto">
+          {this.state.requestsList.map(request => (
+              <SPRequest
+                matchingUser={request.matchingUser}
+                status={request.status}
+              />
+          ))}
+        </div>
+      );
     } else {
       return null;
     }

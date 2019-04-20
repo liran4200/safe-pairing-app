@@ -22,7 +22,7 @@ const Main = styled.main`
 
 export default class extends React.PureComponent {
     state = {
-        selected: 'send-matching-request',
+        selected: 'dashboard',
         expanded: false
     };
 

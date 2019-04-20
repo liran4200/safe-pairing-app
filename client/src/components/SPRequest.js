@@ -36,18 +36,16 @@ class  SPRequest extends Component {
 
   render() {
     return (
-      <MDBContainer>
-        <MDBCard style={{ width: "22rem", marginTop: "1rem" }} className="text-center">
-          <MDBCardHeader color={this.cardColorByStatus(this.props.status)}>{this.props.status}</MDBCardHeader>
-          <MDBCardBody>
-            <MDBCardTitle>{this.props.matchingUser}</MDBCardTitle>
-            <MDBCardText>
-              --
-            </MDBCardText>
-            </MDBCardBody>
-          <MDBCardFooter color={this.cardColorByStatus(this.props.status)}>2 days ago</MDBCardFooter>
-        </MDBCard>
-      </MDBContainer>
+      <MDBCard style={{ width: "22rem", margin: "1rem" }} className="text-center">
+        <MDBCardHeader color={this.cardColorByStatus(this.props.status)}>{this.props.status}</MDBCardHeader>
+        <MDBCardBody>
+          <MDBCardTitle>{this.props.matchingUser}</MDBCardTitle>
+          <MDBCardText>
+            --
+          </MDBCardText>
+          </MDBCardBody>
+        <MDBCardFooter color={this.cardColorByStatus(this.props.status)}>2 days ago</MDBCardFooter>
+      </MDBCard>
     );
   }
 
