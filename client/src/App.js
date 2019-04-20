@@ -109,3 +109,5 @@ export default class extends React.PureComponent {
         );
     }
 }
+
+export default App;
