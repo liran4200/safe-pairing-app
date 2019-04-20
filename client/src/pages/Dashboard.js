@@ -8,7 +8,8 @@ import Dropdown, { MenuItem } from '@trendmicro/react-dropdown';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
 import SPSearchUsersPage from './SPSearchUsersPage';
-import ensureArray from 'ensure-array';
+import SPMatchingStatusPage from './SPMatchingStatusPage';
+import SPNotificationsPage from './SPNotificationsPage';
 import styled from 'styled-components';
 
 const Main = styled.main`
@@ -30,34 +31,6 @@ export default class extends React.PureComponent {
     };
     onToggle = (expanded) => {
         this.setState({ expanded: expanded });
-    };
-
-    pageTitle = {
-        'send-matching-request': 'Send Matching Request',
-        'matching-statuses': ['Matching Statuses'],
-        'notifications': ['Notifications']
-    };
-
-    renderBreadcrumbs() {
-        const { selected } = this.state;
-        const list = ensureArray(this.pageTitle[selected]);
-
-        return (
-            <Breadcrumbs>
-                {list.map((item, index) => (
-                    <Breadcrumbs.Item
-                        active={index === list.length - 1}
-                        key={`${selected}_${index}`}
-                    >
-                        {item}
-                    </Breadcrumbs.Item>
-                ))}
-            </Breadcrumbs>
-        );
-    }
-
-    navigate = (pathname) => () => {
-        this.setState({ selected: pathname });
     };
 
     render() {
@@ -83,8 +56,8 @@ export default class extends React.PureComponent {
                             onToggle={this.onToggle}
                         >
                             <SideNav.Toggle />
-                            <SideNav.Nav defaultSelected="home">
-                                <NavItem eventKey="home">
+                            <SideNav.Nav defaultSelected="dashboard">
+                                <NavItem eventKey="dashboard">
                                     <NavIcon>
                                         <i className="fa fa-fw fa-home" style={{ fontSize: '1.75em' }} />
                                     </NavIcon>
@@ -92,20 +65,28 @@ export default class extends React.PureComponent {
                                         Home
                                     </NavText>
                                 </NavItem>
-                                <NavItem eventKey="devices">
+                                <NavItem eventKey="status">
                                     <NavIcon>
                                         <i className="fa fa-fw fa-device" style={{ fontSize: '1.75em' }} />
                                     </NavIcon>
                                     <NavText>
-                                        Devices
+                                        Matching Statuses
+                                    </NavText>
+                                </NavItem>
+                                <NavItem eventKey="notifications">
+                                    <NavIcon>
+                                        <i className="fa fa-fw fa-device" style={{ fontSize: '1.75em' }} />
+                                    </NavIcon>
+                                    <NavText>
+                                        Notifications
                                     </NavText>
                                 </NavItem>
                             </SideNav.Nav>
                         </SideNav>
                         <main>
-                          <Route path="/home" exact component={props => <SPSearchUsersPage />} />
-                          <Route path="/sign-in" exact component={props => <SignIn />} />
-                          <Route path="/sign-up" exact component={props => <SignUp />} />
+                          <Route path="/dashboard" exact component={props => <SPSearchUsersPage />} />
+                          <Route path="/status" exact component={props => <SPMatchingStatusPage />} />
+                          <Route path="/notifications" exact component={props => <SPNotificationsPage />} />
                         </main>
                     </div>
                   </React.Fragment>
