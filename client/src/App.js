@@ -3,7 +3,7 @@ import './App.css';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import SignIn from './components/SignIn/SignIn';
 import SignUp from './components/SignUp/SignUp';
-import DashBoard from './components/pages/Dashboard';
+import DashBoard from './pages/Dashboard';
 
 class App extends Component {
   render() {
@@ -13,8 +13,8 @@ class App extends Component {
         </div>
         <div>
           <Route path="/sign-in" component={SignIn} />
-          <Route exact path="/sign-up" component={SignUp} />
-          <Route exact path="/dashboard" component={DashBoard}/>
+          <Route path="/sign-up" component={SignUp} />
+          <Route path="/dashboard" component={DashBoard}/>
         </div>
       </Router>
     );
