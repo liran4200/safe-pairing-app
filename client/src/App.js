@@ -5,9 +5,9 @@ import '@trendmicro/react-sidenav/dist/react-sidenav.css';
 import Breadcrumbs from '@trendmicro/react-breadcrumbs';
 import { Button, ButtonGroup } from '@trendmicro/react-buttons';
 import Dropdown, { MenuItem } from '@trendmicro/react-dropdown';
-import SignIn from './components/SignIn/SignIn';
-import SignUp from './components/SignUp/SignUp';
-import SPSearchUsersPage from './components/pages/SPSearchUsersPage';
+import SignIn from './pages/SignIn';
+import SignUp from './pages/SignUp';
+import SPSearchUsersPage from './pages/SPSearchUsersPage';
 // import DashBoard from './components/pages/Dashboard';
 import ensureArray from 'ensure-array';
 import styled from 'styled-components';
@@ -109,5 +109,3 @@ export default class extends React.PureComponent {
         );
     }
 }
-
-export default App;

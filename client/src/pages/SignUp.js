@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router-dom'
-import {registerUser} from '../../UserAPI';
+import {registerUser} from '../UserAPI';
 import { MDBContainer,MDBCardHeader,MDBIcon,MDBModalFooter, MDBRow, MDBCol, MDBInput, MDBBtn, MDBCard, MDBCardBody } from 'mdbreact';
 
 class SignUp extends React.Component {
