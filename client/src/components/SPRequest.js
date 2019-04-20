@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import 'bulma';
+import { MDBCard, MDBCardBody, MDBCardTitle, MDBCardText, MDBCardHeader, MDBCardFooter, MDBBtn, MDBContainer } from
+"mdbreact";
 
 class  SPRequest extends Component {
   constructor(props) {
@@ -7,6 +8,7 @@ class  SPRequest extends Component {
     this.state = {
       status: ""
     }
+    this.cardColorByStatus = this.cardColorByStatus.bind(this);
   }
 
   componentDidMount() {
@@ -21,14 +23,31 @@ class  SPRequest extends Component {
     });
   }
 
+  cardColorByStatus(status) {
+    switch (status) {
+      case "pending":
+        return "warning-color";
+      case "read":
+        return "info-color";
+      case "approved":
+        return "success-color";
+    }
+  }
+
   render() {
     return (
-      <div className="request-view">
-        {this.props.matchingUser} &nbsp;
-        <div className={`request-status-${this.state.status}`}>
-          {this.state.status}
-        </div>
-      </div>
+      <MDBContainer>
+        <MDBCard style={{ width: "22rem", marginTop: "1rem" }} className="text-center">
+          <MDBCardHeader color={this.cardColorByStatus(this.props.status)}>{this.props.status}</MDBCardHeader>
+          <MDBCardBody>
+            <MDBCardTitle>{this.props.matchingUser}</MDBCardTitle>
+            <MDBCardText>
+              --
+            </MDBCardText>
+            </MDBCardBody>
+          <MDBCardFooter color={this.cardColorByStatus(this.props.status)}>2 days ago</MDBCardFooter>
+        </MDBCard>
+      </MDBContainer>
     );
   }
 

@@ -13,6 +13,15 @@ const postRequest = (token, data) => ({
   data: data
 })
 
+const getRequest = (token) => ({
+  method: 'get',
+  headers: {
+    'Content-Type': 'application/json',
+    'x-auth-token': token
+  },
+  url: BASE_URL
+})
+
 export const sendNotification = async (token, senderId, receiverId) => {
   try {
     const notificationData = {
@@ -27,5 +36,24 @@ export const sendNotification = async (token, senderId, receiverId) => {
       console.log(error)
       console.log(JSON.stringify(error))
       throw "an error occured while tryed to send a notification"
+  }
+}
+
+export const getNotifications = async (token) => {
+  try {
+    const res = await axios(getRequest(token));
+    let arrayToReturn = res.data;
+    arrayToReturn = arrayToReturn.map(notification => {
+      return {
+        matchingUser: notification.receiverId.firstName + " " + notification.receiverId.lastName,
+        status: notification.status
+      }
+    })
+    return arrayToReturn;
+  } catch (error) {
+      console.log("error in getNotifications call")
+      console.log(error)
+      console.log(JSON.stringify(error))
+      throw "an error occured while tryed to get notifications"
   }
 }

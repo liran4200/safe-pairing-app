@@ -1,20 +1,19 @@
 import React from 'react';
-import 'bulma';
+import { MDBCard, MDBCardBody, MDBCardTitle, MDBCardText, MDBCardHeader, MDBCardFooter, MDBBtn, MDBContainer } from
+"mdbreact";
 
-export const SPUser = (props) => {
-
+const SPUser = props => {
   return (
-    <div className="user-view">
-      {props.firstName + " " + props.lastName} &nbsp;
-      Email: {props.email} &nbsp;
-      <button
-        className="send-request-button"
-        onClick={props.sendRequest}
-      >
-      Send matching Request
-      </button>
-    </div>
+    <MDBCard style={{ marginTop: "1rem"}} className="text-center w-75 mx-auto">
+      <MDBCardHeader color="danger-color">{props.firstName + " " + props.lastName}</MDBCardHeader>
+      <MDBCardBody>
+        <MDBCardTitle>{props.email}</MDBCardTitle>
+        <MDBBtn color="red accent-2" size="lg" onClick={props.sendRequest}>
+          Send Matching Request
+        </MDBBtn>
+      </MDBCardBody>
+    </MDBCard>
   );
-}
+};
 
 export default SPUser;

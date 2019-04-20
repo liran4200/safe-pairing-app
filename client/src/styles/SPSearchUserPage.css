@@ -1,7 +1,5 @@
 .user-view {
-  display: flex;
-  height: 35px;
-  justify-content: space-between;
+  align-self: center;
 }
 
 

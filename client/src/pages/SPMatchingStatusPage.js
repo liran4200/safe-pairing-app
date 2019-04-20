@@ -10,29 +10,29 @@ class SPMatchingStatusPage extends Component {
     super(props);
     this.state = {
       matchingRequestsList: [
-        {
-          matchingUser: "Liran Yehudar",
-          status: "pending"
-        },
-        {
-          matchingUser: "Gal Zaydman",
-          status: "read"
-        },
-        {
-          matchingUser: "Dudu Krich",
-          status: "pending"
-        }
+        // {
+        //   matchingUser: "Liran Yehudar",
+        //   status: "pending"
+        // },
+        // {
+        //   matchingUser: "Gal Zaydman",
+        //   status: "read"
+        // },
+        // {
+        //   matchingUser: "Dudu Krich",
+        //   status: "pending"
+        // }
       ],
     }
   }
 
-  // async componentDidMount() {
-  //   //TODO update token
-  //   let requestsList = await getNotifications('aaa');
-  //   this.setState({
-  //     matchingRequestsList: requestsList
-  //   });
-  // }
+  async componentDidMount() {
+    //TODO update token
+    let requestsList = await getNotifications('aaa');
+    this.setState({
+      matchingRequestsList: requestsList
+    });
+  }
 
 
   render() {
