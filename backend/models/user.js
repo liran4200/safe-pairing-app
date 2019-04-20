@@ -25,6 +25,14 @@ const userSchema =  new mongoose.Schema({
         type: String,
         minlength: 5,
         require: true
+    },
+    isActive: {
+        type: Boolean,
+        default: false
+    },
+    code: {
+        type: Number,
+        default: 0
     }
 });
 

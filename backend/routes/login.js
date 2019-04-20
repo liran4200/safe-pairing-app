@@ -16,6 +16,9 @@ router.post('/', async (req, res) => {
     if(!user) 
         return res.status(404).send('User not found');
 
+    if(!user.isActive)
+        return res.status(401).send('Access denied, User not active');
+
     const validPassword = await bcrypt.compare(req.body.password, user.password);
     if(!validPassword)
         return res.status(400).send('Invalid email or password');

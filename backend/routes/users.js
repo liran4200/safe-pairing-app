@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const validateObjectId = require('../middleware/validateObjectId');
 const auth = require('../middleware/auth');
+const sendMail = require('../utils/sendMail');
+const randomatic = require('randomatic');
 const bcrypt = require('bcrypt');
 const _ = require('lodash');
 const { User, validate } = require('../models/user');
@@ -106,11 +108,35 @@ router.post('/register', async (req, res) => {
     user = new User(_.pick(req.body, ['firstName','lastName','email','password']));
     const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(user.password, salt);
+
+    user.code  = randomatic('0',  12);
     await user.save();
 
-    //new user after registeration will be logged in.
-    const token = user.generateAuthToken();    
-    res.status(200).header('x-auth-token', token).send( _.pick(user, ['_id','firstName','lastName','email']));
+    // send mail
+    //sendMail(user.email,"Email Confirmation", `Thanks for registerd to SafePairing,\nIn order to complete the registration, please confirm the code bellow:\n${user.code}`);
+
+    res.status(200).send( _.pick(user, ['_id','code']));
+});
+
+router.post('/confirmation/:id',validateObjectId ,async (req, res) => {
+
+    // TODO: check if already active.
+    if(!req.body.code)
+        return res.status(400).send('Confirmation code not provided');
+    
+    let user = await User.findById(req.params.id);
+    if(!user)
+        return res.status(404).send('User not found');
+    
+    if(req.body.code != user.code)
+        return res.status(400).send('Confirmation code is not matching');
+    
+    user.isActive = true;
+    user.save();
+    //TODO: remove code field from mongo
+    await User.updateOne({_id: user._id}, {$unset: {code: 1 }});
+
+    res.status(200).send(_.pick(user,['_id','firstName','lastName','email','isActive']));
 });
 
 module.exports = router;
