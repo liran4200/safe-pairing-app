@@ -5,7 +5,7 @@ module.exports = function(req, res, next) {
     res.header("Access-Control-Allow-Credentials", "true");
   
     if ('OPTIONS' == req.method) {
-    res.send(200);
+        res.send(200);
     } else {
       next();
     }

@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const validateObjectId = require('../middleware/validateObjectId');
 const auth = require('../middleware/auth');
+const multiplyLocalHost = require('./middleware/multiplyLocalHost');
 const sendMail = require('../utils/sendMail');
 const randomatic = require('randomatic');
 const bcrypt = require('bcrypt');
@@ -8,6 +9,8 @@ const _ = require('lodash');
 const { User, validate } = require('../models/user');
 const express = require('express');
 const router = express.Router();
+
+router.use(multiplyLocalHost);
 
 router.get('/me',auth, async (req, res ) => {
     if( !mongoose.Types.ObjectId.isValid(req.user._id)) {
@@ -109,11 +112,11 @@ router.post('/register', async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(user.password, salt);
 
-    user.code  = randomatic('0',  12);
+    user.code  = randomatic('0',  6);
     await user.save();
 
     // send mail
-    //sendMail(user.email,"Email Confirmation", `Thanks for registerd to SafePairing,\nIn order to complete the registration, please confirm the code bellow:\n${user.code}`);
+    sendMail(user.email,"Email Confirmation", `Thanks for registerd to SafePairing,\nIn order to complete the registration, please confirm the code bellow:\n${user.code}`);
 
     res.status(200).send( _.pick(user, ['_id','code']));
 });

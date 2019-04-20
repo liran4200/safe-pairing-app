@@ -39,12 +39,30 @@ export const registerUser = async (user) => {
             'Content-Type': 'application/json'
         }
     });
-        return {
-            status: res.status,
-            data: res.data
-        };
+        return res.data;
+  
     }catch(error) {
         console.error(error.message);
         return {error: error.message};
     }
+}
+
+export const confirmUser = async (id,code) => {
+  try {
+    const url = BASE_URL + '/confirmation/' + id
+    const res = await axios.post(
+      url, 
+      {
+        code: code
+      }, 
+      {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+
+    console.log(res);
+  }catch(error) {
+     
+  }
 }

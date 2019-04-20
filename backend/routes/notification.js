@@ -2,11 +2,14 @@ const {mailOptions} = require('../utils/constants');
 const sendMail = require('../utils/sendMail');
 const connections = require('../utils/Connections');
 const auth = require('../middleware/auth');
+const multiplyLocalHost = require('./middleware/multiplyLocalHost');
 const _ = require('lodash');
 const {User} = require('../models/user');
 const { Notification, validate, validateStatus, validateType } = require('../models/notification');
 const express = require('express');
 const router = express.Router();
+
+router.user(multiplyLocalHost);
 
 router.get('/', async (req, res ) => {
     const pageNumberDefault = 1;

@@ -1,10 +1,11 @@
-const config = require('config');
-const jwt = require('jsonwebtoken');
+const multiplyLocalHost = require('./middleware/multiplyLocalHost');
 const bcrypt = require('bcrypt');
 const Joi = require('joi');
 const { User } = require('../models/user');
 const express = require('express');
 const router = express.Router();
+
+router.use(multiplyLocalHost);
 
 router.post('/', async (req, res) => {
     const {error} = validate(req.body);

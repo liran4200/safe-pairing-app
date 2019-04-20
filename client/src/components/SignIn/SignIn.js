@@ -50,7 +50,6 @@ class SignIn extends React.Component {
 
   render(){
       return (
-        <MDBContainer>
         <MDBRow className="d-flex justify-content-center">
           <MDBCol md="4">
             <MDBCard>
@@ -107,7 +106,6 @@ class SignIn extends React.Component {
             </MDBCard>
           </MDBCol>
         </MDBRow>
-      </MDBContainer>
       );
     }
 }

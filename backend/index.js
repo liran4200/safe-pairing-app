@@ -4,7 +4,6 @@ const initSocket = require('./socket/index');
 const logger = require('./utils/Logger');
 const isProvideJWT = require('./startup/config');
 const error = require('./middleware/error');
-const multiplyLocalHost = require('./middleware/multiplyLocalHost');
 const express = require('express');
 const mongoose = require('mongoose');
 const app = express();
@@ -31,7 +30,6 @@ app.use('/api/users', users);
 app.use('/api/login', login);
 app.use('/api/notifications', notifications);
 app.use(error);
-app.use(multiplyLocalHost);
 
 serverIo = initSocket(app);
 const port = process.env.PORT || 4444; 
