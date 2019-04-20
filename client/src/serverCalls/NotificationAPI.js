@@ -30,7 +30,7 @@ export const sendNotification = async (token, senderId, receiverId) => {
       "type": "matching-request"
     }
     const res = await axios(postRequest(token, notificationData));
-    return res;
+    return res.data;
   } catch (error) {
       console.log("error in sendNotification call")
       console.log(error)

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import SPUser from './SPUser.js';
-import { MDBContainer } from 'mdbreact';
+import { MDBContainer } from "mdbreact";
 
 class SPUsersList extends Component {
 
