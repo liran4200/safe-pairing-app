@@ -19,7 +19,7 @@ const getRequest = (token) => ({
     'Content-Type': 'application/json',
     'x-auth-token': token
   },
-  url: BASE_URL
+  url: BASE_URL + "?pageNumber=1&pageSize=100"
 })
 
 export const sendNotification = async (token, senderId, receiverId) => {

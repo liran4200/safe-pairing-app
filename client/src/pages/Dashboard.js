@@ -68,7 +68,7 @@ export default class extends React.PureComponent {
                                 </NavItem>
                                 <NavItem eventKey="status">
                                     <NavIcon>
-                                        <i className="fa fa-fw fa-device" style={{ fontSize: '1.75em' }} />
+                                        <i className="fa fa-history" style={{ fontSize: '1.75em' }} />
                                     </NavIcon>
                                     <NavText>
                                         Matching Statuses
@@ -76,7 +76,7 @@ export default class extends React.PureComponent {
                                 </NavItem>
                                 <NavItem eventKey="notifications">
                                     <NavIcon>
-                                        <i className="fa fa-fw fa-device" style={{ fontSize: '1.75em' }} />
+                                        <i className="fa fa-rss" style={{ fontSize: '1.75em' }} />
                                     </NavIcon>
                                     <NavText>
                                         Notifications
