@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import SPUser from './SPUser.js';
+import { MDBContainer } from "mdbreact";
 
 class SPUsersList extends Component {
 
@@ -29,12 +30,14 @@ class SPUsersList extends Component {
           <ul>
             {this.state.users.map(user => (
               <li key={user.email}>
-                <SPUser
-                  firstName={user.firstName}
-                  lastName={user.lastName}
-                  email={user.email}
-                  sendRequest={() => this.props.sendRequest(user)}
-                />
+                <MDBContainer>
+                  <SPUser
+                    firstName={user.firstName}
+                    lastName={user.lastName}
+                    email={user.email}
+                    sendRequest={() => this.props.sendRequest(user)}
+                  />
+                </MDBContainer>
               </li>
             ))}
           </ul>
