@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {MDBBtn, MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter } from 'mdbreact';
+import './ConfirmEmailModal.css'
 
 class ConfirmEmailModal extends Component {
 
