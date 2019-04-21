@@ -1,4 +1,4 @@
-const multiplyLocalHost = require('./middleware/multiplyLocalHost');
+const multiplyLocalHost = require('../middleware/multiplyLocalHost');
 const bcrypt = require('bcrypt');
 const Joi = require('joi');
 const { User } = require('../models/user');

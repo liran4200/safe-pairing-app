@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom'
-import {registerUser, confirmUser} from '../../UserAPI';
-import ConfirmEmailModal from '../ConfirmEmailModal/ConfirmEmailModal';
+import {registerUser, confirmUser} from '../serverCalls/UsersAPI';
+import ConfirmEmailModal from './ConfirmEmailModal';
 import {MDBCardHeader,MDBIcon,MDBModalFooter, MDBRow, MDBCol, MDBInput, MDBBtn, MDBCard, MDBCardBody } from 'mdbreact';
 
 class SignUp extends React.Component {
