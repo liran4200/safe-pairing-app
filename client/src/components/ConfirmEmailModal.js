@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { MDBContainer,MDBBtn, MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter } from 'mdbreact';
+import {MDBBtn, MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter } from 'mdbreact';
 
 class ConfirmEmailModal extends Component {
 
@@ -25,7 +25,7 @@ handleConfirm = () => {
 
 componentWillReceiveProps(nextProps) {
     console.log(`received props:\n ${nextProps.isOpen}`)
-    if(nextProps != this.props ){
+    if(nextProps !== this.props ){
         this.setState({
             isOpen: nextProps.isOpen
         })
@@ -34,7 +34,6 @@ componentWillReceiveProps(nextProps) {
 
 render() {
   return (
-      <MDBContainer>
         <MDBModal isOpen={this.state.isOpen} toggle={() => {this.toggle()}} centered>
           <MDBModalHeader toggle={() => {this.toggle()}}>Email Confiramtion</MDBModalHeader>
           <MDBModalBody>
@@ -54,7 +53,6 @@ render() {
             <MDBBtn color="primary" onClick={()=>{this.handleConfirm()} }>CONFIRM </MDBBtn>
           </MDBModalFooter>
         </MDBModal>
-      </MDBContainer>
     );
   }
 }
