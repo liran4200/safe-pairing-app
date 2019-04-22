@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import SPUsersList from '../components/SPUsersList.js';
+import SPSendRequestModal from '../components/SPSendRequestModal'
 import '../styles/SPSearchUserPage.css';
 import {DebounceInput} from 'react-debounce-input';
 import { MDBContainer, MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter, MDBBtn } from "mdbreact";
@@ -16,13 +17,25 @@ class SPSearchUserPage extends Component {
     }
     this.sendRequest = this.sendRequest.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.closeModal = this.closeModal.bind(this);
   }
 
    async sendRequest(user) {
     //TODO change 'aaa' in a real token
     let res = await sendNotification('aaa', '5cb6c2f7262b2c2779d0da13', user.userId);
+    if (res) {
+      this.setState({
+        modal: true,
+        userToSendRequest: user.firstName + " " + user.lastName
+      });
+    }
 
-    //add an alert for success
+  }
+
+  closeModal() {
+    this.setState({
+      modal: false
+    });
   }
 
   async handleChange(e) {
@@ -41,6 +54,11 @@ class SPSearchUserPage extends Component {
   render() {
     return (
       <MDBContainer>
+        <SPSendRequestModal
+          isOpen={this.state.modal}
+          userToSendTo={this.state.userToSendRequest}
+          handleClose={this.closeModal}
+        />
         <DebounceInput
           debounceTimeout={700}
           type="text"
