@@ -4,7 +4,7 @@ import {MDBContainer} from 'mdbreact';
 
 const SignUpPage = () =>  {
     return(
-        <div className="jumbotron">
+        <div>
             <MDBContainer>
                 <SignUp/>
             </MDBContainer>
