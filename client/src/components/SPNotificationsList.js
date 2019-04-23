@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import SPNotification from '/SPNotification.js'
 
 class SPNotificationsList extends Component {
   constructor(props) {
@@ -37,3 +38,5 @@ class SPNotificationsList extends Component {
     }
   }
 }
+
+export default SPNotificationsList;
