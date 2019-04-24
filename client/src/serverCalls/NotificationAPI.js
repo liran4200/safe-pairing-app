@@ -32,9 +32,10 @@ const putRequest = (token, data) => ({
   data: data
 })
 
-export const updateNotificationStatus = async (token, notificationId, senderId, receiverId, status) => {
+export const updateNotificationStatus = async (token, notificationId, receiverId, senderId, status) => {
   try {
     const notificationData = {
+      "notificationId": notificationId,
       "senderId": senderId,
       "receiverId": receiverId,
       "type": "matching-request",
@@ -73,7 +74,11 @@ export const getNotifications = async (token) => {
     let arrayToReturn = res.data;
     arrayToReturn = arrayToReturn.map(notification => {
       return {
-        matchingUser: notification.receiverId.firstName + " " + notification.receiverId.lastName,
+        notificationId: notification._id,
+        receiverUser: notification.receiverId.firstName + " " + notification.receiverId.lastName,
+        receiverId: notification.receiverId._id,
+        senderUser: notification.senderId.firstName + " " + notification.senderId.lastName,
+        senderId: notification.senderId._id,
         status: notification.status
       }
     })

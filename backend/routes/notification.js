@@ -94,7 +94,7 @@ router.put('/status/:id', async (req, res) => {
     sendMail(user.email, subject, body);
 
     //push notification
-    target = connections.getConenction(req.body.userId);
+    target = connections.getConenction(req.body.senderId);
     if(target) {
         target.emit("updateStatus", notification);
     }

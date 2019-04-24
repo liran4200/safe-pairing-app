@@ -20,14 +20,15 @@ class SPNotificationsList extends Component {
   render() {
     if (this.state.notificationsList) {
       return(
-        <div className="d-flex flex-row flex-wrap example-parent mx-auto">
+        <div className="d-flex flex-row flex-wrap mx-auto">
           {this.state.notificationsList.map(notification => (
               <SPNotification
                 senderUser={notification.senderUser}
+                receiverUser={notification.receiverUser}
                 requestStatus={notification.status}
-                notificationType={notification.type}
-                notificationId={notification.id}
-                otherUserId={notification.otherUserId}
+                notificationId={notification.notificationId}
+                senderId={notification.senderId}
+                receiverId={notification.receiverId}
               />
           ))}
         </div>

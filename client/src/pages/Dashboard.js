@@ -11,8 +11,10 @@ import SPSearchUsersPage from './SPSearchUsersPage';
 import SPMatchingStatusPage from './SPMatchingStatusPage';
 import SPNotificationsPage from './SPNotificationsPage';
 import styled from 'styled-components';
+import { ToastContainer, toast } from 'mdbreact';
 import socketIOClient from "socket.io-client";
 import { getNotifications } from '../serverCalls/NotificationAPI.js'
+import { getUserById } from '../serverCalls/UsersAPI.js'
 
 const Main = styled.main`
     position: relative;
@@ -26,9 +28,8 @@ export default class extends React.Component {
     state = {
         selected: 'dashboard',
         expanded: false,
-        socketData: false,
-        socketType: false,
-        notifications: []
+        userNameNotified: '',
+        updatedStatus: ''
     };
 
     onSelect = (selected) => {
@@ -41,22 +42,38 @@ export default class extends React.Component {
     async componentDidMount() {
       const socket = socketIOClient("http://localhost:4444");
       socket.emit('subscribe', '5cb6c2f7262b2c2779d0da13');
+      socket.on('updateStatus', async data => {
+        const user = await getUserById(data.receiverId);
+        this.setState({
+          userNameNotified: user.firstName + " " + user.lastName,
+          updatedStatus: data.status
+        });
+        //raise an alert
+        this.notify('updateStatus');
+      });
       socket.on('notify', data => {
         this.setState({
-          socketData: data,
-          socketType: 'notify'
+          userNameNotified: data.senderId.firstName + " " + data.senderId.lastName,
+          updatedStatus: ''
         });
+        //raise an alert
+        this.notify('notify');
       });
-      socket.on('updateStatus', data => {
-        this.setState({
-          socketData: data,
-          socketType: 'updateStatus'
-        });
-      });
-      const notificationsList = await getNotifications('aaa');
-      this.setState({
-        notifications: notificationsList
-      });
+    }
+
+     notify = (type) => {
+      switch (type) {
+        case 'notify':
+          toast.info(`${this.state.userNameNotified} sent you a matching request, you can manage it through the notifications page`, {
+            autoClose: 7000
+          });
+          break;
+        case 'updateStatus':
+          toast.info(`${this.state.userNameNotified} just updated the status of your matching request to - "${this.state.updatedStatus}"`, {
+            autoClose: 7000
+          });
+          break;
+      }
     }
 
     render() {
@@ -73,6 +90,11 @@ export default class extends React.Component {
                         padding: '15px 20px 0 20px'
                       }}
                       >
+                        <ToastContainer
+                          hideProgressBar={true}
+                          newestOnTop={true}
+                          autoClose={5000}
+                        />
                         <SideNav
                             onSelect={(selected) => {
                                 const to = '/' + selected;
@@ -113,12 +135,7 @@ export default class extends React.Component {
                         <main>
                           <Route path="/dashboard" exact component={props => <SPSearchUsersPage />} />
                           <Route path="/status" exact component={props => <SPMatchingStatusPage />} />
-                          <Route path="/notifications" exact component={props => <SPNotificationsPage
-                                                                                    socketData={this.state.socketData}
-                                                                                    typeOfMessage={this.state.socketType}
-                                                                                    notifications={this.state.notifications}
-                                                                                  />}
-                          />
+                          <Route path="/notifications" exact component={props => <SPNotificationsPage />} />
                         </main>
                     </div>
                   </React.Fragment>

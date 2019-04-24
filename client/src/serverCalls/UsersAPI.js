@@ -40,21 +40,38 @@ export const registerUser = async (user) => {
         }
     });
         return res.data;
-  
+
     }catch(error) {
         console.error(error.message);
         return {error: error.message};
     }
 }
 
+export const getUserById = async (id, token) => {
+  try {
+    const res = await axios(getRequest(`/${id}`,token));
+    return {
+      userId: res.data._id,
+      firstName: res.data.firstName,
+      lastName: res.data.lastName,
+      email: res.data.email
+    };
+  } catch (error) {
+      console.log("error in getUserById call")
+      console.log(error)
+      console.log(JSON.stringify(error))
+      throw "an error as occured while searching for a user"
+  }
+}
+
 export const confirmUser = async (id,code) => {
   try {
     const url = BASE_URL + '/confirmation/' + id
     const res = await axios.post(
-      url, 
+      url,
       {
         code: code
-      }, 
+      },
       {
       headers: {
         'Content-Type': 'application/json'
@@ -63,7 +80,6 @@ export const confirmUser = async (id,code) => {
 
     console.log(res);
   }catch(error) {
-     
+
   }
 }
-

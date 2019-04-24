@@ -30,7 +30,7 @@ class SPRequestList extends Component {
         <div className="d-flex flex-row flex-wrap example-parent mx-auto">
           {this.state.requestsList.map(request => (
               <SPRequest
-                matchingUser={request.matchingUser}
+                matchingUser={request.receiverUser}
                 status={request.status}
               />
           ))}

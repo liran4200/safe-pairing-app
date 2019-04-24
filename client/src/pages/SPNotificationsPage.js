@@ -6,31 +6,15 @@ class SPNotificationsPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      notifications: props.notifications
+      notifications: []
     }
   }
 
-  componentWillReceiveProps(newProps) {
-    if (this.props !== newProps) {
-      var notificationsList = this.state.notifications;
-      if (newProps.typeOfMessage === 'notify') {
-          notificationsList.push(newProps.socketData);
-      } else if (newProps.typeOfMessage === 'updateStatus') {
-          for (var i in notificationsList) {
-            if (newProps.socketData._id) {
-              if (notificationsList[i]._id === newProps.socketData._id) {
-                if (newProps.socketData.status) {
-                    notificationsList[i].status = newProps.socketData.status;
-                    break;
-                }
-              }
-            }
-          }
-      }
-      this.setState({
-        notifications: notificationsList
-      });
-    }
+  async componentDidMount() {
+    const res = await getNotifications('aaa');
+    this.setState({
+      notifications: res
+    });
   }
 
   render() {

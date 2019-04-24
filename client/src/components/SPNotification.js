@@ -2,63 +2,36 @@ import React, { Component } from 'react';
 import { MDBContainer, MDBCard, MDBCardBody, MDBBtn } from 'mdbreact';
 import { updateNotificationStatus } from '../serverCalls/NotificationAPI';
 
-class SPNotification extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      read: false,
-    };
-    this.markAsRead = this.markAsRead.bind(this);
-    this.textFontByStatus = this.textFontByStatus.bind(this);
-    this.approveMatchingRequest = this.approveMatchingRequest.bind(this);
+const SPNotification = (props) => {
+  const markAsRead = async () => {
+      const res = await updateNotificationStatus('aaa', props.notificationId, '5cb6c2f7262b2c2779d0da13', props.senderId, 'read');
   }
 
-  async markAsRead() {
-    if (this.props.notificationType === 'notify') {
-        const res = await updateNotificationStatus('aaa', this.props.notificationId, '5cb6c2f7262b2c2779d0da13', this.props.otherUserId, 'read');
-    }
-    this.setState({
-      read: true
-    });
+  const approveMatchingRequest = async () => {
+    const res = await updateNotificationStatus('aaa', props.notificationId, '5cb6c2f7262b2c2779d0da13', props.senderId, 'approved');
   }
 
-  async approveMatchingRequest() {
-    const res = await updateNotificationStatus('aaa', this.props.notificationId, '5cb6c2f7262b2c2779d0da13', this.props.otherUserId, 'approve');
-    this.setState({
-      read: true
-    });
+  if (props.requestStatus === 'pending') {
+    return(
+      <MDBContainer>
+        <MDBCard style={{ marginTop: "1rem"}} className="text-center w-75 mx-auto">
+          <MDBCardBody> {props.senderUser} sent you a matching request </MDBCardBody>
+          <MDBBtn onClick={() => markAsRead()}> Mark As Read </MDBBtn>
+          <MDBBtn onClick={() => approveMatchingRequest()}> approve matching request </MDBBtn>
+        </MDBCard>
+      </MDBContainer>
+    );
+  } else {
+    return(
+      <MDBContainer>
+        <MDBCard style={{ marginTop: "1rem"}} className="text-center w-75 mx-auto">
+          <MDBCardBody> {props.receiverUser} updated your matching request status to - "{props.requestStatus}" </MDBCardBody>
+        </MDBCard>
+      </MDBContainer>
+    )
   }
 
-  textFontByStatus() {
-    if (this.state.read === true) {
-      return "font-weight-light";
-    } else {
-      return "font-weight-bold";
-    }
-  }
 
-  render() {
-    if (this.props.notificationType === 'notify') {
-      return (
-        <MDBContainer>
-          <MDBCard>
-            <MDBCardBody className={this.textFontByStatus()}> {this.props.senderUser} updated your matching request status to {this.props.requestStatus} </MDBCardBody>
-            <MDBBtn onClick={this.markAsRead}> Mark As Read </MDBBtn>
-          </MDBCard>
-        </MDBContainer>
-      );
-    } else {
-      return (
-        <MDBContainer>
-          <MDBCard>
-            <MDBCardBody className={this.textFontByStatus()}> {this.props.senderUser} sent you a matching request </MDBCardBody>
-            <MDBBtn onClick={this.markAsRead}> Mark As Read </MDBBtn>
-            <MDBBtn onClick={this.approveMatchingRequest}> approve matching request </MDBBtn>
-          </MDBCard>
-        </MDBContainer>
-      );
-    }
-  }
 }
 
 export default SPNotification;
