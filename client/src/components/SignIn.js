@@ -88,8 +88,9 @@ class SignIn extends React.Component {
                   <div className="valid-feedback">Looks good!</div>
                 <div className="text-center mt-4">
                   <MDBBtn
-                    color="light-blue"
-                    className="mb-3"
+                    size="lg"                  
+                    color="primary"
+                    className="mb-3 btn-primary"
                     type="submit"
                   >
                     Sign In

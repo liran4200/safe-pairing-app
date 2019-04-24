@@ -1,3 +1,7 @@
 hr {
     display: inline-block;
 }
+
+.btn-outline-white{
+    color: #002259!important;
+}

@@ -45,17 +45,19 @@ class HomePage extends React.Component{
           <MDBRow>
           <MDBCol md="12" className="mb-4 white-text text-center">
               <h3 className="display-3 font-weight-bold mb-0 pt-md-5">
-              Safe Pairing Application
+                Safe Pairing
               </h3>
               <hr className="hr-light my-4 w-75" />
               <h4 className="subtext-header mt-2 mb-4">
               </h4>
               <MDBBtn 
+                size="lg"
                 outline rounded color="white" 
                 onClick={() => {this.handleClick('/sign-in')}}>
                 <MDBIcon icon="sign-in-alt" /> Sign In
               </MDBBtn>
               <MDBBtn 
+                size="lg"
                 outline rounded color="white" 
                 onClick={() => {this.handleClick('/sign-up')}}> 
                 <MDBIcon icon="user-plus" />  

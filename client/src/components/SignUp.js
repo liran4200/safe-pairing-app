@@ -141,7 +141,7 @@ class SignUp extends React.Component {
                       />
                     </div>
                     <div className="text-center py-4 mt-3">
-                      <MDBBtn color="cyan" type="submit">
+                      <MDBBtn size="lg" color="primary" type="submit">
                         {this.state.submitText}
                       </MDBBtn>
                     </div>
