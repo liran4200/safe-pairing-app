@@ -1,46 +1,42 @@
 import React, { Component } from 'react';
-import socketIOClient from "socket.io-client";
 import SPNotificationsList from '../components/SPNotificationsList.js';
+import { getNotifications } from '../serverCalls/NotificationAPI.js'
 
 class SPNotificationsPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      notifications: [],
+      notifications: props.notifications
     }
   }
 
-  componentDidMount() {
-    const socket = socketIOClient("https://localhost:4444");
-    socket.on("notify", notification => {
-      let notificationsList = this.state.notifications;
-      notificationsList.push(notification);
-      this.setState({
-        notifications: notificationsList
-      });
-    });
-    socket.on("updateStatus", notification => {
-      let notificationsList = this.state.notifications;
-      for (var i in notificationsList) {
-        if (notification.id) {
-          if (notificationsList[i]._id === notification.id) {
-            if (notification.status) {
-                notificationsList[i].status = notification.status;
-                break;
+  componentWillReceiveProps(newProps) {
+    if (this.props !== newProps) {
+      var notificationsList = this.state.notifications;
+      if (newProps.typeOfMessage === 'notify') {
+          notificationsList.push(newProps.socketData);
+      } else if (newProps.typeOfMessage === 'updateStatus') {
+          for (var i in notificationsList) {
+            if (newProps.socketData._id) {
+              if (notificationsList[i]._id === newProps.socketData._id) {
+                if (newProps.socketData.status) {
+                    notificationsList[i].status = newProps.socketData.status;
+                    break;
+                }
+              }
             }
           }
-        }
       }
       this.setState({
         notifications: notificationsList
       });
-    });
+    }
   }
 
   render() {
     return (
       <SPNotificationsList
-        notificationsList={this.state.notificationsList}
+        notificationsList={this.state.notifications}
       />
     )
   }

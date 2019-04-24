@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import SPNotification from '/SPNotification.js'
+import SPNotification from './SPNotification.js'
 
 class SPNotificationsList extends Component {
   constructor(props) {
@@ -19,7 +19,6 @@ class SPNotificationsList extends Component {
 
   render() {
     if (this.state.notificationsList) {
-
       return(
         <div className="d-flex flex-row flex-wrap example-parent mx-auto">
           {this.state.notificationsList.map(notification => (

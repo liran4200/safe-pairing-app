@@ -11,6 +11,8 @@ import SPSearchUsersPage from './SPSearchUsersPage';
 import SPMatchingStatusPage from './SPMatchingStatusPage';
 import SPNotificationsPage from './SPNotificationsPage';
 import styled from 'styled-components';
+import socketIOClient from "socket.io-client";
+import { getNotifications } from '../serverCalls/NotificationAPI.js'
 
 const Main = styled.main`
     position: relative;
@@ -20,10 +22,13 @@ const Main = styled.main`
     margin-left: ${props => (props.expanded ? 240 : 64)}px;
 `;
 
-export default class extends React.PureComponent {
+export default class extends React.Component {
     state = {
         selected: 'dashboard',
-        expanded: false
+        expanded: false,
+        socketData: false,
+        socketType: false,
+        notifications: []
     };
 
     onSelect = (selected) => {
@@ -32,6 +37,27 @@ export default class extends React.PureComponent {
     onToggle = (expanded) => {
         this.setState({ expanded: expanded });
     };
+
+    async componentDidMount() {
+      const socket = socketIOClient("http://localhost:4444");
+      socket.emit('subscribe', '5cb6c2f7262b2c2779d0da13');
+      socket.on('notify', data => {
+        this.setState({
+          socketData: data,
+          socketType: 'notify'
+        });
+      });
+      socket.on('updateStatus', data => {
+        this.setState({
+          socketData: data,
+          socketType: 'updateStatus'
+        });
+      });
+      const notificationsList = await getNotifications('aaa');
+      this.setState({
+        notifications: notificationsList
+      });
+    }
 
     render() {
         const { expanded, selected } = this.state;
@@ -87,7 +113,12 @@ export default class extends React.PureComponent {
                         <main>
                           <Route path="/dashboard" exact component={props => <SPSearchUsersPage />} />
                           <Route path="/status" exact component={props => <SPMatchingStatusPage />} />
-                          <Route path="/notifications" exact component={props => <SPNotificationsPage />} />
+                          <Route path="/notifications" exact component={props => <SPNotificationsPage
+                                                                                    socketData={this.state.socketData}
+                                                                                    typeOfMessage={this.state.socketType}
+                                                                                    notifications={this.state.notifications}
+                                                                                  />}
+                          />
                         </main>
                     </div>
                   </React.Fragment>

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { MDBContainer, MDBCard, MDBCardBody, MDBBtn } from 'mdbreact';
+import { updateNotificationStatus } from '../serverCalls/NotificationAPI';
 
 class SPNotification extends Component {
   constructor(props) {
@@ -42,7 +43,7 @@ class SPNotification extends Component {
         <MDBContainer>
           <MDBCard>
             <MDBCardBody className={this.textFontByStatus()}> {this.props.senderUser} updated your matching request status to {this.props.requestStatus} </MDBCardBody>
-            <MDBBtn onClick={this.markAsRead()}> Mark As Read </MDBBtn>
+            <MDBBtn onClick={this.markAsRead}> Mark As Read </MDBBtn>
           </MDBCard>
         </MDBContainer>
       );
@@ -51,8 +52,8 @@ class SPNotification extends Component {
         <MDBContainer>
           <MDBCard>
             <MDBCardBody className={this.textFontByStatus()}> {this.props.senderUser} sent you a matching request </MDBCardBody>
-            <MDBBtn onClick={this.markAsRead()}> Mark As Read </MDBBtn>
-            <MDBBtn onClick={this.approveMatchingRequest()}> approve matching request </MDBBtn>
+            <MDBBtn onClick={this.markAsRead}> Mark As Read </MDBBtn>
+            <MDBBtn onClick={this.approveMatchingRequest}> approve matching request </MDBBtn>
           </MDBCard>
         </MDBContainer>
       );
