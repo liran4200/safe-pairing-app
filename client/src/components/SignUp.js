@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom'
 import {registerUser, confirmUser} from '../serverCalls/UsersAPI';
-import ConfirmEmailModal from './ConfirmEmailModal';
+import ConfirmEmailModal from './ConfirmEmailModal/ConfirmEmailModal';
 import {MDBCardHeader,MDBIcon,MDBModalFooter, MDBRow, MDBCol, MDBInput, MDBBtn, MDBCard, MDBCardBody } from 'mdbreact';
 
 class SignUp extends React.Component {
@@ -141,7 +141,7 @@ class SignUp extends React.Component {
                       />
                     </div>
                     <div className="text-center py-4 mt-3">
-                      <MDBBtn color="cyan" type="submit">
+                      <MDBBtn size="lg" color="primary" type="submit">
                         {this.state.submitText}
                       </MDBBtn>
                     </div>
