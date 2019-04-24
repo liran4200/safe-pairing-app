@@ -15,7 +15,7 @@ toggle = () => {
   this.setState({
     isOpen: !this.state.isOpen
   });
-  this.props.closeModal();
+  this.props.handleClose();
 }
 
 componentWillReceiveProps(newProps) {
@@ -30,7 +30,7 @@ componentWillReceiveProps(newProps) {
 render() {
   return (
       <div>
-        <MDBModal isOpen={this.state.isOpen} toggle={() => {this.toggle()}} size="sm">
+        <MDBModal isOpen={this.state.isOpen} toggle={() => {this.toggle()}}>
           <MDBModalHeader toggle={() => {this.toggle()}}>Yes!</MDBModalHeader>
           <MDBModalBody>
             Youv'e just sent a matching request to {this.state.userToSendTo} <br></br>
