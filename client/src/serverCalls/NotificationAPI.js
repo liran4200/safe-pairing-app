@@ -79,7 +79,8 @@ export const getNotifications = async (token) => {
         receiverId: notification.receiverId._id,
         senderUser: notification.senderId.firstName + " " + notification.senderId.lastName,
         senderId: notification.senderId._id,
-        status: notification.status
+        status: notification.status,
+        createdDate: notification.createdDate
       }
     })
     return arrayToReturn;

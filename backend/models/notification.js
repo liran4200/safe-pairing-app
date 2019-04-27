@@ -14,14 +14,14 @@ const notificationSchema =  new mongoose.Schema({
         ref: 'User',
         required: true
     },
-    type: { 
+    type: {
         type: String,
         maxlength: 20,
         require: true
     },
-    status: { 
+    status: {
         type: String,
-        default: "pending"
+        default: "Pending"
     },
     createdDate: {
         type: Date,
