@@ -59,15 +59,13 @@ router.post('/', async (req, res) => {
             .replace("<username>", fullName)
             .replace("<status>", notification.status);
     const subject = mailOptions.matchingRequest.MATCHING_REQUEST_SUBJECT.replace("<status>", notification.status);
-<<<<<<< HEAD
+
     sendMail(
         notification.receiverId.email, 
         subject, 
         '',
         html);
-=======
-    // sendMail(notification.senderId.email, subject, body);
->>>>>>> develop
+
 
     //push notification.
     target = connections.getConenction(notification.receiverId);
