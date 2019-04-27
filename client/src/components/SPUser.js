@@ -5,10 +5,10 @@ import { MDBCard, MDBCardBody, MDBCardTitle, MDBCardText, MDBCardHeader, MDBCard
 const SPUser = props => {
   return (
     <MDBCard style={{ marginTop: "1rem"}} className="text-center w-75 mx-auto">
-      <MDBCardHeader color="danger-color">{props.firstName + " " + props.lastName}</MDBCardHeader>
+      <MDBCardHeader color="blue">{props.firstName + " " + props.lastName}</MDBCardHeader>
       <MDBCardBody>
         <MDBCardTitle>{props.email}</MDBCardTitle>
-        <MDBBtn color="red accent-2" size="lg" onClick={props.sendRequest}>
+        <MDBBtn color="blue darken-1" size="lg" onClick={props.sendRequest}>
           Send Matching Request
         </MDBBtn>
       </MDBCardBody>

@@ -37,7 +37,7 @@ render() {
             You can see the matching status in "Matching Statuses" section.
           </MDBModalBody>
           <MDBModalFooter>
-            <MDBBtn color="danger" onClick={() => {this.toggle()}}>Ok, Got it</MDBBtn>
+            <MDBBtn color="info" onClick={() => {this.toggle()}}>Ok, Got it</MDBBtn>
           </MDBModalFooter>
         </MDBModal>
       </div>

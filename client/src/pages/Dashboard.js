@@ -87,7 +87,7 @@ export default class extends React.Component {
                     <div
                       style={{
                         marginLeft: expanded ? 240 : 64,
-                        padding: '15px 20px 0 20px'
+                        padding: '15px 20px 0 20px',
                       }}
                       >
                         <ToastContainer
