@@ -4,7 +4,7 @@ const connections = require('../utils/Connections');
 const auth = require('../middleware/auth');
 const multiplyLocalHost = require('../middleware/multiplyLocalHost');
 const _ = require('lodash');
-const {User} = require('../models/user');
+const {User, getFullName} = require('../models/user');
 const { Notification, validate, validateStatus, validateType } = require('../models/notification');
 const express = require('express');
 const router = express.Router();
@@ -49,15 +49,21 @@ router.post('/', async (req, res) => {
     console.debug(notification);
     notification = await Notification
                     .findById(notification._id)
-                    .populate('senderId','firstName lastName email');
+                    .populate('senderId','firstName lastName email')
+                    .populate('receiverId','firstName lastName email');
+
     console.debug(notification);
-    const fullName = notification.senderId.firstName + notification.senderId.lastName;
+    const fullName = getFullName(notification.senderId);
     // send email
-    const body = mailOptions.matchingRequest.MATCHING_REQUEST_PENDING_BODY
+    const html = mailOptions.matchingRequest.MATCHING_REQUEST_PENDING_BODY
             .replace("<username>", fullName)
             .replace("<status>", notification.status);
     const subject = mailOptions.matchingRequest.MATCHING_REQUEST_SUBJECT.replace("<status>", notification.status);
-    sendMail(notification.senderId.email, subject, body);
+    sendMail(
+        notification.receiverId.email, 
+        subject, 
+        '',
+        html);
 
     //push notification.
     target = connections.getConenction(notification.receiverId);
@@ -85,13 +91,17 @@ router.put('/status/:id', async (req, res) => {
     notification = _.pick(notification, ['_id','receiverId','senderId','type','status']);
 
     //send mail
-    const body = mailOptions.matchingRequest.MATCHING_REQUEST_BODY
+    const html = mailOptions.matchingRequest.MATCHING_REQUEST_BODY
             .replace("<username>", req.body.senderName)
             .replace("<status>", notification.status);
-    console.debug(body);
+    console.debug(html);
     const subject = mailOptions.matchingRequest.MATCHING_REQUEST_SUBJECT.replace("<status>", notification.status);
     console.debug(subject);
-    sendMail(user.email, subject, body);
+    sendMail(
+        user.email, 
+        subject, 
+        '',
+        html);
 
     //push notification
     target = connections.getConenction(req.body.senderId);
