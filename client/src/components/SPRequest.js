@@ -9,6 +9,7 @@ class  SPRequest extends Component {
       status: ""
     }
     this.cardColorByStatus = this.cardColorByStatus.bind(this);
+    this.dateAsString = this.dateAsString.bind(this);
   }
 
   componentDidMount() {
@@ -25,13 +26,18 @@ class  SPRequest extends Component {
 
   cardColorByStatus(status) {
     switch (status) {
-      case "pending":
+      case "Pending":
         return "warning-color";
-      case "read":
+      case "Read":
         return "info-color";
-      case "approved":
+      case "Approved":
         return "success-color";
     }
+  }
+
+  dateAsString(date) {
+    const myDate = new Date(date);
+    return `${myDate.getDate()}-${myDate.getMonth()}-${myDate.getFullYear()}`
   }
 
   render() {
@@ -44,7 +50,7 @@ class  SPRequest extends Component {
             --
           </MDBCardText>
           </MDBCardBody>
-        <MDBCardFooter color={this.cardColorByStatus(this.props.status)}>2 days ago</MDBCardFooter>
+        <MDBCardFooter color={this.cardColorByStatus(this.props.status)}>{this.dateAsString(this.props.createdDate)}</MDBCardFooter>
       </MDBCard>
     );
   }

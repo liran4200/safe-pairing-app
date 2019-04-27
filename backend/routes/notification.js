@@ -31,7 +31,7 @@ router.get('/', async (req, res ) => {
         .limit(pageSize)
         .populate('senderId','firstName lastName email')
         .populate('receiverId','firstName lastName email')
-        .select( {status: 1, receiverId: 1, senderId: 2, type: 1} );
+        .select( {status: 1, receiverId: 1, senderId: 2, type: 1, createdDate: 1} );
 
     res.send(notifications);
 });
@@ -59,11 +59,15 @@ router.post('/', async (req, res) => {
             .replace("<username>", fullName)
             .replace("<status>", notification.status);
     const subject = mailOptions.matchingRequest.MATCHING_REQUEST_SUBJECT.replace("<status>", notification.status);
+<<<<<<< HEAD
     sendMail(
         notification.receiverId.email, 
         subject, 
         '',
         html);
+=======
+    // sendMail(notification.senderId.email, subject, body);
+>>>>>>> develop
 
     //push notification.
     target = connections.getConenction(notification.receiverId);
@@ -97,11 +101,13 @@ router.put('/status/:id', async (req, res) => {
     console.debug(html);
     const subject = mailOptions.matchingRequest.MATCHING_REQUEST_SUBJECT.replace("<status>", notification.status);
     console.debug(subject);
+
     sendMail(
         user.email, 
         subject, 
         '',
         html);
+
 
     //push notification
     target = connections.getConenction(req.body.senderId);
