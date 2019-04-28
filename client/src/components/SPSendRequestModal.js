@@ -49,7 +49,7 @@ render() {
                   aria-describedby="inputGroupFileAddon01"
                 />
                 <label className="custom-file-label" htmlFor="inputGroupFile01">
-                  Choose file
+                  Choose your DNA file
                 </label>
               </div>
             </div>
