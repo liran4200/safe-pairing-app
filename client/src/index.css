@@ -25,3 +25,7 @@ code {
 .card-footer {
   display: block!important;
 }
+
+.input-group {
+  padding-top: 20px!important;
+}

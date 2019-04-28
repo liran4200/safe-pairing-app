@@ -68,7 +68,7 @@ render() {
             </div>
           </MDBModalBody>
           <MDBModalFooter>
-            <MDBBtn color="info" onClick={() => {this.toggle()}}>confirm</MDBBtn>
+            <MDBBtn color="info" onClick={() => {this.toggle()}}>Approve</MDBBtn>
           </MDBModalFooter>
         </MDBModal>
       </div>
