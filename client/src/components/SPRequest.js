@@ -37,7 +37,7 @@ class  SPRequest extends Component {
 
   dateAsString(date) {
     const myDate = new Date(date);
-    return `${myDate.getDate()}-${myDate.getMonth()}-${myDate.getFullYear()}`
+    return `${myDate.getDate()}-${myDate.getMonth()}-${myDate.getFullYear()}, ${myDate.getHours()}:${myDate.getMinutes()}`
   }
 
   render() {
