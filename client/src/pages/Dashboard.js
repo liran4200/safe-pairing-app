@@ -124,7 +124,7 @@ export default class extends React.Component {
                                 </NavItem>
                                 <NavItem eventKey="notifications">
                                     <NavIcon>
-                                        <i className="fa fa-rss" style={{ fontSize: '1.75em' }} />
+                                        <i className="fa fa-bell" style={{ fontSize: '1.75em' }} />
                                     </NavIcon>
                                     <NavText>
                                         Notifications
