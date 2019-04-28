@@ -17,3 +17,11 @@ code {
 .sidenav---sidenav---_2tBP {
   background: #068CCB!important;
 }
+
+.card-header {
+  display: block!important;
+}
+
+.card-footer {
+  display: block!important;
+}
