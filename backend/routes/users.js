@@ -3,10 +3,11 @@ const validateObjectId = require('../middleware/validateObjectId');
 const auth = require('../middleware/auth');
 const multiplyLocalHost = require('../middleware/multiplyLocalHost');
 const sendMail = require('../utils/sendMail');
+const {mailOptions} = require('../utils/constants');
 const randomatic = require('randomatic');
 const bcrypt = require('bcrypt');
 const _ = require('lodash');
-const { User, validate } = require('../models/user');
+const { User, validate, getFullName } = require('../models/user');
 const express = require('express');
 const router = express.Router();
 
@@ -116,7 +117,13 @@ router.post('/register', async (req, res) => {
     await user.save();
 
     // send mail
-    sendMail(user.email,"Email Confirmation", `Thanks for registerd to SafePairing,\nIn order to complete the registration, please confirm the code bellow:\n${user.code}`);
+    const body = mailOptions.emailConfirm.EMAIL_CONFIRMATION_BODY.replace("<code>", user.code);
+    sendMail(
+        user.email, 
+        mailOptions.emailConfirm.EMAIL_CONFIRMATION_SUBJECT,
+        '',
+        body.replace("<username>", getFullName(user))
+    );
 
     res.status(200).send( _.pick(user, ['_id','code']));
 });

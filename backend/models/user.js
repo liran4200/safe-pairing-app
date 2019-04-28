@@ -54,7 +54,8 @@ function validateUser(user) {
 }
 
 function getFullName(user) {
-    return user.firstName + user.lastName;
+    return user.firstName.charAt(0).toUpperCase() + user.firstName.slice(1)+" "+ 
+           user.lastName.charAt(0).toUpperCase() + user.lastName.slice(1);
 }
 
 exports.User = User;
