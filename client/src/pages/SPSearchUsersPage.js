@@ -63,7 +63,7 @@ class SPSearchUserPage extends Component {
           debounceTimeout={700}
           type="text"
           className="input"
-          placeholder="Search users..."
+          placeholder="Find your matching partner..."
           onChange={this.handleChange}
         />
         <SPUsersList users={this.state.users} sendRequest={this.sendRequest} />
