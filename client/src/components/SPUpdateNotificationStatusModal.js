@@ -26,13 +26,13 @@ componentWillReceiveProps(newProps) {
 }
 
 render() {
-  if (this.props.type === 'read') {
+  if (this.props.type === 'Read') {
     return (
       <div>
         <MDBModal isOpen={this.state.isOpen} toggle={() => {this.toggle()}}>
           <MDBModalHeader toggle={() => {this.toggle()}}>Yes!</MDBModalHeader>
           <MDBModalBody>
-            You've updates the matching request status to "read"
+            You've updates the matching request status to "Read"
           </MDBModalBody>
           <MDBModalFooter>
             <MDBBtn color="info" onClick={() => {this.toggle()}}>Ok, Got it</MDBBtn>
@@ -40,13 +40,13 @@ render() {
         </MDBModal>
       </div>
     );
-  } else {
+  } else if (this.props.type === 'Approved'){
     return (
       <div>
         <MDBModal isOpen={this.state.isOpen} toggle={() => {this.toggle()}}>
           <MDBModalHeader toggle={() => {this.toggle()}}>Yes!</MDBModalHeader>
           <MDBModalBody>
-            You've updates the matching request status to "approved" <br></br>
+            You've updates the matching request status to "Approved" <br></br>
             Upload your DNA file and confirm
             <div className="input-group">
               <div className="input-group-prepend">
@@ -73,6 +73,8 @@ render() {
         </MDBModal>
       </div>
     );
+  } else {
+    return null;
   }
 }
 

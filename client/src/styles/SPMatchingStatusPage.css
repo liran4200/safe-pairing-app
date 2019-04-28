@@ -3,12 +3,3 @@
   display: flex;
   justify-content: flex-start;
 }
-
-.request-status-pending {
-  background-color: pink;
-}
-
-.request-status-read {
-  background-color: blue;
-  color: white;
-}

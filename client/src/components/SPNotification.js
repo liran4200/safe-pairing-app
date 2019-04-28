@@ -4,7 +4,7 @@ import { updateNotificationStatus } from '../serverCalls/NotificationAPI';
 import SPUpdateNotificationStatusModal from './SPUpdateNotificationStatusModal.js';
 
 const SPNotification = (props) => {
-  if (props.requestStatus === 'pending') {
+  if (props.requestStatus === 'Pending') {
     return(
       <MDBContainer>
         <MDBCard border="info" style={{ marginTop: "1rem"}} className="text-center w-75 mx-auto">

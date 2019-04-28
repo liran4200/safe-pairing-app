@@ -1,12 +1,12 @@
 const types = {
-    MATCHING_REQUEST: "matching-request" 
+    MATCHING_REQUEST: "matching-request"
 }
 
 const status = {
-    PENDING:  "pending",
-    READ:     "read",
-    APPROVED: "approved",
-    CANCELED: "canceled"
+    PENDING:  "Pending",
+    READ:     "Read",
+    APPROVED: "Approved",
+    CANCELED: "Canceled"
 }
 
 const mailOptions = {
