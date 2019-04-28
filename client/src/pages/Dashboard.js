@@ -64,12 +64,12 @@ export default class extends React.Component {
      notify = (type) => {
       switch (type) {
         case 'notify':
-          toast.info(`${this.state.userNameNotified} sent you a matching request, you can manage it through the notifications page`, {
+          toast.success(`${this.state.userNameNotified} sent you a matching request, you can manage it through the notifications page`, {
             autoClose: 7000
           });
           break;
         case 'updateStatus':
-          toast.info(`${this.state.userNameNotified} just updated the status of your matching request to - "${this.state.updatedStatus}"`, {
+          toast.success(`${this.state.userNameNotified} just updated the status of your matching request to - "${this.state.updatedStatus}"`, {
             autoClose: 7000
           });
           break;
