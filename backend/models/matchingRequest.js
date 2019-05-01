@@ -3,15 +3,15 @@ const Joi = require('joi');
 const mongoose = require('mongoose');
 Joi.objectId = require('joi-objectid')(Joi);
 
-const notificationSchema =  new mongoose.Schema({
-    ownerId: {
+const matchingRequestSchema =  new mongoose.Schema({
+    senderId: {
         type: mongoose.Types.ObjectId,
         ref: 'User',
         required: true
     },
-    matchingRequestId: {
+    receiverId: {
         type: mongoose.Types.ObjectId,
-        ref: 'MatchingRequest',
+        ref: 'User',
         required: true
     },
     type: {
@@ -21,24 +21,28 @@ const notificationSchema =  new mongoose.Schema({
     },
     status: {
         type: String,
-        default: constants.status.NOTIFICATION_NEW
+        default: "Pending"
     },
-    lastUpdateDate: {
+    createdDate: {
         type: Date,
         default: Date.now()
+    },
+    evaluation: {
+      type: String,
+      default: "No results yet"
     }
 });
 
-const Notification = mongoose.model('Notification', notificationSchema);
+const MatchingRequest = mongoose.model('matchingRequest', matchingRequestSchema);
 
-function validateNotification(notification) {
+function validateMatchingRequest(matchingRequest) {
     const schema = {
-      ownerId: Joi.objectId(),
-      matchingRequestId: Joi.objectId(),
+      receiverId: Joi.objectId(),
+      senderId: Joi.objectId(),
       type: Joi.string().max(20).required().valid(Object.values(constants.types)),
       status: Joi.string().valid(Object.values(constants.status))
     };
-    return Joi.validate(notification, schema);
+    return Joi.validate(matchingRequest, schema);
 }
 
 function validateStatus(status) {
@@ -49,7 +53,7 @@ function validateType(type) {
     return Object.values(constants.types).includes(type);
 }
 
-exports.Notification = Notification;
-exports.validate = validateNotification;
+exports.MatchingRequest = MatchingRequest;
+exports.validate = validateMatchingRequest;
 exports.validateType = validateType;
 exports.validateStatus = validateStatus;
