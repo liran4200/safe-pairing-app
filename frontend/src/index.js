@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-// import Index from './pages/index';
-import Index from './pages/SPSearchUserPage.js';
+import Index from './pages/index';
 
 ReactDOM.render(<Index />, document.getElementById('root'));
