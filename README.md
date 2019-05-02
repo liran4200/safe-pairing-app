@@ -17,7 +17,7 @@ Make sure Docker and Node.js are installed
 * Install Docker: https://docs.docker.com/docker-for-mac/install/
 * Install Node.js: https://nodejs.org/en/
 
-The DApp and eosio will occupy the ports 3000, 8899 and 9876. Make sure nothing else is already running on these ports.
+The DApp and eosio will occupy the ports 3000, 8888 and 9876. Make sure nothing else is already running on these ports.
 
 Clone the repository:
 ```sh
@@ -226,7 +226,7 @@ Run container from `eosio-notechain` image by mounting contracts / scripts to th
 The init_blockchain.sh script run the local node of the blockchain and initializes wallets / contract / data.
 ```sh
 docker run --rm --name eosio_notechain_container \
--p 8899:8899 -p 9876:9876 \
+-p 8888:8888 -p 9876:9876 \
 --mount type=bind,src="$(pwd)"/contracts,dst=/opt/eosio/bin/contracts \
 --mount type=bind,src="$(pwd)"/scripts,dst=/opt/eosio/bin/scripts \
 --mount type=bind,src="$(pwd)"/data,dst=/mnt/dev/data \

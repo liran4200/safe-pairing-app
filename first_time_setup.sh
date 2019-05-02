@@ -32,7 +32,7 @@ fi
 # force remove the perivous container if any
 # create a clean data folder in eosio_docker to preserve block data
 echo "=== setup/reset data for eosio_docker ==="
-docker rm --force eosio_safepairing_container
+docker rm --force eosio_notechain_container
 rm -rf "./eosio_docker/data"
 mkdir -p "./eosio_docker/data"
 
