@@ -14,10 +14,15 @@ const notificationSchema =  new mongoose.Schema({
         ref: 'MatchingRequest',
         required: true
     },
+    matchingRequestStatus: {
+      type: String,
+      required: true,
+      ref: 'MatchingRequest'
+    },
     type: {
         type: String,
-        maxlength: 20,
-        require: true
+        required: true,
+        default: constants.types.NEW_MATCHING_NOTIFICATION
     },
     status: {
         type: String,

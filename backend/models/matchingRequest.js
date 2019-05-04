@@ -33,7 +33,7 @@ const matchingRequestSchema =  new mongoose.Schema({
     }
 });
 
-const MatchingRequest = mongoose.model('matchingRequest', matchingRequestSchema);
+const MatchingRequest = mongoose.model('MatchingRequest', matchingRequestSchema);
 
 function validateMatchingRequest(matchingRequest) {
     const schema = {
