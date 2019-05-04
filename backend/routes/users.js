@@ -81,21 +81,21 @@ router.get('/:id', validateObjectId, async (req, res ) => {
 
 
 router.post('/register', async (req, res) => {
-    const {error} = validate(req.body);
+    const {error} = validate(_.pick(req.body, ['firstName','lastName','email','password','publicKey','eosAcc']));
     if(error) {
         return res.status(400).send(error.details[0].message);
     }
-    // checking user already registerd
+    //checking user already registerd
     let user = await User.findOne({ email: req.body.email });
     if(user)
         return res.status(400).send('User already registered');
 
-    let accName = req.body.email.split('@')[0];
+    let accName = (req.body.firstName+req.body.lastName).toLowerCase();
     if(accName.length > 12)
         accName = accName.slice(0,12);
     req.body['eosAcc'] = accName;
     try{
-        await eosActions.createNewAccount(accName, req.body.publicKey);
+        //await eosActions.createNewAccount(accName, req.body.publicKey);
     }catch(e) {
         console.log(e);
         if(e && e.json && e.json.code)
