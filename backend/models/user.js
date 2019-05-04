@@ -26,6 +26,10 @@ const userSchema =  new mongoose.Schema({
         minlength: 5,
         require: true
     },
+    publicKey: {
+        type: String,
+        require: true
+    },
     isActive: {
         type: Boolean,
         default: false
@@ -48,7 +52,8 @@ function validateUser(user) {
       firstName: Joi.string().min(2).max(50).required(),
       lastName: Joi.string().min(2).max(50).required(),
       email: Joi.string().email().required(),
-      password: Joi.string().min(5).required()
+      password: Joi.string().min(5).required(),
+      publicKey: Joi.string().required()
     };
     return Joi.validate(user, schema);
 }
