@@ -32,7 +32,7 @@ fi
 # force remove the perivous container if any
 # create a clean data folder in eosio_docker to preserve block data
 echo "=== setup/reset data for eosio_docker ==="
-docker rm --force eosio_notechain_container
+docker rm --force eosio_safepairing_container
 rm -rf "./eosio_docker/data"
 mkdir -p "./eosio_docker/data"
 
@@ -40,4 +40,10 @@ mkdir -p "./eosio_docker/data"
 echo "=== npm install package for frontend react app ==="
 # change directory to ./frontend
 cd "$SCRIPTPATH/frontend"
+npm install
+
+# set up node_modules for backend
+echo "=== npm install package for backend node app ==="
+# change directory to ./frontend
+cd "$SCRIPTPATH/backend"
 npm install

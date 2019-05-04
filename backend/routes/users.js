@@ -90,11 +90,12 @@ router.post('/register', async (req, res) => {
     if(user)
         return res.status(400).send('User already registered');
 
-    const accName = req.body.email.split('@')[0];
+    let accName = req.body.email.split('@')[0];
+    if(accName.length > 12)
+        accName = accName.slice(0,12);
+    req.body['eosAcc'] = accName;
     try{
         await eosActions.createNewAccount(accName, req.body.publicKey);
-        const result = await eosActions.getMatching();
-        console.log(result);
     }catch(e) {
         console.log(e);
         if(e && e.json && e.json.code)
@@ -102,7 +103,7 @@ router.post('/register', async (req, res) => {
         return res.status(400).send(JSON.stringify(e));
     } 
 
-    user = new User(_.pick(req.body, ['firstName','lastName','email','password','publicKey']));
+    user = new User(_.pick(req.body, ['firstName','lastName','email','password','publicKey','eosAcc']));
     const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(user.password, salt);
 

@@ -30,9 +30,14 @@ const userSchema =  new mongoose.Schema({
         type: String,
         require: true
     },
+    eosAcc: {
+        type: String,
+        require: true,
+    },
     isActive: {
         type: Boolean,
-        default: false
+        default: false,
+        maxlength: 12
     },
     code: {
         type: Number,

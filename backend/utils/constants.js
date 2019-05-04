@@ -65,7 +65,7 @@ const eosActionsTypes = {
 
 const eosAccounts = {
     EOSIO_ACC: 'eosio',
-    SAFE_PAIRING_ACC: 'notechainacc'
+    SAFE_PAIRING_ACC: 'spacc'
 }
 
 module.exports = {

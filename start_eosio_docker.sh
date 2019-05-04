@@ -14,7 +14,7 @@ else
 fi
 
 echo "=== run docker container from the $DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG image ==="
-docker run --rm --name eosio_notechain_container -d \
+docker run --rm --name eosio_safepairing_container -d \
 -p 8888:8888 -p 9876:9876 \
 --mount type=bind,src="$(pwd)"/contracts,dst=/opt/eosio/bin/contracts \
 --mount type=bind,src="$(pwd)"/scripts,dst=/opt/eosio/bin/scripts \
@@ -23,6 +23,6 @@ docker run --rm --name eosio_notechain_container -d \
 
 if [ "$1" != "--nolog" ]
 then
-    echo "=== follow eosio_notechain_container logs ==="
-    docker logs eosio_notechain_container --follow
+    echo "=== follow eosio_safepairing_container logs ==="
+    docker logs eosio_safepairing_container --follow
 fi
