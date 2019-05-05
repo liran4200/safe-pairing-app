@@ -10,7 +10,8 @@ const status = {
     APPROVED: "Approved",
     CANCELED: "Canceled",
     NOTIFICATION_NEW: "new",
-    NOTIFICATION_READ: "read"
+    NOTIFICATION_READ: "Read",
+    NOTIFICATION_APPROVED: "Approved"
 }
 
 const mailOptions = {

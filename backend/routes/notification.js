@@ -26,9 +26,10 @@ router.get('/:ownerId', async (req, res ) => {
     }
 
     const notifications = await Notification
-        .find( { ownerId: req.params.ownerId })
+        .find( { ownerId: req.params.ownerId } )
         .skip((pageNumber-1) * pageSize)
         .limit(pageSize)
+        .sort( { lastUpdateDate: 'desc' } )
         .populate({
           path: 'matchingRequestId',
           populate: {
@@ -45,9 +46,28 @@ router.get('/:ownerId', async (req, res ) => {
               select: 'firstName lastName email'
             }
         })
-        .select( {status: 1, type: 1, createdDate: 1, matchingRequestStatus: 1} );
+        .select( {status: 1, type: 1, createdDate: 1, matchingRequestStatus: 1, ownerId: 1, lastUpdateDate: 1} );
 
     res.send(notifications);
+});
+
+router.put('/status/:id', async (req, res) => {
+    if(!validateStatus(req.body.status)){
+        return res.status(400).send("Status is not exists");
+    }
+    let notification = await Notification.findByIdAndUpdate(req.params.id, {status: req.body.status }, {
+        new: true
+    });
+    if(!notification) res.status(404).send("Matching request not found");
+
+    const user = await User.findById(req.body.ownerId);
+    if(!user) {
+        res.status(404).send("User not found");
+    }
+    console.log(user);
+    notification = _.pick(notification, ['_id', 'ownerId', 'status']);
+
+    res.status(200).send(notification);
 });
 
 module.exports = router;

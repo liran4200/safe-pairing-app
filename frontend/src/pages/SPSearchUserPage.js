@@ -4,7 +4,7 @@ import SPUsersList from '../components/SPUsersList.js';
 import '../styles/SPSearchUserPage.css';
 import {DebounceInput} from 'react-debounce-input';
 import { searchUser } from '../serverCalls/UsersAPI.js'
-import { sendNotification } from '../serverCalls/NotificationAPI';
+import { sendMatchingRequest } from '../serverCalls/matchingRequestAPI.js';
 
 class SPSearchUserPage extends Component {
   constructor(props) {
@@ -18,7 +18,7 @@ class SPSearchUserPage extends Component {
 
   async sendRequest(user) {
     //TODO change 'aaa' in a real token
-    let res = await sendNotification('aaa', '5cb6c2f7262b2c2779d0da13', user.userId);
+    let res = await sendMatchingRequest('aaa', '5cb6c2f7262b2c2779d0da13', user.userId);
     //what to do with res.id? should store notifications id's?
   }
 
@@ -37,9 +37,9 @@ class SPSearchUserPage extends Component {
 
   render() {
     return (
-      <div className="content">
-        <div className="container">
-          <section className="section">
+      <div className="user-search-page-content">
+        <div className="user-search-container">
+          <section className="user-search-section">
             <DebounceInput
               debounceTimeout={700}
               type="text"

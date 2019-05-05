@@ -23,11 +23,16 @@ class SPNotificationsList extends Component {
         <div className="d-flex flex-row flex-wrap mx-auto">
           {this.state.notificationsList.map(notification => (
               <SPNotification
+                ownerId={notification.ownerId}
+                type={notification.type}
                 senderUser={notification.senderUser}
                 receiverUser={notification.receiverUser}
-                requestStatus={notification.status}
-                markAsRead={() => this.props.updateNotificationStatus('aaa', notification.notificationId, '5cb6c2f7262b2c2779d0da13', notification.senderId, 'Read')}
-                approveMatchingRequest={() => this.props.updateNotificationStatus('aaa', notification.notificationId, '5cb6c2f7262b2c2779d0da13', this.props.senderId, 'Approved')}
+                requestStatus={notification.matchingRequestStatus}
+                notificationStatus={notification.status}
+                updateDate={notification.updateDate}
+                markAsRead={() => this.props.updateMatchingRequestStatus('aaa', notification.matchingRequestId, notification.receiverUser._id, notification.senderUser._id, 'Read', notification.notificationId)}
+                approveMatchingRequest={() => this.props.updateMatchingRequestStatus('aaa', notification.matchingRequestId, notification.receiverUser._id, notification.senderUser._id, 'Approved', notification.notificationId)}
+                markNotificationAsRead={() => this.props.updateNotificationStatus('aaa', notification.notificationId, notification.receiverUser._id, 'Read')}
               />
           ))}
         </div>
