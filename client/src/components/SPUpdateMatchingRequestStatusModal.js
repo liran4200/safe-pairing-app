@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { MDBContainer,MDBBtn, MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter } from 'mdbreact';
 
-class SPUpdateNotificationStatusModal extends Component {
+class SPUpdateMatchingRequestStatusModal extends Component {
 
 constructor(props) {
     super(props);
@@ -80,4 +80,4 @@ render() {
 
 }
 
-export default SPUpdateNotificationStatusModal;
+export default SPUpdateMatchingRequestStatusModal;

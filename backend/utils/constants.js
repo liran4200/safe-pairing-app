@@ -1,12 +1,17 @@
 const types = {
-    MATCHING_REQUEST: "matching-request"
+    MATCHING_REQUEST: "matching-request",
+    NEW_MATCHING_NOTIFICATION: "new-matching-notification",
+    UPDATE_MATCHING_NOTIFICATION: "update-matching-notification",
 }
 
 const status = {
     PENDING:  "Pending",
     READ:     "Read",
     APPROVED: "Approved",
-    CANCELED: "Canceled"
+    CANCELED: "Canceled",
+    NOTIFICATION_NEW: "new",
+    NOTIFICATION_READ: "Read",
+    NOTIFICATION_APPROVED: "Approved"
 }
 
 const mailOptions = {

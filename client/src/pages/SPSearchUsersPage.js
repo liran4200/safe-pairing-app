@@ -5,7 +5,7 @@ import '../styles/SPSearchUserPage.css';
 import {DebounceInput} from 'react-debounce-input';
 import { MDBContainer, MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter, MDBBtn } from "mdbreact";
 import { searchUser } from '../serverCalls/UsersAPI.js'
-import { sendNotification } from '../serverCalls/NotificationAPI';
+import { sendMatchingRequest } from '../serverCalls/matchingRequestAPI.js';
 
 class SPSearchUserPage extends Component {
   constructor(props) {
@@ -22,7 +22,7 @@ class SPSearchUserPage extends Component {
 
    async sendRequest(user) {
     //TODO change 'aaa' in a real token
-    let res = await sendNotification('aaa', '5cb6c2f7262b2c2779d0da13', user.userId);
+    let res = await sendMatchingRequest('aaa', '5cb6c2f7262b2c2779d0da13', user.userId);
     if (res) {
       this.setState({
         modal: true,

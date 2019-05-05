@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import 'bulma';
 import SPRequestsList from '../components/SPRequestsList.js';
-import { getNotifications } from '../serverCalls/NotificationAPI';
+import { getMatchingRequests } from '../serverCalls/matchingRequestAPI.js';
 import { MDBBadge } from "mdbreact";
 import '../styles/SPMatchingStatusPage.css';
 
@@ -16,7 +16,7 @@ class SPMatchingStatusPage extends Component {
 
   async componentDidMount() {
     //TODO update token
-    let requestsList = await getNotifications('aaa');
+    let requestsList = await getMatchingRequests('aaa', '5cb6c2f7262b2c2779d0da13');
     this.setState({
       matchingRequestsList: requestsList
     });
