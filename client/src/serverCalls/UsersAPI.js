@@ -28,7 +28,7 @@ export const searchUser = async (searchText, token) => {
       console.log("error in searchUser call")
       console.log(error)
       console.log(JSON.stringify(error))
-      throw "an error as occured while searching for a user"
+      throw new Error("an error as occured while searching for a user");
   }
 }
 
@@ -60,7 +60,7 @@ export const getUserById = async (id, token) => {
       console.log("error in getUserById call")
       console.log(error)
       console.log(JSON.stringify(error))
-      throw "an error as occured while searching for a user"
+      throw new Error("an error as occured while searching for a user");
   }
 }
 
@@ -81,5 +81,21 @@ export const confirmUser = async (id,code) => {
     console.log(res);
   }catch(error) {
 
+  }
+}
+
+export const getCurrentUser = async (token) => {
+  try {
+    const url = BASE_URL + '/me';
+    const headers ={
+      'Content-Type': 'application/json',
+      'x-auth-token': token
+    };
+    const res = await axios.get(url, {headers});
+    return res.data;
+  } catch (error) {
+      console.log(error)
+      console.log(JSON.stringify(error))
+      throw new Error("error in getCurrentUser");
   }
 }

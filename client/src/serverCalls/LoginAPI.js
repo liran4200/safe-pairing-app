@@ -10,7 +10,7 @@ export const login = async (credentials) => {
                 'Content-Type': 'application/json'
             }
         });
-        console.log(res.data);
+        return res.data;
     }
     catch(error) {
         console.error(error);

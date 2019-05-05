@@ -5,8 +5,6 @@ import '@trendmicro/react-sidenav/dist/react-sidenav.css';
 import Breadcrumbs from '@trendmicro/react-breadcrumbs';
 import { Button, ButtonGroup } from '@trendmicro/react-buttons';
 import Dropdown, { MenuItem } from '@trendmicro/react-dropdown';
-import SignIn from '../components/SignIn';
-import SignUp from '../components/SignUp';
 import SPSearchUsersPage from './SPSearchUsersPage';
 import SPMatchingStatusPage from './SPMatchingStatusPage';
 import SPNotificationsPage from './SPNotificationsPage';

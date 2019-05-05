@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link} from 'react-router-dom'
+import {Link, Redirect} from 'react-router-dom'
 import {login} from '../serverCalls/LoginAPI';
 import {
   MDBRow,
@@ -19,12 +19,12 @@ class SignIn extends React.Component {
     super(props);
     this.state = {
         email: '',
-        password: ''
+        password: '',
+        shouldRedirect: false
     };
 
   }
-
-
+  
   handleChange = (event) => {
     this.setState({
       [event.target.name]: event.target.value
@@ -36,18 +36,24 @@ class SignIn extends React.Component {
     return re.test(String(email).toLowerCase());
   }
 
-  submitHandler = (event) => {
+  submitHandler = async (event) => {
     event.preventDefault();
     event.target.className += " was-validated";
-    console.log(this.state);
-    login({
+    const token =await login({
       email: this.state.email,
       password: this.state.password
     });
-
-  }
+     this.setState({
+       shouldRedirect: true
+     });
+     localStorage.setItem('token',token);
+     this.props.onLoggedIn();
+    }
 
   render(){
+    if(this.state.shouldRedirect)
+        return <Redirect to="/dashboard"/>
+    else
       return (
         <MDBRow className="d-flex justify-content-center">
           <MDBCol md="4">

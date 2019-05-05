@@ -1,8 +1,9 @@
 import React from 'react';
 import {Link, Redirect} from 'react-router-dom'
-import {registerUser, confirmUser} from '../serverCalls/UsersAPI';
-import ConfirmEmailModal from './ConfirmEmailModal/ConfirmEmailModal';
-import GenerateKeysModal from './GenerateKeysModal/GenerateKeysModal';
+import {registerUser, confirmUser} from '../../serverCalls/UsersAPI';
+import './SignUp.css';
+import ConfirmEmailModal from '../ConfirmEmailModal/ConfirmEmailModal';
+import GenerateKeysModal from '../GenerateKeysModal/GenerateKeysModal';
 import {MDBCardHeader,MDBIcon,MDBModalFooter, MDBRow, MDBCol, MDBInput, MDBBtn, MDBCard, MDBCardBody } from 'mdbreact';
 
 class SignUp extends React.Component {
@@ -176,7 +177,7 @@ class SignUp extends React.Component {
                           onChange={this.handleChange}
                         />  
                       <div className="text-center py-4 mt-3">
-                          <MDBBtn size="sm" color="info" onClick={this.onClickGenerate}>
+                          <MDBBtn className="btn btn-info Ripple-parent btn-block" color="info" onClick={this.onClickGenerate}>
                               Generate keys
                           </MDBBtn>
                         </div>

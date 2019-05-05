@@ -1,6 +1,5 @@
 import React from "react";
 import './HomePage.css';
-import {Redirect} from 'react-router-dom';
 import Background from '../../images/background_image.jpg';
 import { MDBRow,
   MDBCol, MDBIcon,
@@ -21,24 +20,20 @@ class HomePage extends React.Component{
    constructor(props) {
      super(props);
      this.state = {
-       shouldRediret: false,
        to: ""
      }  
 
    }
 
-
     handleClick = (to) => {
       console.log(this.props);
-      this.props.history.push(to);
+      this.props.history.push({
+        pathname: to,
+        state: this.props.onLoggedIn
+      });
     }
 
    render(){
-      if(this.state.shouldRedirect){
-        return <Redirect to={`/${this.state.to}`}/>
-      }
-      else
-      {
       return(
         <div style={backgroundHome}>
         <MDBContainer className="px-md-3 px-sm-0">
@@ -69,7 +64,7 @@ class HomePage extends React.Component{
       </div> 
       );
     }
-  }
+  
 
 }
 

@@ -5,3 +5,7 @@
 .navbar-brand, .navbar-tabs{
     min-height: 2.25rem;
 }
+
+.navbar-nav.ml-auto{
+    margin-left: 0px!important;
+}
