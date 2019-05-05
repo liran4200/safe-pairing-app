@@ -13,7 +13,7 @@ until $(curl --output /dev/null \
              --silent \
              --head \
              --fail \
-             localhost:8899/v1/chain/get_info)
+             localhost:8888/v1/chain/get_info)
 do
   echo "Waiting eosio blockchain to be started..."
   sleep 2s

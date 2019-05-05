@@ -41,3 +41,9 @@ echo "=== npm install package for frontend react app ==="
 # change directory to ./frontend
 cd "$SCRIPTPATH/frontend"
 npm install
+
+# set up node_modules for backend
+echo "=== npm install package for backend node app ==="
+# change directory to ./frontend
+cd "$SCRIPTPATH/backend"
+npm install

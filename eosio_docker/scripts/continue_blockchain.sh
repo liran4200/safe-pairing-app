@@ -13,13 +13,13 @@ set -m
 # start nodeos ( local node of blockchain )
 # run it in a background job such that docker run could continue
 nodeos -e -p eosio -d /mnt/dev/data \
-  --config-dir /mnt/dev/config \
+  --config-dir /opt/eosio/bin/scripts \
   --hard-replay \
   --http-validate-host=false \
   --plugin eosio::producer_plugin \
   --plugin eosio::chain_api_plugin \
   --plugin eosio::http_plugin \
-  --http-server-address=0.0.0.0:8899 \
+  --http-server-address=0.0.0.0:8888 \
   --access-control-allow-origin=* \
   --contracts-console \
   --verbose-http-errors

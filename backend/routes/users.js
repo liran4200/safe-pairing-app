@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const validateObjectId = require('../middleware/validateObjectId');
 const auth = require('../middleware/auth');
 const multiplyLocalHost = require('../middleware/multiplyLocalHost');
+const eosActions = require('../eosActions/actions');
 const sendMail = require('../utils/sendMail');
 const {mailOptions} = require('../utils/constants');
 const randomatic = require('randomatic');
@@ -23,25 +24,6 @@ router.get('/me',auth, async (req, res ) => {
     }
     res.status(200).send(_.pick(user, ['_id', 'firstName', 'lastName', 'email']) );
 });
-
-/* currently not in use.
-router.get('/', async (req, res ) => {
-    const pageNumber =  parseInt(req.query.pageNumber);
-    const pageSize =   parseInt(req.query.pageSize);
-
-    if( !pageNumber || !pageSize || pageNumber < 1 ) {
-        return res.status(400).send("Invalid pageNumber or pageSize");
-    }
-
-    const users = await User
-        .find()
-        .skip((pageNumber-1) * pageSize)
-        .limit(pageSize)
-        .select({ _id: 1, firstName: 1, lastName: 1, email: 1});
-
-    res.send(users);
-});
-*/
 
 router.get('/search/', async ( req, res) => {
     const pageNumberDefault = 1;
@@ -103,13 +85,25 @@ router.post('/register', async (req, res) => {
     if(error) {
         return res.status(400).send(error.details[0].message);
     }
-
     // checking user already registerd
     let user = await User.findOne({ email: req.body.email });
     if(user)
         return res.status(400).send('User already registered');
 
-    user = new User(_.pick(req.body, ['firstName','lastName','email','password']));
+    let accName = req.body.email.split('@')[0];
+    if(accName.length > 12)
+        accName = accName.slice(0,12);
+    req.body['eosAcc'] = accName;
+    try{
+        await eosActions.createNewAccount(accName, req.body.publicKey);
+    }catch(e) {
+        console.log(e);
+        if(e && e.json && e.json.code)
+            return res.status(e.code).send(e);
+        return res.status(400).send(JSON.stringify(e));
+    } 
+
+    user = new User(_.pick(req.body, ['firstName','lastName','email','password','publicKey','eosAcc']));
     const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(user.password, salt);
 
@@ -118,12 +112,12 @@ router.post('/register', async (req, res) => {
 
     // send mail
     const body = mailOptions.emailConfirm.EMAIL_CONFIRMATION_BODY.replace("<code>", user.code);
-    sendMail(
-        user.email, 
-        mailOptions.emailConfirm.EMAIL_CONFIRMATION_SUBJECT,
-        '',
-        body.replace("<username>", getFullName(user))
-    );
+    // sendMail(
+    //     user.email, 
+    //     mailOptions.emailConfirm.EMAIL_CONFIRMATION_SUBJECT,
+    //     '',
+    //     body.replace("<username>", getFullName(user))
+    // );
 
     res.status(200).send( _.pick(user, ['_id','code']));
 });
@@ -146,7 +140,7 @@ router.post('/confirmation/:id',validateObjectId ,async (req, res) => {
     //TODO: remove code field from mongo
     await User.updateOne({_id: user._id}, {$unset: {code: 1 }});
 
-    res.status(200).send(_.pick(user,['_id','firstName','lastName','email','isActive']));
+    res.status(200).send(_.pick(user,['_id','firstName','lastName','email','isActive','publicKey']));
 });
 
 module.exports = router;

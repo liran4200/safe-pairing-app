@@ -13,11 +13,9 @@ import CardContent from '@material-ui/core/CardContent';
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
-import SideNav, { Toggle, Nav, NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav';
-import '@trendmicro/react-sidenav/dist/react-sidenav.css';
 
 // eosio endpoint
-const endpoint = "http://localhost:8899";
+const endpoint = "http://localhost:8888";
 
 // NEVER store private keys in any source code in your real life development
 // This is for demo purposes only!
@@ -70,21 +68,59 @@ class Index extends Component {
 
     // collect form data
     let account = event.target.account.value;
+    let newAcc = event.target.newAcc.value;
+    let newAccPU = event.target.newAccPU.value;
+    let newDNA = event.target.DNA.value;
+    console.log("DNA is :", newDNA);
     let privateKey = event.target.privateKey.value;
-    let note = event.target.note.value;
 
     // prepare variables for the switch below to send transactions
     let actionName = "";
     let actionData = {};
-
+    let contract = 'eosio';
     // define actionName and action according to event type
     switch (event.type) {
+      // case "submit":
+      //   console.log('submit');
+      //   actionName = "newaccount";
+      //   actionData = {
+      //     creator: account,
+      //     name: newAcc,
+      //     owner: {
+      //       threshold: 1,
+      //       keys: [{
+      //         key: newAccPU,
+      //         weight: 1
+      //       }],
+      //       accounts: [],
+      //       waits: []
+      //     },
+      //     active: {  
+      //       threshold: 1,
+      //       keys: [{
+      //         key: newAccPU,
+      //         weight: 1
+      //       }],
+      //       accounts: [],
+      //       waits: []
+      //     }
+      //   };
+      //   break;
+      // case "submit":
+      //   console.log('SETDNA');
+      //   contract = 'notechainacc';
+      //   actionName = "upsert";
+      //   actionData = {
+      //       user: account,
+      //       dna: newDNA
+      //     }
+      //   break;
       case "submit":
-        actionName = "update";
+        actionName = "getmatching";
+        contract = 'notechainacc';
+        actionName = "getmatching";
         actionData = {
-          user: account,
-          note: note,
-        };
+          }
         break;
       default:
         return;
@@ -97,17 +133,17 @@ class Index extends Component {
     try {
       const result = await api.transact({
         actions: [{
-          account: "notechainacc",
+          account: contract,
           name: actionName,
           authorization: [{
             actor: account,
             permission: 'active',
           }],
-          data: actionData,
+          data: actionData
         }]
       }, {
         blocksBehind: 3,
-        expireSeconds: 30,
+        expireSeconds: 300,
       });
 
       console.log(result);
@@ -162,80 +198,85 @@ class Index extends Component {
 
     return (
       <div>
-            <SideNav
-                style={{ minWidth: expanded ? navWidthExpanded : navWidthCollapsed }}
-                onSelect={this.onSelect}
-                onToggle={this.onToggle}
-            >
-                <Toggle />
-                <NavHeader expanded={expanded}>
-                    <NavTitle>Side Navigation</NavTitle>
-                    <NavSubTitle>Styled Side Navigation</NavSubTitle>
-                </NavHeader>
-                {expanded &&
-                <NavInfoPane>
-                    <div>Time: {this.lastUpdateTime}</div>
-                    <div>User: admin</div>
-                </NavInfoPane>
-                }
-                <Nav
-                    defaultSelected={selected}
-                >
-                    <NavItem eventKey="home">
-                        <NavIcon>
-                            <i className="fa fa-fw fa-home" style={{ fontSize: '1.75em', verticalAlign: 'middle' }} />
-                        </NavIcon>
-                        <NavText style={{ paddingRight: 32 }} title="HOME">
-                            HOME
-                        </NavText>
-                    </NavItem>
-                    <NavItem eventKey="devices">
-                        <NavIcon>
-                            <i className="fa fa-fw fa-line-chart" style={{ fontSize: '1.75em', verticalAlign: 'middle' }} />
-                        </NavIcon>
-                        <NavText style={{ paddingRight: 32 }} title="DEVICES">
-                            DEVICES
-                        </NavText>
-                    </NavItem>
-                    <NavItem eventKey="reports">
-                        <NavIcon>
-                            <i className="fa fa-fw fa-list-alt" style={{ fontSize: '1.75em', verticalAlign: 'middle' }} />
-                        </NavIcon>
-                        <NavText style={{ paddingRight: 32 }} title="REPORTS">
-                            REPORTS
-                        </NavText>
-                    </NavItem>
-                    <NavItem eventKey="settings">
-                        <NavIcon>
-                            <i className="fa fa-fw fa-cogs" style={{ fontSize: '1.5em' }} />
-                        </NavIcon>
-                        <NavText style={{ paddingRight: 32 }} title="SETTINGS">
-                            SETTINGS
-                        </NavText>
-                        <NavItem eventKey="settings/policy">
-                            <NavText title="POLICIES">
-                                POLICIES
-                            </NavText>
-                        </NavItem>
-                        <NavItem eventKey="settings/network">
-                            <NavText title="NETWORK">
-                                NETWORK
-                            </NavText>
-                        </NavItem>
-                    </NavItem>
-                    <Separator />
-                    <NavItem eventKey="logout">
-                        <NavIcon>
-                            <i className="fa fa-fw fa-power-off" style={{ fontSize: '1.5em' }} />
-                        </NavIcon>
-                        <NavText style={{ paddingRight: 32 }} title="SIGN OUT">
-                            SIGN OUT
-                        </NavText>
-                    </NavItem>
-                </Nav>
-            </SideNav>
-        </div>
+        <AppBar position="static" color="default">
+          <Toolbar>
+            <Typography variant="title" color="inherit">
+              Note Chain
+            </Typography>
+          </Toolbar>
+        </AppBar>
+        {noteCards}
+        <Paper className={classes.paper}>
+          <form onSubmit={this.handleFormEvent}>
+            <TextField
+              name="account"
+              autoComplete="off"
+              label="Account"
+              margin="normal"
+              fullWidth
+            />
+             <TextField
+              name="privateKey"
+              autoComplete="off"
+              label="Private key"
+              margin="normal"
+              fullWidth
+            />
+            <TextField
+              name="newAcc"
+              autoComplete="off"
+              label="New Acc Name"
+              margin="normal"
+              fullWidth
+            />
+            <TextField
+              name="newAccPU"
+              autoComplete="off"
+              label="New Acc PU"
+              margin="normal"
+              fullWidth
+            />
 
+            <Button
+              id="1"
+              variant="contained"
+              color="primary"
+              className={classes.formButton}
+              type="submit">
+              Add / Update note
+            </Button>
+            <TextField
+              name="DNA"
+              autoComplete="off"
+              label="DNA"
+              margin="normal"
+              fullWidth
+            />
+            <Button
+              id="2"
+              variant="contained"
+              color="primary"
+              className={classes.formButton}
+              type="submit">
+              setDNA
+            </Button>
+            <Button
+              id="3"
+              variant="contained"
+              color="primary"
+              className={classes.formButton}
+              name="getmatching"
+              type="submit">
+              getMatching
+            </Button>
+          </form>
+        </Paper>
+        <pre className={classes.pre}>
+          Below is a list of pre-created accounts information for add/update note:
+          <br/><br/>
+          accounts = { JSON.stringify(accounts, null, 2) }
+        </pre>
+      </div>
     );
   }
 

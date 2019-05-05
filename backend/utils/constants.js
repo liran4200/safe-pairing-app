@@ -63,8 +63,20 @@ const mailOptions = {
     }
 }
 
+const eosActionsTypes = {
+    NEW_ACCOUNT: "newaccount",
+    GET_MATCHING: "getmatching"
+}
+
+const eosAccounts = {
+    EOSIO_ACC: 'eosio',
+    SAFE_PAIRING_ACC: 'spacc'
+}
+
 module.exports = {
     types,
     status,
-    mailOptions
+    mailOptions,
+    eosActionsTypes,
+    eosAccounts
 };
