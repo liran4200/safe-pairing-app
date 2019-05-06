@@ -9,6 +9,9 @@ constructor(props) {
         isOpen: props.isOpen,
         userToSendTo: ""
     };
+    let fileReader;
+    this.handleFileChosen = this.handleFileChosen.bind(this);
+    this.handleFileRead = this.handleFileRead.bind(this);
 }
 
 toggle = () => {
@@ -27,14 +30,28 @@ componentWillReceiveProps(newProps) {
   }
 }
 
+handleFileRead() {
+  const content = this.fileReader.result;
+  console.log(content);
+  //TODO send content to EOS contract
+}
+
+handleFileChosen(file) {
+  this.fileReader = new FileReader();
+  this.fileReader.onloadend = this.handleFileRead;
+  if (file) {
+      this.fileReader.readAsText(file);
+  }
+}
+
 render() {
   return (
       <div>
         <MDBModal isOpen={this.state.isOpen} toggle={() => {this.toggle()}}>
           <MDBModalHeader toggle={() => {this.toggle()}}>Yes!</MDBModalHeader>
           <MDBModalBody>
-            Youv'e just sent a matching request to {this.state.userToSendTo} <br></br>
-            You can see the matching status in "Matching Statuses" section.
+            You are about to send a matching request to {this.state.userToSendTo} <br></br>
+            Upload your DNA file and you're good to go
             <div className="input-group">
               <div className="input-group-prepend">
                 <span className="input-group-text" id="inputGroupFileAddon01">
@@ -47,6 +64,8 @@ render() {
                   className="custom-file-input"
                   id="inputGroupFile01"
                   aria-describedby="inputGroupFileAddon01"
+                  accept='.DNA'
+                  onChange={e => this.handleFileChosen(e.target.files[0])}
                 />
                 <label className="custom-file-label" htmlFor="inputGroupFile01">
                   Choose your DNA file
@@ -55,7 +74,7 @@ render() {
             </div>
           </MDBModalBody>
           <MDBModalFooter>
-            <MDBBtn color="info" onClick={() => {this.toggle()}}>Ok, Got it</MDBBtn>
+            <MDBBtn color="info" onClick={() => {this.toggle()}}>Send matching request</MDBBtn>
           </MDBModalFooter>
         </MDBModal>
       </div>
