@@ -13,26 +13,26 @@ class SPSearchUserPage extends Component {
     this.state = {
       users: [],
       modal: false,
-      userToSendRequest: ""
+      userToSendRequest: {}
     }
     this.sendRequest = this.sendRequest.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.closeModal = this.closeModal.bind(this);
   }
 
-   async sendRequest(user) {
-    //TODO change 'aaa' in a real token
-    let res = await sendMatchingRequest('aaa', '5cb6c2f7262b2c2779d0da13', user.userId);
-    if (res) {
-      this.setState({
-        modal: true,
-        userToSendRequest: user.firstName + " " + user.lastName
-      });
-    }
-
+  async sendRequest(user) {
+    this.setState({
+      modal: true,
+      userToSendRequest: user
+    });
   }
 
-  closeModal() {
+  async closeModal(didCloseFromCancel) {
+    //if the user closed the modal from cancel button - don't send a matching request
+    if (!didCloseFromCancel) {
+      //TODO change 'aaa' in a real token
+      let res = await sendMatchingRequest('aaa', '5cb6c2f7262b2c2779d0da13', this.state.userToSendRequest.userId);
+    }
     this.setState({
       modal: false
     });
@@ -56,7 +56,7 @@ class SPSearchUserPage extends Component {
       <MDBContainer>
         <SPSendRequestModal
           isOpen={this.state.modal}
-          userToSendTo={this.state.userToSendRequest}
+          userToSendTo={this.state.userToSendRequest.firstName + " " + this.state.userToSendRequest.lastName}
           handleClose={this.closeModal}
         />
         <DebounceInput
