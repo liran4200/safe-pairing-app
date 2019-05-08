@@ -22,6 +22,7 @@ toggle = () => {
 
 handleConfirm = () => {
   this.props.handleConfirm(this.state.code);
+  this.setState({code:""});
 }
 
 componentWillReceiveProps(nextProps) {
@@ -39,10 +40,12 @@ render() {
           <MDBModalHeader toggle={() => {this.toggle()}}>Email Confiramtion</MDBModalHeader>
           <MDBModalBody>
             <div className="form-group">
-                <label htmlFor="code">Your confirmation code:</label>
+                <label htmlFor="code">Confirmation code was sent to your email</label>
                 <input 
                     type="number" 
                     id="code" 
+                    value={this.state.code}
+                    placeholder="code"
                     className="form-control form-control-sm" 
                     onChange={(event)=> {this.setState({code:event.target.value})}}
                  />

@@ -133,7 +133,7 @@ router.post('/confirmation/:id',validateObjectId ,async (req, res) => {
         return res.status(404).send('User not found');
     
     if(req.body.code != user.code)
-        return res.status(400).send('Confirmation code is not matching');
+        return res.status(400).send('Confirmation code is not matching, please try again');
     
     user.isActive = true;
     user.save();

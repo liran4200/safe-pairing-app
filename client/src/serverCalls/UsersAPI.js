@@ -33,17 +33,18 @@ export const searchUser = async (searchText, token) => {
 }
 
 export const registerUser = async (user) => {
+    let res;
     try {
         const url = BASE_URL + '/register'
-        const res = await axios.post(url ,user,{headers: {
+        res = await axios.post(url ,user,{headers: {
             'Content-Type': 'application/json'
         }
     });
         return res.data;
-
     }catch(error) {
-        console.error(error.message);
-        return {error: error.message};
+        console.error(res);
+        console.log(JSON.stringify(error));
+        return {error: error.response.data};
     }
 }
 
@@ -77,11 +78,12 @@ export const confirmUser = async (id,code) => {
         'Content-Type': 'application/json'
       }
     });
-
-    console.log(res);
-  }catch(error) {
-
-  }
+      return res.data;
+      }catch(error) {
+        console.log(error);
+        console.log(JSON.stringify(error));
+        return {error: error.response.data};
+      }
 }
 
 export const getCurrentUser = async (token) => {

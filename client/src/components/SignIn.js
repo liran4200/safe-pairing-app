@@ -39,7 +39,7 @@ class SignIn extends React.Component {
   submitHandler = async (event) => {
     event.preventDefault();
     event.target.className += " was-validated";
-    const token =await login({
+    const token = await login({
       email: this.state.email,
       password: this.state.password
     });
