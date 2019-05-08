@@ -14,11 +14,11 @@ constructor(props) {
     this.handleFileRead = this.handleFileRead.bind(this);
 }
 
-toggle = () => {
+toggle = (didCloseFromCancel) => {
   this.setState({
     isOpen: !this.state.isOpen
   });
-  this.props.handleClose();
+  this.props.handleClose(didCloseFromCancel);
 }
 
 componentWillReceiveProps(newProps) {
@@ -47,8 +47,8 @@ handleFileChosen(file) {
 render() {
   return (
       <div>
-        <MDBModal isOpen={this.state.isOpen} toggle={() => {this.toggle()}}>
-          <MDBModalHeader toggle={() => {this.toggle()}}>Yes!</MDBModalHeader>
+        <MDBModal isOpen={this.state.isOpen} toggle={() => {this.toggle(true)}}>
+          <MDBModalHeader toggle={() => {this.toggle(true)}}>Yes!</MDBModalHeader>
           <MDBModalBody>
             You are about to send a matching request to {this.state.userToSendTo} <br></br>
             Upload your DNA file and you're good to go
@@ -74,7 +74,7 @@ render() {
             </div>
           </MDBModalBody>
           <MDBModalFooter>
-            <MDBBtn color="info" onClick={() => {this.toggle()}}>Send matching request</MDBBtn>
+            <MDBBtn color="info" onClick={() => {this.toggle(false)}}>Send matching request</MDBBtn>
           </MDBModalFooter>
         </MDBModal>
       </div>
