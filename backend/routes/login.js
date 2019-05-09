@@ -24,6 +24,7 @@ router.post('/', async (req, res) => {
     if(!user.isActive)
         return res.status(401).send('Access denied, User not active');
     const token = user.generateAuthToken();
+    console.debug('token:\n'+token);
     res.status(200).send({token:token});
 });
 

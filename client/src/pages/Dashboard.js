@@ -1,6 +1,6 @@
 import React from 'react';
 import SideNav, { Toggle, Nav, NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Link,Switch } from 'react-router-dom';
 import '@trendmicro/react-sidenav/dist/react-sidenav.css';
 import Breadcrumbs from '@trendmicro/react-breadcrumbs';
 import { Button, ButtonGroup } from '@trendmicro/react-buttons';
@@ -13,6 +13,7 @@ import { ToastContainer, toast } from 'mdbreact';
 import socketIOClient from "socket.io-client";
 import { getNotifications } from '../serverCalls/NotificationAPI.js'
 import { getUserById } from '../serverCalls/UsersAPI.js'
+import HeaderBar from '../components/HeaderBar/HeaderBar'
 
 const Main = styled.main`
     position: relative;
@@ -24,7 +25,7 @@ const Main = styled.main`
 
 export default class extends React.Component {
     state = {
-        selected: 'dashboard',
+        selected: 'searching',
         expanded: false,
         userNameNotified: '',
         updatedStatus: ''
@@ -78,10 +79,8 @@ export default class extends React.Component {
         const { expanded, selected } = this.state;
 
         return (
-
-          <Router>
-              <Route render={({ location, history }) => (
                   <React.Fragment>
+                    <HeaderBar></HeaderBar>
                     <div
                       style={{
                         marginLeft: expanded ? 240 : 64,
@@ -95,16 +94,16 @@ export default class extends React.Component {
                         />
                         <SideNav
                             onSelect={(selected) => {
-                                const to = '/' + selected;
-                                if (location.pathname !== to) {
-                                    history.push(to);
+                                const to = '/dashboard/' + selected;
+                                if (this.props.location.pathname !== to) {
+                                    this.props.history.push(to);
                                 }
                             }}
                             onToggle={this.onToggle}
                         >
                             <SideNav.Toggle />
                             <SideNav.Nav defaultSelected="dashboard">
-                                <NavItem eventKey="dashboard">
+                                <NavItem eventKey="searching">
                                     <NavIcon>
                                         <i className="fa fa-fw fa-home" style={{ fontSize: '1.75em' }} />
                                     </NavIcon>
@@ -131,15 +130,12 @@ export default class extends React.Component {
                             </SideNav.Nav>
                         </SideNav>
                         <main>
-                          <Route path="/dashboard" exact component={props => <SPSearchUsersPage />} />
-                          <Route path="/status" exact component={props => <SPMatchingStatusPage />} />
-                          <Route path="/notifications" exact component={props => <SPNotificationsPage />} />
+                          <Route path="/dashboard/searching" exact component={props => <SPSearchUsersPage />} />
+                          <Route path="/dashboard/status" exact component={props => <SPMatchingStatusPage />} />
+                          <Route path="/dashboard/notifications" exact component={props => <SPNotificationsPage />} />
                         </main>
                     </div>
                   </React.Fragment>
-                )}
-              />
-          </Router>
         );
     }
 }

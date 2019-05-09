@@ -98,6 +98,6 @@ export const getCurrentUser = async (token) => {
   } catch (error) {
       console.log(error)
       console.log(JSON.stringify(error))
-      throw new Error("error in getCurrentUser");
+      return {error: error.response.data};
   }
 }

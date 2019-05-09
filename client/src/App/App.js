@@ -40,7 +40,7 @@ class App extends Component {
     return (
       <Router>
         <div className="App">
-          <HeaderBar isLoggedIn={this.state.isLoggedIn}></HeaderBar>
+          {/* <HeaderBar isLoggedIn={this.state.isLoggedIn}></HeaderBar> */}
         </div>
         <div  style={backgroundHome}> 
           <Route exact path="/"  component={HomePage}></Route>

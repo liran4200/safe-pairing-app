@@ -99,12 +99,11 @@ class SignIn extends React.Component {
         return;
     }
     notify('Login Success!','success');
+    localStorage.setItem('token',res.token);
     setTimeout(() => {
       this.setState({
           shouldRedirect: true
       });
-      localStorage.setItem('token',res.token);
-      this.props.onLoggedIn();
     },
     800);
     
@@ -114,7 +113,7 @@ class SignIn extends React.Component {
 
   render(){
     if(this.state.shouldRedirect)
-        return <Redirect to="/dashboard"/>
+        return <Redirect to="/dashboard/searching"/>
     else
       return (
         <MDBRow className="d-flex justify-content-center">
