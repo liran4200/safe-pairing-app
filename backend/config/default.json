@@ -1,6 +1,6 @@
 {
   "jwtPrivateKey": "mySecureKey",
-  "emailPass": "liranyuri",
+  "emailPass": "yuriliran",
   "transporterConfig": {
     "host": "smtp.gmail.com",
     "port": 465,

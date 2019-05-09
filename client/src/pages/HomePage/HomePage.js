@@ -1,19 +1,8 @@
 import React from "react";
 import './HomePage.css';
-import Background from '../../images/background_image.jpg';
 import { MDBRow,
   MDBCol, MDBIcon,
   MDBBtn, MDBContainer} from 'mdbreact';
-
-let backgroundHome = {
-    height: "1000px",
-    backgroundRepeat  : 'no-repeat',
-    backgroundPosition: 'center center',
-    backgroundSize: 'cover',
-    overflow: 'hidden',
-    backgroundImage: `url(${Background})`
-};
-
 
 class HomePage extends React.Component{ 
 
@@ -35,7 +24,7 @@ class HomePage extends React.Component{
 
    render(){
       return(
-        <div style={backgroundHome}>
+        <div>
         <MDBContainer className="px-md-3 px-sm-0">
           <MDBRow>
           <MDBCol md="12" className="mb-4 white-text text-center">

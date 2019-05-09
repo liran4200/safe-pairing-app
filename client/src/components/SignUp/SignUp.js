@@ -2,9 +2,10 @@ import React from 'react';
 import {Link, Redirect} from 'react-router-dom'
 import {registerUser, confirmUser} from '../../serverCalls/UsersAPI';
 import './SignUp.css';
+import {notify} from '../../utils/notify';
 import ConfirmEmailModal from '../ConfirmEmailModal/ConfirmEmailModal';
 import GenerateKeysModal from '../GenerateKeysModal/GenerateKeysModal';
-import {MDBCardHeader,MDBIcon,toast,ToastContainer,MDBModalFooter, MDBRow, MDBCol, MDBInput, MDBBtn, MDBCard, MDBCardBody } from 'mdbreact';
+import {MDBCardHeader,MDBIcon,ToastContainer,MDBModalFooter, MDBRow, MDBCol, MDBInput, MDBBtn, MDBCard, MDBCardBody } from 'mdbreact';
  
 class SignUp extends React.Component {
 
@@ -54,16 +55,16 @@ class SignUp extends React.Component {
   submitHandler = async (event) => {
     event.preventDefault();
     if(!this.isAllValid()) {
-      this.notify('Please fill all the fields correctly before submiting','error');
+      notify('Please fill all the fields correctly before submiting','error');
       return;
     }
     const res = await this.register();
 
     if(res.error) {
-        this.notify(res.error,'error');
+        notify(res.error,'error');
     }
     else {
-      this.notify('Registered successfully, please confirm your email!','success');
+      notify('Registered successfully, please confirm your email!','success');
       this.setState({
         isOpenConfirm: !this.state.isOpenConfirm,
         submitText: "Confirm",
@@ -166,10 +167,10 @@ class SignUp extends React.Component {
     console.log(code);
     const res = await confirmUser(this.state.userId,code);
     if(res.error) {
-        this.notify(res.error,'error');
+        notify(res.error,'error');
     }
     else{
-      this.notify('Confirmation Successfully!','success');
+      notify('Confirmation Successfully!','success');
       setTimeout(
         () => this.setState({
           shouldRedirect: !this.state.shouldRedirect,
@@ -241,21 +242,6 @@ class SignUp extends React.Component {
 
     const response = await registerUser(user);
     return response;
-  }
-
-  notify = (message,type) => {
-    switch(type) {
-        case "success":
-          toast.success(message);
-          break;
-
-        case "error":
-          toast.error(message);
-          break;
-        default:
-          break;
-    }
-
   }
 
   render() {

@@ -1,5 +1,5 @@
 import React from 'react';
-import SignIn from "../components/SignIn";
+import SignIn from "../components/SignIn/SignIn";
 import {MDBContainer} from 'mdbreact';
 
 class SignInPage extends React.Component  {
