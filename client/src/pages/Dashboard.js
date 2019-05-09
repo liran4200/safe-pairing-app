@@ -41,17 +41,18 @@ export default class extends React.Component {
       const socket = socketIOClient("http://localhost:4444");
       socket.emit('subscribe', '5cb6c2f7262b2c2779d0da13');
       socket.on('updateStatus', async data => {
-        const user = await getUserById(data.receiverId);
+        const user = await getUserById(data.otherUserId, 'aaa');
         this.setState({
           userNameNotified: user.firstName + " " + user.lastName,
-          updatedStatus: data.status
+          updatedStatus: data.matchingRequestStatus
         });
         //raise an alert
         this.notify('updateStatus');
       });
-      socket.on('notify', data => {
+      socket.on('notify', async data => {
+        const user = await getUserById(data.otherUserId._id, 'aaa');
         this.setState({
-          userNameNotified: data.senderId.firstName + " " + data.senderId.lastName,
+          userNameNotified: user.firstName + " " + user.lastName,
           updatedStatus: ''
         });
         //raise an alert

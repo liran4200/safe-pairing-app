@@ -13,31 +13,38 @@ class SPNotificationsPage extends Component {
     this.state = {
       notifications: [],
       modal: false,
-      modalType: ''
+      modalType: '',
+      dataForUpdateRequest: {}
     }
-    this.updateMatchingRequestStatus = this.updateMatchingRequestStatus.bind(this);
+    this.updateRequestStatus = this.updateRequestStatus.bind(this);
     this.closeModal = this.closeModal.bind(this);
-    this.updateNotificationStatus = this.updateNotificationStatus.bind(this);
+    this.updateNotification = this.updateNotification.bind(this);
   }
 
   async componentDidMount() {
     const res = await getNotifications('aaa', '5cb6c2f7262b2c2779d0da13');
+    console.log(res);
     this.setState({
       notifications: res
     });
   }
 
-  async updateMatchingRequestStatus(token, matchingRequestId, receiverId, senderId, status, notificationId) {
-    const res = await updateMatchingRequestStatus(token, matchingRequestId, receiverId, senderId, status);
+  updateRequestStatus(token, matchingRequestId, receiverId, senderId, status, notificationId) {
     this.setState({
       modal: true,
-      modalType: status
+      modalType: status,
+      dataForUpdateRequest: {
+        token: token,
+        matchingRequestId: matchingRequestId,
+        receiverId: receiverId,
+        senderId: senderId,
+        status: status,
+        notificationId: notificationId
+      }
     });
-    //update notification status for UI - owner in this case is always the receiver
-    await updateNotificationStatus(token, notificationId, receiverId, status);
   }
 
-  async updateNotificationStatus(token, notificationId, ownerId, status) {
+  async updateNotification(token, notificationId, ownerId, status) {
     const res = await updateNotificationStatus(token, notificationId, ownerId, status);
     const notificationsToUpdate = this.state.notifications;
     for (var i in notificationsToUpdate) {
@@ -51,11 +58,25 @@ class SPNotificationsPage extends Component {
     });
   }
 
-  closeModal() {
+  async closeModal(didCloseFromCancel, dnaFileContent) {
+    if ((!didCloseFromCancel && this.state.modalType === 'Approved') || (this.state.modalType === 'Read')) {
+      const res = await updateMatchingRequestStatus(this.state.dataForUpdateRequest.token,
+                                                    this.state.dataForUpdateRequest.matchingRequestId,
+                                                    this.state.dataForUpdateRequest.receiverId,
+                                                    this.state.dataForUpdateRequest.senderId,
+                                                    this.state.dataForUpdateRequest.status);
+      //update notification status for UI - owner in this case is always the receiver
+      await updateNotificationStatus(this.state.dataForUpdateRequest.token,
+                                     this.state.dataForUpdateRequest.notificationId,
+                                     this.state.dataForUpdateRequest.receiverId,
+                                     this.state.dataForUpdateRequest.status);
+    }
     this.setState({
       modal: false,
-      modalType: ''
-    })
+      modalType: '',
+      dataForUpdateRequest: {}
+    });
+    console.log("dna in notificationsPage: " + dnaFileContent);
   }
 
   render() {
@@ -68,8 +89,8 @@ class SPNotificationsPage extends Component {
         />
         <SPNotificationsList
           notificationsList={this.state.notifications}
-          updateMatchingRequestStatus={this.updateMatchingRequestStatus}
-          updateNotificationStatus={this.updateNotificationStatus}
+          updateRequestStatus={this.updateRequestStatus}
+          updateNotification={this.updateNotification}
         />
       </MDBContainer>
     )

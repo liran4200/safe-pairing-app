@@ -7,7 +7,8 @@ constructor(props) {
     super(props);
     this.state = {
         isOpen: props.isOpen,
-        userToSendTo: ""
+        userToSendTo: "",
+        dnaFileContent: ""
     };
     let fileReader;
     this.handleFileChosen = this.handleFileChosen.bind(this);
@@ -18,7 +19,7 @@ toggle = (didCloseFromCancel) => {
   this.setState({
     isOpen: !this.state.isOpen
   });
-  this.props.handleClose(didCloseFromCancel);
+  this.props.handleClose(didCloseFromCancel, this.state.dnaFileContent);
 }
 
 componentWillReceiveProps(newProps) {
@@ -33,7 +34,12 @@ componentWillReceiveProps(newProps) {
 handleFileRead() {
   const content = this.fileReader.result;
   console.log(content);
-  //TODO send content to EOS contract
+  if (content) {
+      this.setState({
+        dnaFileContent: content
+      })
+  }
+
 }
 
 handleFileChosen(file) {

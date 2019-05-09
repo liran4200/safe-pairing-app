@@ -47,7 +47,7 @@ class SPNotification extends Component {
   }
 
   markUpdateNotificationAsRead() {
-    this.props.approveMatchingRequest();
+    this.props.markNotificationAsRead();
     this.setState({
       status: 'Read'
     });

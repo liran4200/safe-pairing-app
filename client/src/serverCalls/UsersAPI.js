@@ -8,7 +8,7 @@ const getRequest = (addUrl, token) => ({
       'Content-Type': 'application/json',
       'x-auth-token': token
   },
-  url: BASE_URL + addUrl,
+  url: BASE_URL + addUrl
 })
 
 export const searchUser = async (searchText, token) => {

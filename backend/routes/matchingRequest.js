@@ -66,11 +66,11 @@ router.post('/', async (req, res) => {
             .replace("<status>", matchingRequest.status);
     const subject = mailOptions.matchingRequest.MATCHING_REQUEST_SUBJECT.replace("<status>", matchingRequest.status);
 
-    sendMail(
-        matchingRequest.receiverId.email,
-        subject,
-        '',
-        html);
+    // sendMail(
+    //     matchingRequest.receiverId.email,
+    //     subject,
+    //     '',
+    //     html);
 
     //create new notification
     let notification = new Notification({
@@ -81,7 +81,11 @@ router.post('/', async (req, res) => {
     });
     await notification.save();
     //push notification.
-    target = connections.getConenction(matchingRequest.receiverId);
+    target = connections.getConenction(req.body.receiverId);
+    console.log("**********************************************************");
+    console.log(matchingRequest);
+    console.log(target);
+    console.log(notification);
     if(target) {
         target.emit("notify", notification);
     }
@@ -113,11 +117,11 @@ router.put('/status/:id', async (req, res) => {
     const subject = mailOptions.matchingRequest.MATCHING_REQUEST_SUBJECT.replace("<status>", matchingRequest.status);
     console.debug(subject);
 
-    sendMail(
-        user.email,
-        subject,
-        '',
-        html);
+    // sendMail(
+    //     user.email,
+    //     subject,
+    //     '',
+    //     html);
 
       //create new notification
       let notification = new Notification({

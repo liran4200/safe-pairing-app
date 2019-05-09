@@ -7,21 +7,41 @@ constructor(props) {
     super(props);
     this.state = {
         isOpen: props.isOpen,
+        dnaFileContent: ""
     };
+    let fileReader;
+    this.handleFileChosen = this.handleFileChosen.bind(this);
+    this.handleFileRead = this.handleFileRead.bind(this);
 }
 
-toggle = () => {
+toggle = (didCloseFromCancel) => {
   this.setState({
     isOpen: !this.state.isOpen
   });
-  this.props.handleClose();
+  this.props.handleClose(didCloseFromCancel, this.state.dnaFileContent);
 }
 
 componentWillReceiveProps(newProps) {
-  if (newProps != this.props ){
-      this.setState({
-        isOpen: newProps.isOpen
-      });
+  if (newProps != this.props) {
+    this.setState({
+      isOpen: newProps.isOpen
+    });
+  }
+}
+
+handleFileRead() {
+  const content = this.fileReader.result;
+  console.log(content);
+  this.setState({
+    dnaFileContent: content
+  });
+}
+
+handleFileChosen(file) {
+  this.fileReader = new FileReader();
+  this.fileReader.onloadend = this.handleFileRead;
+  if (file) {
+    this.fileReader.readAsText(file);
   }
 }
 
@@ -29,13 +49,13 @@ render() {
   if (this.props.type === 'Read') {
     return (
       <div>
-        <MDBModal isOpen={this.state.isOpen} toggle={() => {this.toggle()}}>
-          <MDBModalHeader toggle={() => {this.toggle()}}>Yes!</MDBModalHeader>
+        <MDBModal isOpen={this.state.isOpen} toggle={() => {this.toggle(true)}}>
+          <MDBModalHeader toggle={() => {this.toggle(true)}}>Yes!</MDBModalHeader>
           <MDBModalBody>
             You've updates the matching request status to "Read"
           </MDBModalBody>
           <MDBModalFooter>
-            <MDBBtn color="info" onClick={() => {this.toggle()}}>Ok, Got it</MDBBtn>
+            <MDBBtn color="info" onClick={() => {this.toggle(false)}}>Ok, Got it</MDBBtn>
           </MDBModalFooter>
         </MDBModal>
       </div>
@@ -43,10 +63,10 @@ render() {
   } else if (this.props.type === 'Approved'){
     return (
       <div>
-        <MDBModal isOpen={this.state.isOpen} toggle={() => {this.toggle()}}>
-          <MDBModalHeader toggle={() => {this.toggle()}}>Yes!</MDBModalHeader>
+        <MDBModal isOpen={this.state.isOpen} toggle={() => {this.toggle(true)}}>
+          <MDBModalHeader toggle={() => {this.toggle(true)}}>Yes!</MDBModalHeader>
           <MDBModalBody>
-            You've updates the matching request status to "Approved" <br></br>
+            You've updated the matching request status to "Approved" <br></br>
             Upload your DNA file and confirm
             <div className="input-group">
               <div className="input-group-prepend">
@@ -60,6 +80,8 @@ render() {
                   className="custom-file-input"
                   id="inputGroupFile01"
                   aria-describedby="inputGroupFileAddon01"
+                  accept='.DNA'
+                  onChange={e => this.handleFileChosen(e.target.files[0])}
                 />
                 <label className="custom-file-label" htmlFor="inputGroupFile01">
                   Choose your DNA file
@@ -68,7 +90,7 @@ render() {
             </div>
           </MDBModalBody>
           <MDBModalFooter>
-            <MDBBtn color="info" onClick={() => {this.toggle()}}>Approve</MDBBtn>
+            <MDBBtn color="info" onClick={() => {this.toggle(false)}}>Approve</MDBBtn>
           </MDBModalFooter>
         </MDBModal>
       </div>

@@ -9,6 +9,11 @@ const notificationSchema =  new mongoose.Schema({
         ref: 'User',
         required: true
     },
+    otherUserId: {
+      type: mongoose.Types.ObjectId,
+      ref: 'User',
+      required: true
+    },
     matchingRequestId: {
         type: mongoose.Types.ObjectId,
         ref: 'MatchingRequest',

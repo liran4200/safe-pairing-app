@@ -27,10 +27,11 @@ class SPSearchUserPage extends Component {
     });
   }
 
-  async closeModal(didCloseFromCancel) {
+  async closeModal(didCloseFromCancel, dnaFileContent) {
     //if the user closed the modal from cancel button - don't send a matching request
     if (!didCloseFromCancel) {
-      //TODO change 'aaa' in a real token
+      console.log("dna in serchUserPage: " + dnaFileContent);
+      //TODO change 'aaa' in a real token + send file content to EOS contract
       let res = await sendMatchingRequest('aaa', '5cb6c2f7262b2c2779d0da13', this.state.userToSendRequest.userId);
     }
     this.setState({
