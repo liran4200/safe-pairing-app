@@ -11,7 +11,6 @@ class HeaderBar extends Component {
 constructor(props) {
   super(props);
   this.state = {
-    isLoggedIn: props.isLoggedIn,
     shouldRedirect: false,
     user: {
       id: "",
@@ -22,7 +21,6 @@ constructor(props) {
 
 async componentDidMount() {
   console.log('in did mount ', this.state);
-  if(this.state.isLoggedIn) {
       const user = await this.getUser();
       console.log(user);
       this.setState({
@@ -31,11 +29,12 @@ async componentDidMount() {
         fullName: this.getFullName(user)
       }
     });
- }
 }
 
 getUser = async () => {
-    return  await getCurrentUser(localStorage.getItem('token'));
+    const token = localStorage.getItem('token');
+    console.log(token);
+    return await getCurrentUser(token);
 }
 
 getFullName = (user)  => {
@@ -43,33 +42,13 @@ getFullName = (user)  => {
     user.lastName.charAt(0).toUpperCase() + user.lastName.slice(1);
 }
 
-async componentWillReceiveProps(nextProps) {
-  console.log('will receive props: ', nextProps); 
-  if(nextProps !== this.props ){
-      let user = {};
-      if(nextProps.isLoggedIn){
-          user = await this.getUser(user);
-          user = {
-            id: user._id,
-            fullName: this.getFullName(user)
-          }
-      }
-      this.setState({
-          isLoggedIn: nextProps.isLoggedIn,
-          user
-      });
-  }
-}
-
 onLogout = () => {
   localStorage.removeItem('token');
-  localStorage.removeItem('isLoggedIn');
   this.setState({
     user:{
       id: "",
       fullName: "" 
     },
-    isLoggedIn: false,
     shouldRedirect: true
   });  
   
@@ -77,7 +56,6 @@ onLogout = () => {
 
 render() {
       if(this.state.shouldRedirect){
-          this.setState({shouldRedirect: false});
           return <Redirect to="/"/>
       }
       else
@@ -86,8 +64,7 @@ render() {
                 <MDBNavbarBrand className="navbar-brand mx-auto">
                   <strong className="white-text">Safe Pairing App</strong>
                 </MDBNavbarBrand>
-                  {this.state.isLoggedIn?
-                (<MDBNavbarNav right>
+                <MDBNavbarNav right>
                   <MDBNavItem>
                       <MDBNavbarBrand className="navbar-brand">
                           <strong className="white-text">{this.state.user.fullName}</strong>
@@ -100,7 +77,7 @@ render() {
                       </MDBBtn>
                       </div>                     
                   </MDBNavItem>
-                </MDBNavbarNav>): null }
+                </MDBNavbarNav>
               </MDBNavbar>
         );
   }

@@ -13,6 +13,8 @@ export const login = async (credentials) => {
         return res.data;
     }
     catch(error) {
-        console.error(error);
+        console.log(error);
+        console.log(JSON.stringify(error));
+        return {error: error.response.data};
     }
 } 
