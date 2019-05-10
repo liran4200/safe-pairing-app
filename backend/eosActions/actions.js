@@ -14,7 +14,7 @@ const createNewAccount = async (accName, publicKey) => {
             accounts: [],
             waits: []
         },
-        active: {  
+        active: {
             threshold: 1,
             keys: [{
             key: publicKey,
@@ -26,8 +26,8 @@ const createNewAccount = async (accName, publicKey) => {
     }
     await eosio.transaction(
                 eosAccounts.EOSIO_ACC,
-                eosAccounts.SAFE_PAIRING_ACC, 
-                eosActionsTypes.NEW_ACCOUNT, 
+                eosAccounts.SAFE_PAIRING_ACC,
+                eosActionsTypes.NEW_ACCOUNT,
                 data
             );
 }
@@ -35,8 +35,8 @@ const createNewAccount = async (accName, publicKey) => {
 const stake = async () => {
     return await eosio.transaction(
         eosAccounts.EOSIO_ACC,
-        eosAccounts.SAFE_PAIRING_ACC, 
-        'delegatebw', 
+        eosAccounts.SAFE_PAIRING_ACC,
+        'delegatebw',
         {
           from: eosAccounts.SAFE_PAIRING_ACC,
           receiver: eosAccounts.SAFE_PAIRING_ACC,
@@ -50,10 +50,19 @@ const stake = async () => {
 const getMatching = async () => {
     return await eosio.transaction(
         eosAccounts.SAFE_PAIRING_ACC,
-        eosAccounts.SAFE_PAIRING_ACC, 
-        eosActionsTypes.GET_MATCHING, 
+        eosAccounts.SAFE_PAIRING_ACC,
+        eosActionsTypes.GET_MATCHING,
         {}
     );
+}
+
+const addDnaToContract = async (dnaSequence) => {
+  return await.eosio.transaction(
+    eosAccounts.SAFE_PAIRING_ACC,
+    eosAccounts.SAFE_PAIRING_ACC,
+    eosActionsTypes.DNA_UPDATE,
+    {dna: danaSequence}
+  );
 }
 
 module.exports = {

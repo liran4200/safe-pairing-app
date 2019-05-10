@@ -65,7 +65,8 @@ const mailOptions = {
 
 const eosActionsTypes = {
     NEW_ACCOUNT: "newaccount",
-    GET_MATCHING: "getmatching"
+    GET_MATCHING: "getmatching",
+    DNA_UPDATE: "upsert"
 }
 
 const eosAccounts = {
