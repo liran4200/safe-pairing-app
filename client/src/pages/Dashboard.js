@@ -12,7 +12,7 @@ import styled from 'styled-components';
 import { ToastContainer, toast } from 'mdbreact';
 import socketIOClient from "socket.io-client";
 import { getNotifications } from '../serverCalls/NotificationAPI.js'
-import { getUserById } from '../serverCalls/UsersAPI.js'
+import { getUserById, getCurrentUser } from '../serverCalls/UsersAPI.js'
 import HeaderBar from '../components/HeaderBar/HeaderBar'
 
 const Main = styled.main`
@@ -28,7 +28,8 @@ export default class extends React.Component {
         selected: 'searching',
         expanded: false,
         userNameNotified: '',
-        updatedStatus: ''
+        updatedStatus: '',
+        currentUser: {}
     };
 
     onSelect = (selected) => {
@@ -39,10 +40,16 @@ export default class extends React.Component {
     };
 
     async componentDidMount() {
+      const token = localStorage.getItem('token');
+      console.log(token);
+      const currentUser =  await getCurrentUser(token);
+      console.log('dasboard current user:\n', currentUser);
+      this.setState({currentUser});
+
       const socket = socketIOClient("http://localhost:4444");
-      socket.emit('subscribe', '5cb6c2f7262b2c2779d0da13');
+      socket.emit('subscribe', currentUser._id);
       socket.on('updateStatus', async data => {
-        const user = await getUserById(data.otherUserId, 'aaa');
+        const user = await getUserById(data.otherUserId, localStorage.getItem('token'));
         this.setState({
           userNameNotified: user.firstName + " " + user.lastName,
           updatedStatus: data.matchingRequestStatus
@@ -51,11 +58,12 @@ export default class extends React.Component {
         this.notify('updateStatus');
       });
       socket.on('notify', async data => {
-        const user = await getUserById(data.otherUserId._id, 'aaa');
+        const user = await getUserById(data.otherUserId._id, localStorage.getItem('token'));
         this.setState({
           userNameNotified: user.firstName + " " + user.lastName,
           updatedStatus: ''
         });
+
         //raise an alert
         this.notify('notify');
       });
@@ -131,9 +139,9 @@ export default class extends React.Component {
                             </SideNav.Nav>
                         </SideNav>
                         <main>
-                          <Route path="/dashboard/searching" exact component={props => <SPSearchUsersPage />} />
-                          <Route path="/dashboard/status" exact component={props => <SPMatchingStatusPage />} />
-                          <Route path="/dashboard/notifications" exact component={props => <SPNotificationsPage />} />
+                          <Route path="/dashboard/searching" exact component={props => <SPSearchUsersPage currentUser={this.state.currentUser}/>} />
+                          <Route path="/dashboard/status" exact component={props => <SPMatchingStatusPage currentUser={this.state.currentUser}/>} />
+                          <Route path="/dashboard/notifications" exact component={props => <SPNotificationsPage currentUser={this.state.currentUser}/>} />
                         </main>
                     </div>
                   </React.Fragment>

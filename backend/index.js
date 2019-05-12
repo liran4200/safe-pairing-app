@@ -6,6 +6,7 @@ const isProvideJWT = require('./startup/config');
 const error = require('./middleware/error');
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
 const app = express();
 const login = require('./routes/login');
 const users = require('./routes/users');
@@ -26,6 +27,7 @@ mongoose.connect(dbConnection)
   .catch(err => logger.error(`Could not connect to ${dbConnection} ...`, err));
 
 //get requests as json object
+app.use(cors());
 app.use(express.json());
 app.use('/api/users', users);
 app.use('/api/login', login);

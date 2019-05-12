@@ -7,18 +7,28 @@ constructor(props) {
     super(props);
     this.state = {
         isOpen: props.isOpen,
-        dnaFileContent: ""
+        dnaFileContent: "",
+        userKey: ""
     };
     let fileReader;
     this.handleFileChosen = this.handleFileChosen.bind(this);
     this.handleFileRead = this.handleFileRead.bind(this);
+    this.handleUserKeyChanged = this.handleUserKeyChanged.bind(this);
 }
 
 toggle = (didCloseFromCancel) => {
   this.setState({
     isOpen: !this.state.isOpen
   });
-  this.props.handleClose(didCloseFromCancel, this.state.dnaFileContent);
+  this.props.handleClose(didCloseFromCancel, this.state.dnaFileContent, this.state.userKey);
+}
+
+handleUserKeyChanged(event) {
+  if (event.target.value.length > 0) {
+    this.setState({
+      userKey: event.target.value
+    });
+  }
 }
 
 componentWillReceiveProps(newProps) {
@@ -68,6 +78,9 @@ render() {
           <MDBModalBody>
             You've updated the matching request status to "Approved" <br></br>
             Upload your DNA file and confirm
+            <div className="user-key-input" style={{ marginTop: "1rem"}}>
+              <input type="text" className="form-control" placeholder="Your private key" onChange={this.handleUserKeyChanged}/>
+            </div>
             <div className="input-group">
               <div className="input-group-prepend">
                 <span className="input-group-text" id="inputGroupFileAddon01">

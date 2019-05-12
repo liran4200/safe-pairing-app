@@ -16,7 +16,6 @@ class SPSearchUserPage extends Component {
       modal: false,
       userToSendRequest: {}
     }
-    this.eos = new eosio();
     this.sendRequest = this.sendRequest.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.closeModal = this.closeModal.bind(this);
@@ -32,17 +31,20 @@ class SPSearchUserPage extends Component {
   async closeModal(didCloseFromCancel, userKey, dnaFileContent) {
     //if the user closed the modal from "approve" button - send a matching request, else, just close the modal without sending request
     if (!didCloseFromCancel) {
+      console.log('userKey:\n', userKey);
+      let eos = new eosio(userKey);
       console.log("dna in serchUserPage: " + dnaFileContent);
-      res = await this.eos.transaction('spacc',
-                                       'spacc',
+      let res = await eos.transaction('spacc',
+                                       this.props.currentUser.eosAcc,
                                        'upsert',
                                        {
-                                         user: userKey,
+                                         user: this.props.currentUser.eosAcc,
                                          dna: dnaFileContent
                                        });
       console.log(res);
-      //TODO change 'aaa' in a real token + userId from localStorage
-      let res = await sendMatchingRequest('aaa', '5cb6c2f7262b2c2779d0da13', this.state.userToSendRequest.userId);
+      eos = null;
+      res = await sendMatchingRequest(localStorage.getItem('token'), this.props.currentUser._id , this.state.userToSendRequest.userId);
+      console.log("res from send matching request:\n",res);
     }
     this.setState({
       modal: false
@@ -52,8 +54,7 @@ class SPSearchUserPage extends Component {
   async handleChange(e) {
     let newUsersList = [];
     if (e.target.value !== "") {
-      //TODO change 'aaa' in a real token
-      newUsersList = await searchUser(e.target.value, 'aaa');
+      newUsersList = await searchUser(e.target.value, localStorage.getItem('token'));
     } else {
       newUsersList = [];
     }

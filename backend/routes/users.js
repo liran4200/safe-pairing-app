@@ -22,7 +22,7 @@ router.get('/me',auth, async (req, res ) => {
     if(!user) {
         return res.status(404).send("User not found");
     }
-    res.status(200).send(_.pick(user, ['_id', 'firstName', 'lastName', 'email']) );
+    res.status(200).send(_.pick(user, ['_id', 'firstName', 'lastName', 'email','eosAcc']) );
 });
 
 router.get('/search/', async ( req, res) => {
@@ -95,7 +95,7 @@ router.post('/register', async (req, res) => {
         accName = accName.slice(0,12);
     req.body['eosAcc'] = accName;
     try{
-        //await eosActions.createNewAccount(accName, req.body.publicKey);
+        await eosActions.createNewAccount(accName, req.body.publicKey);
     }catch(e) {
         console.log(e);
         if(e && e.json && e.json.code)
@@ -112,12 +112,12 @@ router.post('/register', async (req, res) => {
 
     // send mail
     const body = mailOptions.emailConfirm.EMAIL_CONFIRMATION_BODY.replace("<code>", user.code);
-    // sendMail(
-    //     user.email, 
-    //     mailOptions.emailConfirm.EMAIL_CONFIRMATION_SUBJECT,
-    //     '',
-    //     body.replace("<username>", getFullName(user))
-    // );
+    sendMail(
+        user.email, 
+        mailOptions.emailConfirm.EMAIL_CONFIRMATION_SUBJECT,
+        '',
+        body.replace("<username>", getFullName(user))
+    );
 
     res.status(200).send( _.pick(user, ['_id','code']));
 });

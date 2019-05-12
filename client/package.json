@@ -11,7 +11,7 @@
     "axios": "^0.18.0",
     "bulma": "^0.7.4",
     "ensure-array": "^1.0.0",
-    "eosjs": "^20.0.0",
+    "eosjs": "20.0.0-beta3",
     "eosjs-ecc": "^4.0.4",
     "mdbreact": "^4.13.0",
     "node-sass": "^4.11.0",

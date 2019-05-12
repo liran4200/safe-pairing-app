@@ -1,14 +1,14 @@
-import { Api, JsonRpc, RpcError } from 'eosjs';
-import { JsSignatureProvider } from 'eosjs/dist/eosjs-jssig';
+import { Api, JsonRpc, RpcError } from 'eosjs'; // https://github.com/EOSIO/eosjs
+import JsSignatureProvider from 'eosjs/dist/eosjs-jssig';
+import { TextDecoder, TextEncoder } from 'text-encoding';
 
  export default class EosIoUiClient {
 
-  constructor() {
+  constructor(pr) {
     const url = 'http://localhost:8888';
-    const privateKey = ['5JD9AGTuTeD5BXZwGQ5AtwBqHK21aHmYnTetHgk1B3pjj7krT8N'];
-    const rpc = new JsonRpc(url, {fetch});
-    const signatureProvider = new JsSignatureProvider(privateKey);
-    this.eos = new Api({ rpc, signatureProvider });
+    const rpc = new JsonRpc(url);
+    const signatureProvider = new JsSignatureProvider([pr]);
+    this.eos = new Api({ rpc, signatureProvider, textDecoder: new TextDecoder(), textEncoder: new TextEncoder() });
   }
 
   async transaction(contractAccount ,actor, action, data) {
@@ -29,7 +29,7 @@ import { JsSignatureProvider } from 'eosjs/dist/eosjs-jssig';
      ]
    }, {
      blocksBehind: 3,
-     expireSeconds: 30
+     expireSeconds: 300
    });
  }
 
