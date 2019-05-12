@@ -3,37 +3,25 @@
     genematcher::genematcher(name receiver, name code,  datastream<const char*> ds): contract(receiver, code, ds) {}
 
        void genematcher::getmatching() {
-          //--------------------------------------------
-          //---------------Start SetUp Temp-------------
-          //--------------------------------------------
-          int rows = 201, cols = 201;
+          //get DNA from db
+          dna_index addresses(_code, _code.value);
+          auto dna1Ptr = addresses.begin();
+          string DNA1 = dna1Ptr->dna;
+          auto dna2Ptr = std::next(dna1Ptr,1);
+          string DNA2 = dna2Ptr->dna;
+            
+          //clean db
+          addresses.erase(dna1Ptr); 
+          addresses.erase(dna2Ptr); 
+         
+          //init matrix 
+          int rows = DNA1.length() + 1, cols = DNA2.length() + 1;
           matrix = new int*[rows+1];
           for (int i = 0; i < rows+1; ++i)
               matrix[i] = new int[cols+1];
-          //string DNA1 = "ABCAD";
-          //string DNA2 = "ABCDD";
-          dna_index addresses(_code, _code.value);
-          
-          
-          
-          
-        //   auto iter = addresses.begin();
-        //   string DNA1 = iter->dna;
-        //   auto iter2 = std::next(iter,1);
-        //   string DNA2 = iter2->dna;
-        //   print(DNA1);
-        //   print(DNA2);
-          
-        //   addresses.erase(iter);
-        //   addresses.erase(iter2);
-                      
-          
-          
-          string DNA1 = "ACTGACTCGATCGACTCGATAGCGTCAGTCGATGCTAGACGTCAGTCGACATCGATCGATGCAGCATGTCATGCATTCGTGATCTCATCATCGAGTAATGCTCGTGCGCGCTAGCTAGCTAGTAGACATTAGGCGTCAGCTATGCAGCAGTATGCGCATCGGCATCGTATAAGCTAGTCGCTTAGCGATACGGCTACGCAT";
-		  string DNA2 = "ACTGACTCGATCGACTAGATAGCGTCAGTCGATGCTAGACGTCAGTCGACATCGATCGATGCAGCATGTCATGCATTCGTGATCTCATCATCGAGTAATGCTCGTGCGCGCTAGCTAGCTAGTAGACATTAGGCGTCAGCTATGCAGCAGTATGCGCATCGGCATCGTATAAGCTAGTCGCTTAGCGATACGGCTACGCAT";
-          //--------------------------------------------
-          //---------------End SetUp Temp---------------
-          //--------------------------------------------
+              
+          //string DNA1 = "ACTGACTCGATCGACTCGATAGCGTCAGTCGATGCTAGACGTCAGTCGACATCGATCGATGCAGCATGTCATGCATTCGTGATCTCATCATCGAGTAATGCTCGTGCGCGCTAGCTAGCTAGTAGACATTAGGCGTCAGCTATGCAGCAGTATGCGCATCGGCATCGTATAAGCTAGTCGCTTAGCGATACGGCTACGCAT";
+		  //string DNA2 = "ACTGACTCGATCGACTAGATAGCGTCAGTCGATGCTAGACGTCAGTCGACATCGATCGATGCAGCATGTCATGCATTCGTGATCTCATCATCGAGTAATGCTCGTGCGCGCTAGCTAGCTAGTAGACATTAGGCGTCAGCTATGCAGCAGTATGCGCATCGGCATCGTATAAGCTAGTCGCTTAGCGATACGGCTACGCAT";
 
           //--------------------------------------------
           //---------------Start Algorithim-------------
@@ -58,8 +46,9 @@
               }
           }
 
-          string result = traceback( n, m, DNA1, DNA2);
-          print("result = ", result.c_str());
+          int matchCost = traceback( n, m, DNA1, DNA2);
+          string result = getrelation(matchCost);
+          print(result.c_str(),",",matchCost);
 
         } 
 
@@ -92,7 +81,7 @@
         }
     
       
-        string genematcher::traceback( int i, int j, string DNA1, string DNA2) {
+        int genematcher::traceback( int i, int j, string DNA1, string DNA2) {
           int sequenceLength = i;
 
           int matchCost = matrix[i][j];
@@ -127,8 +116,7 @@
 
           // calc the perecantage of match - MATCH*sequenceLength = 100%
           matchCost = (matchCost * 100) / (int)(MATCH_COST * sequenceLength);
-          string result = getrelation(matchCost);
-          return result;
+          return matchCost;
        }
        
        

@@ -31,7 +31,7 @@ class[[eosio::contract("genematcher")]] genematcher : public contract {
     string NO_FAMILY_RELATION_DETECTED = "No family relation detected";
 
     genematcher(name receiver, name code, datastream<const char *> ds);
-    string traceback(int i, int j, string DNA1, string DNA2);
+    int traceback(int i, int j, string DNA1, string DNA2);
     string getrelation(int cost);
     int maxvalue(int diagonal, int beside, int bottom);
     int costvalue(char a, char b);

@@ -108,7 +108,7 @@ class Index extends Component {
       //   break;
       // case "submit":
       //   console.log('SETDNA');
-      //   contract = 'notechainacc';
+      //   contract = 'spacc';
       //   actionName = "upsert";
       //   actionData = {
       //       user: account,
@@ -117,7 +117,7 @@ class Index extends Component {
       //   break;
       case "submit":
         actionName = "getmatching";
-        contract = 'notechainacc';
+        contract = 'spacc';
         actionName = "getmatching";
         actionData = {
           }

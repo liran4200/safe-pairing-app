@@ -1,4 +1,4 @@
-const { types, mailOptions } = require('../utils/constants');
+const { types, mailOptions , status } = require('../utils/constants');
 const sendMail = require('../utils/sendMail');
 const connections = require('../utils/Connections');
 const auth = require('../middleware/auth');
@@ -37,7 +37,7 @@ router.get('/:userId', async (req, res ) => {
         .limit(pageSize)
         .populate('senderId','firstName lastName email')
         .populate('receiverId','firstName lastName email')
-        .select( {status: 1, receiverId: 1, senderId: 2, type: 1, createdDate: 1} );
+        .select( {status: 1, receiverId: 1, senderId: 2, type: 1, createdDate: 1, evaluation: 1} );
 
     res.send(matchingRequests);
 });
@@ -50,7 +50,7 @@ router.post('/', async (req, res) => {
 
     let matchingRequest = new MatchingRequest(_.pick(req.body, ['receiverId','senderId','type','status']));
     await matchingRequest.save();
-
+    
     //populate sender user.
     console.debug(matchingRequest);
     matchingRequest = await MatchingRequest
@@ -108,6 +108,20 @@ router.put('/status/:id', async (req, res) => {
     }
     console.log(user);
     matchingRequest = _.pick(matchingRequest, ['_id','receiverId','senderId','type','status']);
+
+    if(matchingRequest.status === status.APPROVED){
+        try{
+            const result = await eosActions.getMatching();
+            console.log(result);
+        }catch(e) {
+            console.error("Error in getMatching:\n",e);
+            console.error(JSON.stringify(e));
+            if(e && e.json && e.json.code)
+                return res.status(e.code).send(e);
+            return res.status(400).send(JSON.stringify(e));
+        } 
+    }
+
 
     //send mail
     const html = mailOptions.matchingRequest.MATCHING_REQUEST_BODY
