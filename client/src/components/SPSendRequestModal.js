@@ -8,18 +8,20 @@ constructor(props) {
     this.state = {
         isOpen: props.isOpen,
         userToSendTo: "",
-        dnaFileContent: ""
+        dnaFileContent: "",
+        userKey: ""
     };
     let fileReader;
     this.handleFileChosen = this.handleFileChosen.bind(this);
     this.handleFileRead = this.handleFileRead.bind(this);
+    this.handleUserKeyChanged = this.handleUserKeyChanged.bind(this);
 }
 
 toggle = (didCloseFromCancel) => {
   this.setState({
     isOpen: !this.state.isOpen
   });
-  this.props.handleClose(didCloseFromCancel, this.state.dnaFileContent);
+  this.props.handleClose(didCloseFromCancel, this.state.userKey, this.state.dnaFileContent);
 }
 
 componentWillReceiveProps(newProps) {
@@ -28,6 +30,14 @@ componentWillReceiveProps(newProps) {
         isOpen: newProps.isOpen,
         userToSendTo: newProps.userToSendTo
       });
+  }
+}
+
+handleUserKeyChanged(event) {
+  if (event.target.value.length > 0) {
+    this.setState({
+      userKey: event.target.value
+    });
   }
 }
 
@@ -58,7 +68,10 @@ render() {
           <MDBModalBody>
             You are about to send a matching request to {this.state.userToSendTo} <br></br>
             Upload your DNA file and you're good to go
-            <div className="input-group">
+            <div className="user-key-input" style={{ marginTop: "1rem"}}>
+              <input type="text" className="form-control" placeholder="Your private key" onChange={this.handleUserKeyChanged}/>
+            </div>
+            <div className="input-group" style={{ marginTop: "1rem"}}>
               <div className="input-group-prepend">
                 <span className="input-group-text" id="inputGroupFileAddon01">
                   Upload

@@ -9,7 +9,7 @@ const { Notification } = require('../models/notification');
 const { MatchingRequest, validate, validateStatus, validateType } = require('../models/matchingRequest');
 const express = require('express');
 const router = express.Router();
-
+const { addDnaToContract } = require('../eosActions/actions');
 router.use(multiplyLocalHost);
 
 router.get('/:userId', async (req, res ) => {
@@ -82,10 +82,6 @@ router.post('/', async (req, res) => {
     await notification.save();
     //push notification.
     target = connections.getConenction(req.body.receiverId);
-    console.log("**********************************************************");
-    console.log(matchingRequest);
-    console.log(target);
-    console.log(notification);
     if(target) {
         target.emit("notify", notification);
     }

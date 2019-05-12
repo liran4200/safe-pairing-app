@@ -6,6 +6,7 @@ import {DebounceInput} from 'react-debounce-input';
 import { MDBContainer, MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter, MDBBtn } from "mdbreact";
 import { searchUser } from '../serverCalls/UsersAPI.js'
 import { sendMatchingRequest } from '../serverCalls/matchingRequestAPI.js';
+import eosio from '../utils/eosioClient.js'
 
 class SPSearchUserPage extends Component {
   constructor(props) {
@@ -15,6 +16,7 @@ class SPSearchUserPage extends Component {
       modal: false,
       userToSendRequest: {}
     }
+    this.eos = new eosio();
     this.sendRequest = this.sendRequest.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.closeModal = this.closeModal.bind(this);
@@ -27,11 +29,19 @@ class SPSearchUserPage extends Component {
     });
   }
 
-  async closeModal(didCloseFromCancel, dnaFileContent) {
-    //if the user closed the modal from cancel button - don't send a matching request
+  async closeModal(didCloseFromCancel, userKey, dnaFileContent) {
+    //if the user closed the modal from "approve" button - send a matching request, else, just close the modal without sending request
     if (!didCloseFromCancel) {
       console.log("dna in serchUserPage: " + dnaFileContent);
-      //TODO change 'aaa' in a real token + send file content to EOS contract
+      res = await this.eos.transaction('spacc',
+                                       'spacc',
+                                       'upsert',
+                                       {
+                                         user: userKey,
+                                         dna: dnaFileContent
+                                       });
+      console.log(res);
+      //TODO change 'aaa' in a real token + userId from localStorage
       let res = await sendMatchingRequest('aaa', '5cb6c2f7262b2c2779d0da13', this.state.userToSendRequest.userId);
     }
     this.setState({

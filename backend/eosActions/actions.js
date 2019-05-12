@@ -56,15 +56,6 @@ const getMatching = async () => {
     );
 }
 
-const addDnaToContract = async (dnaSequence) => {
-  return await.eosio.transaction(
-    eosAccounts.SAFE_PAIRING_ACC,
-    eosAccounts.SAFE_PAIRING_ACC,
-    eosActionsTypes.DNA_UPDATE,
-    {dna: danaSequence}
-  );
-}
-
 module.exports = {
     createNewAccount,
     stake,
