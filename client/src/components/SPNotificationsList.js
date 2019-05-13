@@ -30,9 +30,9 @@ class SPNotificationsList extends Component {
                 requestStatus={notification.matchingRequestStatus}
                 notificationStatus={notification.status}
                 updateDate={notification.updateDate}
-                markAsRead={() => this.props.updateRequestStatus('aaa', notification.matchingRequestId, notification.receiverUser._id, notification.senderUser._id, 'Read', notification.notificationId)}
-                approveMatchingRequest={() => this.props.updateRequestStatus('aaa', notification.matchingRequestId, notification.receiverUser._id, notification.senderUser._id, 'Approved', notification.notificationId)}
-                markNotificationAsRead={() => this.props.updateNotification('aaa', notification.notificationId, notification.receiverUser._id, 'Read')}
+                markAsRead={() => this.props.updateRequestStatus(notification.matchingRequestId, notification.receiverUser._id, notification.senderUser._id, 'Read', notification.notificationId)}
+                approveMatchingRequest={() => this.props.updateRequestStatus(notification.matchingRequestId, notification.receiverUser._id, notification.senderUser._id, 'Approved', notification.notificationId)}
+                markNotificationAsRead={() => this.props.updateNotification(notification.notificationId, notification.receiverUser._id, 'Read')}
               />
           ))}
         </div>

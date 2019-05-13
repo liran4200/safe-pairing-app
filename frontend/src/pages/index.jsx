@@ -80,32 +80,32 @@ class Index extends Component {
     let contract = 'eosio';
     // define actionName and action according to event type
     switch (event.type) {
-      // case "submit":
-      //   console.log('submit');
-      //   actionName = "newaccount";
-      //   actionData = {
-      //     creator: account,
-      //     name: newAcc,
-      //     owner: {
-      //       threshold: 1,
-      //       keys: [{
-      //         key: newAccPU,
-      //         weight: 1
-      //       }],
-      //       accounts: [],
-      //       waits: []
-      //     },
-      //     active: {  
-      //       threshold: 1,
-      //       keys: [{
-      //         key: newAccPU,
-      //         weight: 1
-      //       }],
-      //       accounts: [],
-      //       waits: []
-      //     }
-      //   };
-      //   break;
+      case "submit":
+        console.log('submit');
+        actionName = "newaccount";
+        actionData = {
+          creator: account,
+          name: newAcc,
+          owner: {
+            threshold: 1,
+            keys: [{
+              key: newAccPU,
+              weight: 1
+            }],
+            accounts: [],
+            waits: []
+          },
+          active: {  
+            threshold: 1,
+            keys: [{
+              key: newAccPU,
+              weight: 1
+            }],
+            accounts: [],
+            waits: []
+          }
+        };
+        break;
       // case "submit":
       //   console.log('SETDNA');
       //   contract = 'spacc';
@@ -115,13 +115,13 @@ class Index extends Component {
       //       dna: newDNA
       //     }
       //   break;
-      case "submit":
-        actionName = "getmatching";
-        contract = 'spacc';
-        actionName = "getmatching";
-        actionData = {
-          }
-        break;
+      // case "submit":
+      //   actionName = "getmatching";
+      //   contract = 'spacc';
+      //   actionName = "getmatching";
+      //   actionData = {
+      //     }
+      //   break;
       default:
         return;
     }

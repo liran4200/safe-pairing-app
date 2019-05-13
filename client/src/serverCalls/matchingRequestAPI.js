@@ -53,12 +53,12 @@ export const updateMatchingRequestStatus = async (token, matchingRequestId, rece
 
 export const sendMatchingRequest = async (token, senderId, receiverId) => {
   try {
-    const notificationData = {
+    const matchingRequestData = {
       "senderId": senderId,
       "receiverId": receiverId,
       "type": "matching-request"
     }
-    const res = await axios(postRequest(token, notificationData));
+    const res = await axios(postRequest(token, matchingRequestData));
     return res.data;
   } catch (error) {
       console.log("error in sendMatchingRequest call")

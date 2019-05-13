@@ -16,7 +16,7 @@ class SPMatchingStatusPage extends Component {
 
   async componentDidMount() {
     //TODO update token
-    let requestsList = await getMatchingRequests('aaa', '5cb6c2f7262b2c2779d0da13');
+    let requestsList = await getMatchingRequests( localStorage.getItem('token'), this.props.currentUser._id);
     this.setState({
       matchingRequestsList: requestsList
     });

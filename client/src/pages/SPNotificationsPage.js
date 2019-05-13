@@ -5,6 +5,7 @@ import { getNotifications } from '../serverCalls/NotificationAPI.js';
 import { updateMatchingRequestStatus } from '../serverCalls/matchingRequestAPI.js';
 import { updateNotificationStatus } from '../serverCalls/NotificationAPI.js';
 import SPupdateMatchingRequestStatusModal from '../components/SPUpdateMatchingRequestStatusModal.js'
+import eosio from '../utils/eosioClient.js'
 
 
 class SPNotificationsPage extends Component {
@@ -22,19 +23,20 @@ class SPNotificationsPage extends Component {
   }
 
   async componentDidMount() {
-    const res = await getNotifications('aaa', '5cb6c2f7262b2c2779d0da13');
+    console.log(this.props.currentUser);
+    const res = await getNotifications(localStorage.getItem('token'), this.props.currentUser._id);
     console.log(res);
     this.setState({
       notifications: res
     });
   }
 
-  updateRequestStatus(token, matchingRequestId, receiverId, senderId, status, notificationId) {
+  updateRequestStatus(matchingRequestId, receiverId, senderId, status, notificationId) {
     this.setState({
       modal: true,
       modalType: status,
       dataForUpdateRequest: {
-        token: token,
+        token: localStorage.getItem('token'),
         matchingRequestId: matchingRequestId,
         receiverId: receiverId,
         senderId: senderId,
@@ -44,8 +46,8 @@ class SPNotificationsPage extends Component {
     });
   }
 
-  async updateNotification(token, notificationId, ownerId, status) {
-    const res = await updateNotificationStatus(token, notificationId, ownerId, status);
+  async updateNotification( notificationId, ownerId, status) {
+    const res = await updateNotificationStatus(localStorage.getItem('token'), notificationId, ownerId, status);
     const notificationsToUpdate = this.state.notifications;
     for (var i in notificationsToUpdate) {
       if (notificationsToUpdate[i].notificationId === notificationId) {
@@ -58,8 +60,22 @@ class SPNotificationsPage extends Component {
     });
   }
 
-  async closeModal(didCloseFromCancel, dnaFileContent) {
+  async closeModal(didCloseFromCancel, dnaFileContent, userKey) {
     if ((!didCloseFromCancel && this.state.modalType === 'Approved') || (this.state.modalType === 'Read')) {
+
+      if(dnaFileContent.trim().length !== 0 ) {
+        console.log("dna in serchUserPage: " + dnaFileContent);
+        let eos = new eosio(userKey);
+        let result = await eos.transaction('spacc',
+                                        this.props.currentUser.eosAcc,
+                                        'upsert',
+                                        {
+                                          user: this.props.currentUser.eosAcc,
+                                          dna: dnaFileContent
+                                        });
+        console.log(result);
+        eos = null;
+      }
       const res = await updateMatchingRequestStatus(this.state.dataForUpdateRequest.token,
                                                     this.state.dataForUpdateRequest.matchingRequestId,
                                                     this.state.dataForUpdateRequest.receiverId,

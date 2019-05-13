@@ -6,6 +6,7 @@ import {DebounceInput} from 'react-debounce-input';
 import { MDBContainer, MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter, MDBBtn } from "mdbreact";
 import { searchUser } from '../serverCalls/UsersAPI.js'
 import { sendMatchingRequest } from '../serverCalls/matchingRequestAPI.js';
+import eosio from '../utils/eosioClient.js'
 
 class SPSearchUserPage extends Component {
   constructor(props) {
@@ -27,12 +28,23 @@ class SPSearchUserPage extends Component {
     });
   }
 
-  async closeModal(didCloseFromCancel, dnaFileContent) {
-    //if the user closed the modal from cancel button - don't send a matching request
+  async closeModal(didCloseFromCancel, userKey, dnaFileContent) {
+    //if the user closed the modal from "approve" button - send a matching request, else, just close the modal without sending request
     if (!didCloseFromCancel) {
+      console.log('userKey:\n', userKey);
+      let eos = new eosio(userKey);
       console.log("dna in serchUserPage: " + dnaFileContent);
-      //TODO change 'aaa' in a real token + send file content to EOS contract
-      let res = await sendMatchingRequest('aaa', '5cb6c2f7262b2c2779d0da13', this.state.userToSendRequest.userId);
+      let res = await eos.transaction('spacc',
+                                       this.props.currentUser.eosAcc,
+                                       'upsert',
+                                       {
+                                         user: this.props.currentUser.eosAcc,
+                                         dna: dnaFileContent
+                                       });
+      console.log(res);
+      eos = null;
+      res = await sendMatchingRequest(localStorage.getItem('token'), this.props.currentUser._id , this.state.userToSendRequest.userId);
+      console.log("res from send matching request:\n",res);
     }
     this.setState({
       modal: false
@@ -42,8 +54,7 @@ class SPSearchUserPage extends Component {
   async handleChange(e) {
     let newUsersList = [];
     if (e.target.value !== "") {
-      //TODO change 'aaa' in a real token
-      newUsersList = await searchUser(e.target.value, 'aaa');
+      newUsersList = await searchUser(e.target.value, localStorage.getItem('token'));
     } else {
       newUsersList = [];
     }
