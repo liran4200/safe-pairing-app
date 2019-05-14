@@ -6,7 +6,8 @@ class  SPRequest extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      status: ""
+      status: "",
+      evaluation: ""
     }
     this.cardColorByStatus = this.cardColorByStatus.bind(this);
     this.dateAsString = this.dateAsString.bind(this);
@@ -14,13 +15,15 @@ class  SPRequest extends Component {
 
   componentDidMount() {
     this.setState({
-      status: this.props.status
+      status: this.props.status,
+      evaluation: this.props.evaluation
     })
   }
 
   componentWillReceiveProps(newProps) {
     this.setState({
-      status: newProps.status
+      status: newProps.status,
+      evaluation: newProps.evaluation
     });
   }
 
@@ -47,7 +50,7 @@ class  SPRequest extends Component {
         <MDBCardBody>
           <MDBCardTitle>{this.props.matchingUser}</MDBCardTitle>
           <MDBCardText>
-            --
+           {this.state.evaluation}
           </MDBCardText>
           </MDBCardBody>
         <MDBCardFooter color={this.cardColorByStatus(this.props.status)}>{this.dateAsString(this.props.createdDate)}</MDBCardFooter>

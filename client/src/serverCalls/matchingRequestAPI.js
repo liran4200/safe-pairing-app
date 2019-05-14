@@ -80,7 +80,8 @@ export const getMatchingRequests = async (token, userId) => {
         senderUser: matchingRequest.senderId.firstName + " " + matchingRequest.senderId.lastName,
         senderId: matchingRequest.senderId._id,
         status: matchingRequest.status,
-        createdDate: matchingRequest.createdDate
+        createdDate: matchingRequest.createdDate,
+        evaluation: matchingRequest.evaluation
       }
     })
     return arrayToReturn;

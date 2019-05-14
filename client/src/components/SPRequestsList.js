@@ -33,6 +33,7 @@ class SPRequestList extends Component {
                 matchingUser={request.receiverUser}
                 status={request.status}
                 createdDate={request.createdDate}
+                evaluation={request.evaluation}
               />
           ))}
         </div>

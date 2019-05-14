@@ -1,4 +1,5 @@
 const { types, mailOptions , status } = require('../utils/constants');
+const {getMatching} = require('../eosActions/actions');
 const sendMail = require('../utils/sendMail');
 const connections = require('../utils/Connections');
 const auth = require('../middleware/auth');
@@ -66,11 +67,11 @@ router.post('/', async (req, res) => {
             .replace("<status>", matchingRequest.status);
     const subject = mailOptions.matchingRequest.MATCHING_REQUEST_SUBJECT.replace("<status>", matchingRequest.status);
 
-    sendMail(
-        matchingRequest.receiverId.email,
-        subject,
-        '',
-        html);
+    // sendMail(
+    //     matchingRequest.receiverId.email,
+    //     subject,
+    //     '',
+    //     html);
 
     //create new notification
     let notification = new Notification({
@@ -93,22 +94,23 @@ router.put('/status/:id', async (req, res) => {
     if(!validateStatus(req.body.status)){
         return res.status(400).send("Status is not exists");
     }
-    let matchingRequest = await MatchingRequest.findByIdAndUpdate(req.params.id, {status: req.body.status }, {
-        new: true
-    });
+    let matchingRequest = await MatchingRequest.findById(req.params.id);
     if(!matchingRequest) res.status(404).send("Matching request not found");
+    console.log("matching request before update\n" + matchingRequest);
 
     const user = await User.findById(req.body.receiverId);
     if(!user) {
         res.status(404).send("User not found");
     }
     console.log(user);
-    matchingRequest = _.pick(matchingRequest, ['_id','receiverId','senderId','type','status']);
-
-    if(matchingRequest.status === status.APPROVED){
+    let result ={};
+    if(req.body.status === status.APPROVED){
         try{
-            const result = await eosActions.getMatching();
-            console.log(result);
+            console.log("inside"+matchingRequest);
+            result = await getMatching();
+            console.log("--- --Result: "+result.processed.action_traces[0].console);
+            matchingRequest.evaluation = result.processed.action_traces[0].console +  "%";
+
         }catch(e) {
             console.error("Error in getMatching:\n",e);
             console.error(JSON.stringify(e));
@@ -118,20 +120,22 @@ router.put('/status/:id', async (req, res) => {
         } 
     }
 
+    matchingRequest.status = req.body.status;
+    matchingRequest = await matchingRequest.save();
+    matchingRequest = _.pick(matchingRequest, ['_id','receiverId','senderId','type','status','evaluation']);
+    console.log("matching request after:\n"+matchingRequest);
 
     //send mail
     const html = mailOptions.matchingRequest.MATCHING_REQUEST_BODY
             .replace("<username>", req.body.senderName)
             .replace("<status>", matchingRequest.status);
-    console.debug(html);
     const subject = mailOptions.matchingRequest.MATCHING_REQUEST_SUBJECT.replace("<status>", matchingRequest.status);
-    console.debug(subject);
 
-    sendMail(
-        user.email,
-        subject,
-        '',
-        html);
+    // sendMail(
+    //     user.email,
+    //     subject,
+    //     '',
+    //     html);
 
       //create new notification
       let notification = new Notification({

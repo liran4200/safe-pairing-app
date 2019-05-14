@@ -12,6 +12,7 @@ set -m
 # run it in a background job such that docker run could continue
 nodeos  -e -p eosio -d /mnt/dev/data \
   --config-dir /opt/eosio/bin/scripts \
+  --genesis-json /opt/eosio/bin/scripts/genesis.json \
   --http-validate-host=false \
   --plugin eosio::producer_plugin \
   --plugin eosio::chain_api_plugin \
