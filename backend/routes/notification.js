@@ -46,7 +46,7 @@ router.get('/:ownerId', async (req, res ) => {
               select: 'firstName lastName email'
             }
         })
-        .select( {status: 1, type: 1, createdDate: 1, matchingRequestStatus: 1, ownerId: 1, lastUpdateDate: 1} );
+        .select( {status: 1, type: 1, matchingRequestStatus: 1, ownerId: 1, lastUpdateDate: 1} );
 
     res.send(notifications);
 });
