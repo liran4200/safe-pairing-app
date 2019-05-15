@@ -51,7 +51,7 @@ router.post('/', async (req, res) => {
 
     let matchingRequest = new MatchingRequest(_.pick(req.body, ['receiverId','senderId','type','status']));
     await matchingRequest.save();
-    
+
     //populate sender user.
     console.debug(matchingRequest);
     matchingRequest = await MatchingRequest
@@ -117,7 +117,7 @@ router.put('/status/:id', async (req, res) => {
             if(e && e.json && e.json.code)
                 return res.status(e.code).send(e);
             return res.status(400).send(JSON.stringify(e));
-        } 
+        }
     }
 
     matchingRequest.status = req.body.status;
@@ -127,15 +127,16 @@ router.put('/status/:id', async (req, res) => {
 
     //send mail
     const html = mailOptions.matchingRequest.MATCHING_REQUEST_BODY
-            .replace("<username>", req.body.senderName)
+            .replace("<username>", getFullName(user))
             .replace("<status>", matchingRequest.status);
     const subject = mailOptions.matchingRequest.MATCHING_REQUEST_SUBJECT.replace("<status>", matchingRequest.status);
+    const senderUser = await User.findById(req.body.senderId);
 
-    // sendMail(
-    //     user.email,
-    //     subject,
-    //     '',
-    //     html);
+    sendMail(
+        senderUser.email,
+        subject,
+        '',
+        html);
 
       //create new notification
       let notification = new Notification({
