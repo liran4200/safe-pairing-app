@@ -76,7 +76,7 @@ export const confirmUser = async (id,code) => {
       {
       headers: {
         'Content-Type': 'application/json'
-      }
+            }
     });
       return res.data;
       }catch(error) {

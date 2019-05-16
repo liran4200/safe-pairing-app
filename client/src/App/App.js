@@ -17,6 +17,7 @@ let backgroundHome = {
   backgroundImage: `url(${Background})`
 };
 
+
 class App extends Component {
   constructor(props){
     super(props);
@@ -42,10 +43,10 @@ class App extends Component {
         <div className="App">
           {/* <HeaderBar isLoggedIn={this.state.isLoggedIn}></HeaderBar> */}
         </div>
-        <div  style={backgroundHome}> 
-          <Route exact path="/"  component={HomePage}></Route>
-          <Route path="/sign-up"  component={SignUpPage}></Route>
-          <Route path="/sign-in"  render={(routeProps) => ( <SignInPage {...routeProps} onLoggedIn={this.onLoggedIn}/>)}
+        <div> 
+          <Route exact path="/"  component={props => <HomePage {...props} background={backgroundHome}/>}></Route>
+          <Route path="/sign-up"  component={props => <SignUpPage {...props} background={backgroundHome}/>}></Route>
+          <Route path="/sign-in"  component={(props) => ( <SignInPage {...props} background={backgroundHome}/>)}
           />
           <Route path="/dashboard"  component={DashBoard}></Route>
         </div>

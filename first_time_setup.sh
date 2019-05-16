@@ -39,7 +39,7 @@ mkdir -p "./eosio_docker/data"
 # set up node_modules for frontend
 echo "=== npm install package for frontend react app ==="
 # change directory to ./frontend
-cd "$SCRIPTPATH/frontend"
+cd "$SCRIPTPATH/client"
 npm install
 
 # set up node_modules for backend

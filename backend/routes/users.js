@@ -25,7 +25,7 @@ router.get('/me',auth, async (req, res ) => {
     res.status(200).send(_.pick(user, ['_id', 'firstName', 'lastName', 'email','eosAcc']) );
 });
 
-router.get('/search/', async ( req, res) => {
+router.get('/search/', auth ,async ( req, res) => {
     const pageNumberDefault = 1;
     const pageSizeDefault = 10;
     let pageNumber =  parseInt(req.query.pageNumber);
@@ -67,7 +67,7 @@ router.get('/search/', async ( req, res) => {
 });
 
 
-router.get('/:id', validateObjectId, async (req, res ) => {
+router.get('/:id', auth, validateObjectId, async (req, res ) => {
     const user = await User
         .findById(req.params.id)
         .select({ _id: 1, firstName: 1, lastName: 1, email: 1});
@@ -80,7 +80,7 @@ router.get('/:id', validateObjectId, async (req, res ) => {
 });
 
 
-router.post('/register', async (req, res) => {
+router.post('/register',async (req, res) => {
     const {error} = validate(_.pick(req.body, ['firstName','lastName','email','password','publicKey','eosAcc']));
     if(error) {
         return res.status(400).send(error.details[0].message);
