@@ -51,7 +51,7 @@ router.post('/', auth,async (req, res) => {
 
     let matchingRequest = new MatchingRequest(_.pick(req.body, ['receiverId','senderId','type','status']));
     await matchingRequest.save();
-    
+
     //populate sender user.
     console.debug(matchingRequest);
     matchingRequest = await MatchingRequest
@@ -117,7 +117,7 @@ router.put('/status/:id', auth,async (req, res) => {
             if(e && e.json && e.json.code)
                 return res.status(e.code).send(e);
             return res.status(400).send(JSON.stringify(e));
-        } 
+        }
     }
 
     matchingRequest.status = req.body.status;
@@ -127,12 +127,13 @@ router.put('/status/:id', auth,async (req, res) => {
 
     //send mail
     const html = mailOptions.matchingRequest.MATCHING_REQUEST_BODY
-            .replace("<username>", req.body.senderName)
+            .replace("<username>", getFullName(user))
             .replace("<status>", matchingRequest.status);
     const subject = mailOptions.matchingRequest.MATCHING_REQUEST_SUBJECT.replace("<status>", matchingRequest.status);
+    const senderUser = await User.findById(req.body.senderId);
 
     // sendMail(
-    //     user.email,
+    //     senderUser.email,
     //     subject,
     //     '',
     //     html);

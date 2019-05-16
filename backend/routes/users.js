@@ -25,7 +25,7 @@ router.get('/me',auth, async (req, res ) => {
     res.status(200).send(_.pick(user, ['_id', 'firstName', 'lastName', 'email','eosAcc']) );
 });
 
-router.get('/search/', auth ,async ( req, res) => {
+router.get('/search/', auth, async (req, res) => {
     const pageNumberDefault = 1;
     const pageSizeDefault = 10;
     let pageNumber =  parseInt(req.query.pageNumber);
@@ -50,7 +50,7 @@ router.get('/search/', auth ,async ( req, res) => {
         firstName = req.query.keyWord
         lastName = req.query.keyWord
     }
-    const users = await User.find(
+    const usersFromDb = await User.find(
         {
             $or: [
                 {firstName: { $regex: firstName, $options: 'i'} },
@@ -63,11 +63,13 @@ router.get('/search/', auth ,async ( req, res) => {
     .limit(pageSize)
     .select('firstName lastName email');
 
+    const users = usersFromDb.filter(usr => usr._id != req.user._id);
+
     res.status(200).send(users);
 });
 
 
-router.get('/:id', auth, validateObjectId, async (req, res ) => {
+router.get('/:id', validateObjectId, async (req, res ) => {
     const user = await User
         .findById(req.params.id)
         .select({ _id: 1, firstName: 1, lastName: 1, email: 1});
@@ -80,7 +82,7 @@ router.get('/:id', auth, validateObjectId, async (req, res ) => {
 });
 
 
-router.post('/register',async (req, res) => {
+router.post('/register', async (req, res) => {
     const {error} = validate(_.pick(req.body, ['firstName','lastName','email','password','publicKey','eosAcc']));
     if(error) {
         return res.status(400).send(error.details[0].message);
@@ -101,7 +103,7 @@ router.post('/register',async (req, res) => {
         if(e && e.json && e.json.code)
             return res.status(e.code).send(e);
         return res.status(400).send(JSON.stringify(e));
-    } 
+    }
 
     user = new User(_.pick(req.body, ['firstName','lastName','email','password','publicKey','eosAcc']));
     const salt = await bcrypt.genSalt(10);
@@ -113,7 +115,7 @@ router.post('/register',async (req, res) => {
     // send mail
     const body = mailOptions.emailConfirm.EMAIL_CONFIRMATION_BODY.replace("<code>", user.code);
     // sendMail(
-    //     user.email, 
+    //     user.email,
     //     mailOptions.emailConfirm.EMAIL_CONFIRMATION_SUBJECT,
     //     '',
     //     body.replace("<username>", getFullName(user))
@@ -127,14 +129,14 @@ router.post('/confirmation/:id',validateObjectId ,async (req, res) => {
     // TODO: check if already active.
     if(!req.body.code)
         return res.status(400).send('Confirmation code not provided');
-    
+
     let user = await User.findById(req.params.id);
     if(!user)
         return res.status(404).send('User not found');
-    
+
     if(req.body.code != user.code)
         return res.status(400).send('Confirmation code is not matching, please try again');
-    
+
     user.isActive = true;
     user.save();
     //TODO: remove code field from mongo
