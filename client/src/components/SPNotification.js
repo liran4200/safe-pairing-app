@@ -10,11 +10,16 @@ class SPNotification extends Component {
       status: props.notificationStatus
     }
     this.calculateTextStyleForStatus = this.calculateTextStyleForStatus.bind(this);
-    this.markNewNotificationAsRead = this.markNewNotificationAsRead.bind(this);
-    this.approveMatchingRequest = this.approveMatchingRequest.bind(this);
-    this.markUpdateNotificationAsRead = this.markUpdateNotificationAsRead.bind(this);
     this.calculateBorderColorForStatus = this.calculateBorderColorForStatus.bind(this);
     this.dateAsString = this.dateAsString.bind(this);
+  }
+
+  componentWillReceiveProps(newProps) {
+    if (this.props != newProps) {
+      this.setState({
+        status: newProps.notificationStatus
+      });
+    }
   }
 
   calculateTextStyleForStatus(status) {
@@ -33,27 +38,6 @@ class SPNotification extends Component {
     }
   }
 
-  markNewNotificationAsRead() {
-    this.props.markAsRead();
-    this.setState({
-      status: 'Read'
-    });
-  }
-
-  approveMatchingRequest() {
-    this.props.approveMatchingRequest();
-    this.setState({
-      status: 'Approved'
-    });
-  }
-
-  markUpdateNotificationAsRead() {
-    this.props.markNotificationAsRead();
-    this.setState({
-      status: 'Read'
-    });
-  }
-
   dateAsString(date) {
     const myDate = new Date(date);
     return `${myDate.getDate()}-${myDate.getMonth()}-${myDate.getFullYear()}, ${myDate.getHours()}:${myDate.getMinutes()}`
@@ -67,9 +51,9 @@ class SPNotification extends Component {
           <MDBContainer>
             <MDBCard color={this.calculateBorderColorForStatus()} border="info" style={{ marginTop: "1rem"}} className="text-center w-75 mx-auto">
               <MDBCardBody className={this.calculateTextStyleForStatus(this.state.status)}> {otherUser} sent you a matching request </MDBCardBody>
-              {this.state.status === 'new' ? (<MDBBtn color="primary" onClick={this.markNewNotificationAsRead}> Mark As Read </MDBBtn>) : null}
+              {this.state.status === 'new' ? (<MDBBtn color="primary" onClick={this.props.markAsRead}> Mark As Read </MDBBtn>) : null}
               {this.state.status === 'Approved' ? (<MDBCardText className='font-weight-light' style={{paddingBottom: "2rem"}}> Matching approved </MDBCardText>)
-                                           : (<MDBBtn color="primary" onClick={this.approveMatchingRequest}> approve matching request </MDBBtn>)}
+                                           : (<MDBBtn color="primary" onClick={this.props.approveMatchingRequest}> approve matching request </MDBBtn>)}
              <MDBCardFooter>{this.dateAsString(this.props.updateDate)}</MDBCardFooter>
             </MDBCard>
           </MDBContainer>
@@ -79,7 +63,7 @@ class SPNotification extends Component {
         <MDBContainer>
           <MDBCard color={this.calculateBorderColorForStatus()} border="info" style={{ marginTop: "1rem"}} className="text-center w-75 mx-auto">
             <MDBCardBody className={this.calculateTextStyleForStatus(this.state.status)}> {otherUser} updated your matching request status to - "{this.props.requestStatus}" </MDBCardBody>
-            {this.state.status === 'new' ? (<MDBBtn color="primary" onClick={this.markUpdateNotificationAsRead}> Mark As Read </MDBBtn>) : null}
+            {this.state.status === 'new' ? (<MDBBtn color="primary" onClick={this.props.markNotificationAsRead}> Mark As Read </MDBBtn>) : null}
             <MDBCardFooter>{this.dateAsString(this.props.updateDate)}</MDBCardFooter>
           </MDBCard>
         </MDBContainer>

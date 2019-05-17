@@ -78,7 +78,8 @@ router.post('/', async (req, res) => {
       matchingRequestId: matchingRequest._id,
       ownerId: matchingRequest.receiverId,
       otherUserId: matchingRequest.senderId,
-      matchingRequestStatus: matchingRequest.status
+      matchingRequestStatus: matchingRequest.status,
+      lastUpdateDate: new Date()
     });
     await notification.save();
     //push notification.
@@ -144,8 +145,8 @@ router.put('/status/:id', async (req, res) => {
         ownerId: matchingRequest.senderId,
         otherUserId: matchingRequest.receiverId,
         type: types.UPDATE_MATCHING_NOTIFICATION,
-        matchingRequestStatus: matchingRequest.status
-
+        matchingRequestStatus: matchingRequest.status,
+        lastUpdateDate: new Date()
       });
       await notification.save();
 

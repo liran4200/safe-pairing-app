@@ -56,7 +56,11 @@ export const updateNotificationStatus = async (token, notificationId, ownerId, s
       "status": status
     }
     const res = await axios(putRequest(token, matchingRequestData));
-    return res.data;
+    return {
+      notificationId: res.data._id,
+      ownerId: res.data.ownerId,
+      status: res.data.status,
+    }
   } catch (error) {
       console.log("error in updateNotificationStatus call")
       console.log(error)

@@ -17,7 +17,7 @@ const matchingRequestSchema =  new mongoose.Schema({
     type: {
         type: String,
         maxlength: 20,
-        require: true
+        required: true
     },
     status: {
         type: String,
@@ -25,7 +25,8 @@ const matchingRequestSchema =  new mongoose.Schema({
     },
     createdDate: {
         type: Date,
-        default: Date.now()
+        default: Date.now(),
+        required: true
     },
     evaluation: {
       type: String,
