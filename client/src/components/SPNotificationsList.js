@@ -10,7 +10,7 @@ class SPNotificationsList extends Component {
   }
 
   componentWillReceiveProps(newProps) {
-    if (this.props !== newProps) {
+    if (this.props != newProps) {
       this.setState({
         notificationsList: newProps.notificationsList
       });
