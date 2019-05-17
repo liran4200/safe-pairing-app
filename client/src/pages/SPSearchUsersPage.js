@@ -3,7 +3,7 @@ import SPUsersList from '../components/SPUsersList.js';
 import SPSendRequestModal from '../components/SPSendRequestModal'
 import '../styles/SPSearchUserPage.css';
 import {DebounceInput} from 'react-debounce-input';
-import { MDBContainer, MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter, MDBBtn } from "mdbreact";
+import { MDBContainer} from "mdbreact";
 import { searchUser } from '../serverCalls/UsersAPI.js'
 import { sendMatchingRequest } from '../serverCalls/matchingRequestAPI.js';
 import eosio from '../utils/eosioClient.js'

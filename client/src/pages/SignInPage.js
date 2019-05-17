@@ -11,9 +11,9 @@ class SignInPage extends React.Component  {
 
     render() {
     return(
-        <div>
+        <div style={this.props.background}>
             <MDBContainer>
-                <SignIn onLoggedIn={this.props.onLoggedIn}
+                <SignIn
                 />
             </MDBContainer>
         </div>

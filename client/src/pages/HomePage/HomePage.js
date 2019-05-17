@@ -24,7 +24,7 @@ class HomePage extends React.Component{
 
    render(){
       return(
-        <div>
+        <div style={this.props.background}>
         <MDBContainer className="px-md-3 px-sm-0">
           <MDBRow>
           <MDBCol md="12" className="mb-4 white-text text-center">

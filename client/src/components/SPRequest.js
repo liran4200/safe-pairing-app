@@ -35,6 +35,8 @@ class  SPRequest extends Component {
         return "info-color";
       case "Approved":
         return "success-color";
+      default:
+        return "";
     }
   }
 

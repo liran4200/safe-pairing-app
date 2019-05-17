@@ -1,10 +1,7 @@
 import React from 'react';
-import SideNav, { Toggle, Nav, NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav';
-import { BrowserRouter as Router, Route, Link,Switch } from 'react-router-dom';
+import SideNav, { NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav';
+import { Route } from 'react-router-dom';
 import '@trendmicro/react-sidenav/dist/react-sidenav.css';
-import Breadcrumbs from '@trendmicro/react-breadcrumbs';
-import { Button, ButtonGroup } from '@trendmicro/react-buttons';
-import Dropdown, { MenuItem } from '@trendmicro/react-dropdown';
 import SPSearchUsersPage from './SPSearchUsersPage';
 import SPMatchingStatusPage from './SPMatchingStatusPage';
 import SPNotificationsPage from './SPNotificationsPage';

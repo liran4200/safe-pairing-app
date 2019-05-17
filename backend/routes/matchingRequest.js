@@ -13,7 +13,7 @@ const router = express.Router();
 const { addDnaToContract } = require('../eosActions/actions');
 router.use(multiplyLocalHost);
 
-router.get('/:userId', async (req, res ) => {
+router.get('/:userId', auth,async (req, res ) => {
     const pageNumberDefault = 1;
     const pageSizeDefault = 10;
     let pageNumber =  parseInt(req.query.pageNumber);
@@ -43,7 +43,7 @@ router.get('/:userId', async (req, res ) => {
     res.send(matchingRequests);
 });
 
-router.post('/', async (req, res) => {
+router.post('/', auth,async (req, res) => {
     const {error} = validate(req.body);
     if(error) {
         return res.status(400).send(error.details[0].message);
@@ -91,7 +91,7 @@ router.post('/', async (req, res) => {
     res.status(200).send( _.pick(matchingRequest, ['_id','receiverId','senderId','type','status']));
 });
 
-router.put('/status/:id', async (req, res) => {
+router.put('/status/:id', auth,async (req, res) => {
     if(!validateStatus(req.body.status)){
         return res.status(400).send("Status is not exists");
     }
@@ -159,7 +159,7 @@ router.put('/status/:id', async (req, res) => {
     res.status(200).send(matchingRequest);
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', auth,async (req, res) => {
     const matchingRequest = await MatchingRequest
             .findById(req.params.id)
             .populate('senderId','firstName lastName email')

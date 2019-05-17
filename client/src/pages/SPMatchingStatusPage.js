@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import 'bulma';
 import SPRequestsList from '../components/SPRequestsList.js';
 import { getMatchingRequests } from '../serverCalls/matchingRequestAPI.js';
-import { MDBBadge } from "mdbreact";
 import '../styles/SPMatchingStatusPage.css';
 
 class SPMatchingStatusPage extends Component {
@@ -15,7 +14,6 @@ class SPMatchingStatusPage extends Component {
   }
 
   async componentDidMount() {
-    //TODO update token
     let requestsList = await getMatchingRequests( localStorage.getItem('token'), this.props.currentUser._id);
     this.setState({
       matchingRequestsList: requestsList

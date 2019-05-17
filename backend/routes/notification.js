@@ -11,7 +11,7 @@ const router = express.Router();
 
 router.use(multiplyLocalHost);
 
-router.get('/:ownerId', async (req, res ) => {
+router.get('/:ownerId', auth,async (req, res ) => {
     const pageNumberDefault = 1;
     const pageSizeDefault = 10;
     let pageNumber =  parseInt(req.query.pageNumber);
@@ -51,7 +51,7 @@ router.get('/:ownerId', async (req, res ) => {
     res.send(notifications);
 });
 
-router.put('/status/:id', async (req, res) => {
+router.put('/status/:id',auth, async (req, res) => {
     if(!validateStatus(req.body.status)){
         return res.status(400).send("Status is not exists");
     }

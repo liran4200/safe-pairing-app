@@ -2,11 +2,13 @@ import React from 'react';
 import SignUp from "../components/SignUp/SignUp";
 import {MDBContainer} from 'mdbreact';
 
-const SignUpPage = () =>  {
+const SignUpPage = (props) =>  {
     return(
-         <MDBContainer>
+        <div style={props.background}>
+         <MDBContainer >
             <SignUp/>
         </MDBContainer>
+        </div>
     );
 }
 

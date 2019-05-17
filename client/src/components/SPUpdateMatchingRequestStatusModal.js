@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { MDBContainer,MDBBtn, MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter } from 'mdbreact';
+import {MDBBtn, MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter } from 'mdbreact';
 
 class SPUpdateMatchingRequestStatusModal extends Component {
 
@@ -10,7 +10,6 @@ constructor(props) {
         dnaFileContent: "",
         userKey: ""
     };
-    let fileReader;
     this.handleFileChosen = this.handleFileChosen.bind(this);
     this.handleFileRead = this.handleFileRead.bind(this);
     this.handleUserKeyChanged = this.handleUserKeyChanged.bind(this);
