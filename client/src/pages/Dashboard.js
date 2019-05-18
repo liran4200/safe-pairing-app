@@ -52,7 +52,8 @@ export default class extends React.Component {
           updatedStatus: data.matchingRequestStatus
         });
         //raise an alert
-        this.notify('updateStatus');
+        const msg = data.matchingRequestStatus === 'Approved' ? 'result':'updateStatus';
+        this.notify(msg);
       });
       socket.on('notify', async data => {
         const user = await getUserById(data.otherUserId._id, localStorage.getItem('token'));
@@ -77,6 +78,13 @@ export default class extends React.Component {
           toast.success(`${this.state.userNameNotified} just updated the status of your matching request to - "${this.state.updatedStatus}"`, {
             autoClose: 7000
           });
+          break;
+        case 'result':
+          toast.success(`You got a evaluation to the matching request with ${this.state.userNameNotified}! Look at the statuses page`, {
+            autoClose: 10000
+          });
+          break;
+        default:
           break;
       }
     }

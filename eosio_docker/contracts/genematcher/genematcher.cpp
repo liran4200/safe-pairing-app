@@ -16,9 +16,9 @@
          
           //init matrix 
           int rows = DNA1.length() + 1, cols = DNA2.length() + 1;
-          matrix = new int*[rows+1];
-          for (int i = 0; i < rows+1; ++i)
-              matrix[i] = new int[cols+1];
+          matrix = new int*[rows];
+          for (int i = 0; i < rows; ++i)
+              matrix[i] = new int[cols];
             
           //--------------------------------------------
           //---------------Start Algorithim-------------
@@ -43,7 +43,7 @@
               }
           }
 
-          int matchCost = traceback( n, m, DNA1, DNA2);
+          int matchCost = traceback( m, n, DNA1, DNA2);
           string result = getrelation(matchCost);
           print(result.c_str(),",",matchCost);
 
