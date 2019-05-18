@@ -61,7 +61,7 @@ render() {
         <MDBModal isOpen={this.state.isOpen} toggle={() => {this.toggle(true)}}>
           <MDBModalHeader toggle={() => {this.toggle(true)}}>Yes!</MDBModalHeader>
           <MDBModalBody>
-            You've updates the matching request status to "Read"
+            You've updated the matching request status to "Read"
           </MDBModalBody>
           <MDBModalFooter>
             <MDBBtn color="info" onClick={() => {this.toggle(false)}}>Ok, Got it</MDBBtn>

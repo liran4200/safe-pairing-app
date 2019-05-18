@@ -14,7 +14,7 @@ class SPMatchingStatusPage extends Component {
   }
 
   async componentDidMount() {
-    let requestsList = await getMatchingRequests( localStorage.getItem('token'), this.props.currentUser._id);
+    let requestsList = await getMatchingRequests(localStorage.getItem('token'), this.props.currentUser._id);
     this.setState({
       matchingRequestsList: requestsList
     });
@@ -25,7 +25,10 @@ class SPMatchingStatusPage extends Component {
       <div className="matching-status-page-content">
         <div className="matching-status-container">
           <section className="section">
-            <SPRequestsList requestsList={this.state.matchingRequestsList} />
+            <SPRequestsList
+              requestsList={this.state.matchingRequestsList}
+              currentUserId={this.props.currentUser._id}
+            />
           </section>
         </div>
       </div>

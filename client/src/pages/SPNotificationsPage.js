@@ -46,7 +46,7 @@ class SPNotificationsPage extends Component {
     });
   }
 
-  async updateNotification( notificationId, ownerId, status) {
+  async updateNotification(notificationId, ownerId, status) {
     const res = await updateNotificationStatus(localStorage.getItem('token'), notificationId, ownerId, status);
     const notificationsToUpdate = this.state.notifications;
     for (var i in notificationsToUpdate) {
@@ -61,9 +61,9 @@ class SPNotificationsPage extends Component {
   }
 
   async closeModal(didCloseFromCancel, dnaFileContent, userKey) {
-    if ((!didCloseFromCancel && this.state.modalType === 'Approved') || (this.state.modalType === 'Read')) {
-
-      if(dnaFileContent.trim().length !== 0 ) {
+    const notificationsToUpdate = this.state.notifications;
+    if ((!didCloseFromCancel && this.state.modalType == 'Approved') || (this.state.modalType == 'Read')) {
+      if (dnaFileContent.trim().length !== 0) {
         console.log("dna in serchUserPage: " + dnaFileContent);
         let eos = new eosio(userKey);
         let result = await eos.transaction('spacc',
@@ -82,15 +82,24 @@ class SPNotificationsPage extends Component {
                                                     this.state.dataForUpdateRequest.senderId,
                                                     this.state.dataForUpdateRequest.status);
       //update notification status for UI - owner in this case is always the receiver
-      await updateNotificationStatus(this.state.dataForUpdateRequest.token,
+      const updatedNotification = await updateNotificationStatus(this.state.dataForUpdateRequest.token,
                                      this.state.dataForUpdateRequest.notificationId,
                                      this.state.dataForUpdateRequest.receiverId,
                                      this.state.dataForUpdateRequest.status);
+
+      for (var i in notificationsToUpdate) {
+        if (notificationsToUpdate[i].notificationId == updatedNotification.notificationId) {
+          notificationsToUpdate[i].status = updatedNotification.status;
+          break;
+        }
+      }
+
     }
     this.setState({
       modal: false,
       modalType: '',
-      dataForUpdateRequest: {}
+      dataForUpdateRequest: {},
+      notifications: notificationsToUpdate
     });
     console.log("dna in notificationsPage: " + dnaFileContent);
   }
