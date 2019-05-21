@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = "http://localhost:4444/api";
+const BASE_URL = `http://${process.env.REACT_APP_DOMAIN}:4444/api`;
 
 export const login = async (credentials) => {
     try{

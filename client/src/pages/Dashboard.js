@@ -43,7 +43,7 @@ export default class extends React.Component {
       console.log('dasboard current user:\n', currentUser);
       this.setState({currentUser});
 
-      const socket = socketIOClient("http://localhost:4444");
+      const socket = socketIOClient(`http://${process.env.REACT_APP_DOMAIN}:4444`);
       socket.emit('subscribe', currentUser._id);
       socket.on('updateStatus', async data => {
         const user = await getUserById(data.otherUserId, localStorage.getItem('token'));
