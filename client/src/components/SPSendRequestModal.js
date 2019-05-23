@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { MDBBtn, MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter } from 'mdbreact';
+import { notify } from '../utils/notify'
+import ecc from 'eosjs-ecc';
 
 class SPSendRequestModal extends Component {
 
@@ -14,13 +16,22 @@ constructor(props) {
     this.handleFileChosen = this.handleFileChosen.bind(this);
     this.handleFileRead = this.handleFileRead.bind(this);
     this.handleUserKeyChanged = this.handleUserKeyChanged.bind(this);
+    this.userKeyValid = this.userKeyValid.bind(this);
 }
 
 toggle = (didCloseFromCancel) => {
-  this.setState({
-    isOpen: !this.state.isOpen
-  });
-  this.props.handleClose(didCloseFromCancel, this.state.userKey, this.state.dnaFileContent);
+  if ((this.userKeyValid(this.state.userKey) && this.state.dnaFileContent.length > 0) || didCloseFromCancel) {
+    this.setState({
+      isOpen: !this.state.isOpen
+    });
+    this.props.handleClose(didCloseFromCancel, this.state.userKey, this.state.dnaFileContent);
+  } else {
+      notify("Oops! make sure your secret code is valid and DNA file uploaded!", "error");
+  }
+}
+
+userKeyValid(userKey) {
+  return ecc.isValidPrivate(userKey);
 }
 
 componentWillReceiveProps(newProps) {
