@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 
-const BASE_URL = "http://localhost:4444/api/matching-requests";
+const BASE_URL = `http://${process.env.REACT_APP_DOMAIN}:4444/api/matching-requests`;
 
 const postRequest = (token, data) => ({
   method: 'post',

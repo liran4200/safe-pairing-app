@@ -5,7 +5,7 @@ import { TextDecoder, TextEncoder } from 'text-encoding';
  export default class EosIoUiClient {
 
   constructor(pr) {
-    const url = 'http://localhost:8888';
+    const url = `http://${process.env.REACT_APP_DOMAIN}:8888`;
     const rpc = new JsonRpc(url);
     const signatureProvider = new JsSignatureProvider([pr]);
     this.eos = new Api({ rpc, signatureProvider, textDecoder: new TextDecoder(), textEncoder: new TextEncoder() });

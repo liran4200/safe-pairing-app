@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = "http://localhost:4444/api/users";
+const BASE_URL = `http://${process.env.REACT_APP_DOMAIN}:4444/api/users`;
 
 const getRequest = (addUrl, token) => ({
   method: 'get',
