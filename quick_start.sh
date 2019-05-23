@@ -6,7 +6,7 @@ echo "[quick_start.sh] First time setup"
 
 # start blockchain and put in background
 echo "[quick_start.sh] Starting eosio docker"
-./start_eosio_docker.sh #--nolog
+./start_eosio_docker.sh --nolog
 
 # wait until eosio blockchain to be started
 until $(curl --output /dev/null \
@@ -19,10 +19,14 @@ do
   sleep 2s
 done
 
-#start frontend react app
-echo "[quick_start.sh] Starting frontend react app"
-./start_frontend.sh &
-P1=$!
+#start backend
+echo "[quick_start.sh] Starting backend "
+open -a Terminal "./start_backend.sh"
 
+#start frontend react app on 2 client
+echo "[quick_start.sh] Starting frontend react app"
+open -a Terminal "./start_frontend.sh"
+open -a Terminal "./start_frontend.sh"
+
+# # wait $P1
 # wait $P1
-wait $P1
