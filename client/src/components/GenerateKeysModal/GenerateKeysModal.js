@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {CopyToClipboard} from 'react-copy-to-clipboard';
 import {MDBBtn, MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter } from 'mdbreact';
 import './GenerateKeysModal.css';
 import ecc from 'eosjs-ecc';
@@ -11,7 +12,8 @@ constructor(props) {
         isOpen: props.isOpen,
         publicKey: "",
         privateKey: "",
-        isGenerating: false
+        isGenerating: false,
+        copied: false
     };
 }
 
@@ -55,18 +57,10 @@ render() {
         <MDBModal isOpen={this.state.isOpen} toggle={() => {this.toggle()}} centered>
           <MDBModalHeader toggle={() => {this.toggle()}}>Generate Your Account's Keys</MDBModalHeader>
           <MDBModalBody>
-            <div className="form-group">
-                <input 
-                    placeholder="Public Key"
-                    type="text" 
-                    className="form-control form-control-sm"
-                    value={this.state.publicKey} 
-                    readOnly
-                 />
-           </div>
+           <span className="label label-warning">Security Warning!! keep your secret key safetly, You will use in our app</span>
            <div className="form-group">
                 <input 
-                    placeholder="Private Key"
+                    placeholder="Secret Key"
                     type="text" 
                     id="code" 
                     className="form-control form-control-sm" 
@@ -74,8 +68,10 @@ render() {
                     readOnly
                  />
            </div>
-           <span className="label label-warning">Security Warning: keep your private key safetly, You will use in our app</span>
-
+            <CopyToClipboard text={this.state.privateKey}
+              onCopy={() => {(this.state.privateKey.length === 0 )?  this.setState({copied: false}) : this.setState({copied: true}) }}>
+              <button className="btn-copy-code btn btn-outline-black btn-sm px-4 waves-effect"><i className="fa fa-copy mr-1"></i> Copy secret</button>
+            </CopyToClipboard>{this.state.copied? (<span>copied</span>):null}
           </MDBModalBody>
           <MDBModalFooter>
             <MDBBtn color="deep-orange" onClick={() => {this.toggle()}}>Close</MDBBtn>

@@ -53,7 +53,6 @@ render() {
           </MDBModalBody>
           <MDBModalFooter>
             <MDBBtn color="deep-orange" onClick={() => {this.toggle()}}>Close</MDBBtn>
-            <MDBBtn color="secondary" onClick={() => {}}>re-send email</MDBBtn>
             <MDBBtn color="primary" onClick={()=>{this.handleConfirm()} }>CONFIRM </MDBBtn>
           </MDBModalFooter>
         </MDBModal>

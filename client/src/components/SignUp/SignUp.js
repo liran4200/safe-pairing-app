@@ -363,7 +363,7 @@ class SignUp extends React.Component {
                         </div>
                         <MDBInput                  
                           name="publicKey"
-                          label="Your Public key"
+                          label="Generates Your Public Key"
                           icon="key"
                           group
                           type="text"
