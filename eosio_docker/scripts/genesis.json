@@ -13,7 +13,7 @@
       "target_block_cpu_usage_pct": 1000,
       "max_transaction_cpu_usage": 1450000,
       "min_transaction_cpu_usage": 100,
-      "max_transaction_lifetime": 50000,
+      "max_transaction_lifetime": 500000,
       "deferred_trx_expiration_window": 600,
       "max_transaction_delay": 3888000,
       "max_inline_action_size": 4096,
