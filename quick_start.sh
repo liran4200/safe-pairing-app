@@ -19,14 +19,14 @@ do
   sleep 2s
 done
 
-#start backend
-echo "[quick_start.sh] Starting backend "
-open -a Terminal "./start_backend.sh"
+# #start backend
+# echo "[quick_start.sh] Starting backend "
+# open -a Terminal "./start_backend.sh"
 
-#start frontend react app on 2 client
-echo "[quick_start.sh] Starting frontend react app"
-open -a Terminal "./start_frontend.sh"
-open -a Terminal "./start_frontend.sh"
+# #start frontend react app on 2 client
+# echo "[quick_start.sh] Starting frontend react app"
+# open -a Terminal "./start_frontend.sh"
+# open -a Terminal "./start_frontend.sh"
 
 # # wait $P1
 # wait $P1

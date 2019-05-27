@@ -79,7 +79,7 @@ render() {
             You are about to send a matching request to {this.state.userToSendTo} <br></br>
             Upload your DNA file and you're good to go
             <div className="user-key-input" style={{ marginTop: "1rem"}}>
-              <input type="text" className="form-control" placeholder="Your private key" onChange={this.handleUserKeyChanged}/>
+              <input type="text" className="form-control" placeholder="Your secret key from sign up" onChange={this.handleUserKeyChanged}/>
             </div>
             <div className="input-group" style={{ marginTop: "1rem"}}>
               <div className="input-group-prepend">

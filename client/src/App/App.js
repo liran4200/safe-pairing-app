@@ -9,7 +9,7 @@ import HeaderBar from '../components/HeaderBar/HeaderBar';
 import Background from '../images/background_image.jpg';
 
 let backgroundHome = {
-  height: window.innerHeight,
+  height: '1000px',
   backgroundRepeat  : 'no-repeat',
   backgroundPosition: 'center center',
   backgroundSize: 'cover',
