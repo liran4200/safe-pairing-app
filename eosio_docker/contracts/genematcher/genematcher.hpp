@@ -15,12 +15,12 @@ class[[eosio::contract("genematcher")]] genematcher : public contract {
     int MAX_TWINS_COST = 99;
     int MIN_MOTHER_FATHER_COST = 80;
     int MAX_MOTHER_FATHER_COST = 94;
-    int MIN_SIBLINGS_COST = 50;
+    int MIN_SIBLINGS_COST = 60;
     int MAX_SIBLINGS_COST = 79;
-    int MIN_UNCLE_AUNT_COST = 30;
-    int MAX_UNCLE_AUNT_COST = 49;
-    int MIN_COUSIN_COST = 20;
-    int MAX_COUSIN_COST = 29;
+    int MIN_UNCLE_AUNT_COST = 40;
+    int MAX_UNCLE_AUNT_COST = 59;
+    int MIN_COUSIN_COST = 30;
+    int MAX_COUSIN_COST = 39;
 
     string SAME_DNA = "same DNA";
     string MOTHER_FATHER = "Mother or Father";

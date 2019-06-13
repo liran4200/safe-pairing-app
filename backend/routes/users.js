@@ -114,12 +114,12 @@ router.post('/register', async (req, res) => {
 
     // send mail
     const body = mailOptions.emailConfirm.EMAIL_CONFIRMATION_BODY.replace("<code>", user.code);
-    // sendMail(
-    //     user.email,
-    //     mailOptions.emailConfirm.EMAIL_CONFIRMATION_SUBJECT,
-    //     '',
-    //     body.replace("<username>", getFullName(user))
-    // );
+    sendMail(
+        user.email,
+        mailOptions.emailConfirm.EMAIL_CONFIRMATION_SUBJECT,
+        '',
+        body.replace("<username>", getFullName(user))
+    );
 
     res.status(200).send( _.pick(user, ['_id','code']));
 });
