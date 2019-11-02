@@ -1,4 +1,4 @@
-⚠️ ***Important! Since Jan 1st 2019, eosio/eos-dev docker image in docker hub is deprecated. Starting from that time, safe-pairing-app is building its own docker image based on eos and eosio.cdt instead of pulling eosio/eos-dev.*** ⚠️
+
 
 # Overview
 SafePairing demonstrates the eosio platform running a blockchain as a local single node test net with a DApp, SafePairing. SafePairing allows users to compare DNA sequences between 2 users.
@@ -11,6 +11,8 @@ This guide uses scripts, containing relevant commands, which will show how to in
 - Writing and deploying a smart contract;
 - Implementing a web based UI using React;
 - Connecting the UI to the blockchain using eosjs;
+
+**Full doc**: https://drive.google.com/open?id=1brzmopIvHktyszaHMNX9uDVUvDdzsQ7K1WZLfuhdxdE
 
 # Prerequisites
 Make sure Docker and Node.js are installed
